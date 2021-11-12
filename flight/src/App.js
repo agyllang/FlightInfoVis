@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { NavLink, Routes, Route } from "react-router-dom";
+import "./App.css";
 
+import VerticalBar from "./components/VerticalBar";
 import data from "./data";
 import Employees from "./components/employees/Employees";
+import Overview from "./components/overview/Overview";
 // console.log("data",data)
 
 function App() {
@@ -26,7 +30,7 @@ function App() {
           hrData: {
             position: trip.Befattning,
             KTHschool: trip.Skola,
-            KTHorg:trip.Org,
+            KTHorg: trip.Org,
             KTHorgUnit: trip.Orgenhetnamn,
             bornYear: trip.Födelseår,
             gender: trip.Kön,
@@ -51,9 +55,51 @@ function App() {
 
   return (
     <div className="App">
-      <Employees data={stateData} />
+      <div className="sidebar">
+        <NavLink
+          activeClassName="navlink-active"
+          className="navlink"
+          to="/"
+          end={true}
+        >
+          Home
+        </NavLink>
+        <NavLink
+          activeClassName="navlink-active"
+          className="navlink"
+          to="/overview"
+        >
+          Overview
+        </NavLink>
+        <NavLink
+          activeClassName="navlink-active"
+          className="navlink"
+          to="/employees"
+        >
+          Employees
+        </NavLink>
+      </div>
+      <div className="page-viewer">
+        <Routes>
+          <Route path="/" element={Dummy("Home")} />
+          <Route path="/overview" element={<Overview />} />
+          <Route path="/employees" element={<Employees data={stateData} />} />
+        </Routes>
+      </div>
+      {/* <Employees data={stateData} /> */}
     </div>
   );
 }
-
+const Dummy = (title) => {
+  return (
+    <div className="page">
+      <div className="page-title"> {title} </div>
+      <div className="row"></div>
+      <VerticalBar
+        values={[1, 2, 3, 4, 5, 6, 7]}
+        labels={[1, 2, 3, 4, 5, 6, 7]}
+      />
+    </div>
+  );
+};
 export default App;

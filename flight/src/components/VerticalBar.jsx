@@ -64,7 +64,7 @@ const VerticalBar = ({...props}) => {
     labels: labels,
     datasets: [
       {
-        label: '# of Votes',
+        label: 'Some label',
         data: values,
         backgroundColor: backgroundColorFunction(values.length),
         // borderColor: [
