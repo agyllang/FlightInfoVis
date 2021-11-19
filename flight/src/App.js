@@ -34,7 +34,7 @@ function App() {
             KTHorgUnit: trip.Orgenhetnamn,
             bornYear: trip.Födelseår,
             gender: trip.Kön,
-            salary: trip.Kön,
+            salary: trip.Månadslön,
           },
           trips: [trip],
         });
@@ -83,7 +83,9 @@ function App() {
         <Routes>
           <Route path="/" element={Dummy("Home")} />
           <Route path="/overview" element={<Overview />} />
-          <Route path="/employees" element={<Employees data={stateData} />} />
+          <Route path="/employees" element={<Employees data={stateData} />}/>
+            
+         
         </Routes>
       </div>
       {/* <Employees data={stateData} /> */}

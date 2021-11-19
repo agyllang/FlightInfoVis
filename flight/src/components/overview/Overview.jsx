@@ -1,4 +1,5 @@
 import React from "react";
+import FlightMap from "../map/FlightMap";
 // import VerticalBar from "./VerticalBar";
 
 const Overview = ({ ...props }) => {
@@ -46,8 +47,14 @@ const Overview = ({ ...props }) => {
             }}
           ></div>
         </div>
+        
+        <FlightMap
+          trips={[
+            ["ARN", "OSL"],
+            ["ARN", "GLA"],
+          ]}
+        />
       </div>
-
       {/* <VerticalBar values={[1,2,3,4,5,6,7]} labels={[1,2,3,4,5,6,7]}/> */}
     </div>
   );

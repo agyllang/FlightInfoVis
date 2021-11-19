@@ -1,24 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import Employee from "./Employee";
 import VerticalBar from "../VerticalBar";
 
 const Employees = ({ ...props }) => {
   const { data } = props;
-//   console.log("Employees props", props);
- 
+  //   console.log("Employees props", props);
+  const [currentEmployee, setCurrentEmployee] = useState();
   return (
     <div className="page">
       <div className="page-title"> Employees</div>
-      <div>
-      {data.length > 0 &&
-        data.map((person) => {
-          return <Employee person={person} />;
-        })}
+      <div className="row">
+        <div className="employees-list">
+          {data.length > 0 &&
+            data.map((person, id) => {
+              return (
+                <div
+                  key={id}
+                  className={
+                    currentEmployee?.personId === person.personId
+                      ? "currentListItem"
+                      : "passive"
+                  }
+                  onClick={() => {
+                    setCurrentEmployee(person);
+                  }}
+                >
+                  {person.personId}
+                </div>
+              );
+            })}
         </div>
-        <div>
-
-        </div>
-        {/* <VerticalBar values={[1,2,3,4,5,6,7]} labels={[1,2,3,4,5,6,7]}/> */}
+        {currentEmployee && <Employee person={currentEmployee} />}
+      </div>
+      {/* <VerticalBar values={[1,2,3,4,5,6,7]} labels={[1,2,3,4,5,6,7]}/> */}
     </div>
   );
 };
