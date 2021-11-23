@@ -6,35 +6,36 @@ const Flight = ({ ...props }) => {
   return (
     <>
       {/* <div className="flight-container align-items-flex-start row"> */}
-      <div className="align-items-flex-start column">
+      <div className="flight-details column">
         <div>
-          {flightData["Flygplatskodföravreseort"]} -{" "}
-          {flightData["Flygplatskodfördestination"]} :
-          <div>{flightData["Slutdatum/-tidförresan"]}</div>
+          <b>
+            {flightData["Flygplatskodföravreseort"]} -{" "}
+            {flightData["Flygplatskodfördestination"]} :
+            <div>{flightData["Slutdatum/-tidförresan"]}</div>
+          </b>
         </div>
-        <div className="row">
-          <div className="column ticket-info">
-            <div>Date: {flightData["Slutdatum/-tidförresan"]}</div>
-            <div>Emission: {Math.round(flightData["CO2"])} kg CO2</div>
-            <div>Distance: {Math.round(flightData["Dist"])} km</div>
+        <div className="column ticket-info">
+          <div>Date: {flightData["Slutdatum/-tidförresan"]}</div>
+          <div>Emission: {Math.round(flightData["CO2"])} kg CO2</div>
+          <div>Distance: {Math.round(flightData["Dist"])} km</div>
+
+          <div>
+            Price: {Math.round(flightData["Faktiskbiljettbelopp(kr)"])} kr
           </div>
-          <div className="column align-items-flex-start ticket-info">
-            <div>
-              Price: {Math.round(flightData["Faktiskbiljettbelopp(kr)"])} kr
-            </div>
-            <div>Airline: {flightData["Utfärdadbiljettflygbolag"]}</div>
-            <div>Travel class: {flightData["Utfärdadbiljettkabintyp"]}</div>
-          </div>
+          <div>Airline: {flightData["Utfärdadbiljettflygbolag"]}</div>
+          <div>Travel class: {flightData["Utfärdadbiljettkabintyp"]}</div>
         </div>
       </div>
-      <MapChart
-        trips={[
-          [
-            flightData["Flygplatskodföravreseort"],
-            flightData["Flygplatskodfördestination"],
-          ],
-        ]}
-      />
+      <div className={"map-chart-container"}>
+        <MapChart
+          trips={[
+            [
+              flightData["Flygplatskodföravreseort"],
+              flightData["Flygplatskodfördestination"],
+            ],
+          ]}
+        />
+      </div>
       {/* </div> */}
     </>
   );

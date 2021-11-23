@@ -102,3 +102,11 @@
 .ticket-info {
   margin: 5px;
 }
+
+.flight-details{
+  align-items: flex-start;
+  flex-grow:1;
+}
+.map-chart-container{
+  flex-grow:2;
+}

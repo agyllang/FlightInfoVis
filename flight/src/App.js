@@ -6,6 +6,8 @@ import VerticalBar from "./components/VerticalBar";
 import data from "./data";
 import Employees from "./components/employees/Employees";
 import Overview from "./components/overview/Overview";
+import Employee from "./components/employees/Employee";
+import EmployeeTest from "./components/employees/EmployeeTEST";
 // console.log("data",data)
 
 function App() {
@@ -77,15 +79,46 @@ function App() {
           to="/employees"
         >
           Employees
+          <div className="column">
+            {stateData &&
+              stateData.map((employee) => {
+                return (
+                  <NavLink
+                    to={`/employees/${employee.personId}`}
+                    activeClassName="navlink-active"
+                    className="navlink"
+                  >
+                    {" "}
+                    {employee.personId}
+                  </NavLink>
+                );
+              })}
+          </div>
         </NavLink>
       </div>
       <div className="page-viewer">
         <Routes>
           <Route path="/" element={Dummy("Home")} />
           <Route path="/overview" element={<Overview />} />
-          <Route path="/employees" element={<Employees data={stateData} />}/>
-            
-         
+          {/* <Route path="/employees" element={<Employees data={stateData} />}/> */}
+          <Route path="/employees" element={<Employees data={stateData} />}>
+            {/* {stateData &&
+              stateData.map((employee) => {
+                return (
+                  <Route
+                    path={`/employees/:${employee.personId}`}
+                    element={
+                      <Employee key={employee.personId} person={employee} />
+                    }
+                  />
+                );
+              })} */}
+           
+          </Route>
+          <Route
+              path={`/employees/:personId`}
+              element={<EmployeeTest data={stateData} />}
+            />
         </Routes>
       </div>
       {/* <Employees data={stateData} /> */}

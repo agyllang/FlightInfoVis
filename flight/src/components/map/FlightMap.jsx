@@ -56,37 +56,36 @@ const MapChart = ({ ...props }) => {
   }, [trips]);
 
   return (
-      <ComposableMap
-      
-        projection="geoEqualEarth"
-        projectionConfig={{
-          scale: 420,
-          center: [-30, 40],
-        }}
-      >
-        <ZoomableGroup>
-          <Graticule stroke="#DDD" />
-          <Geographies
-            geography={geoUrl}
-            fill="#D6D6DA"
-            stroke="#FFFFFF"
-            strokeWidth={0.5}
-          >
-            {({ geographies }) =>
-              geographies.map((geo) => (
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  style={{
-                    default: { outline: "none" },
-                    hover: { outline: "none" },
-                    pressed: { outline: "none" },
-                  }}
-                />
-              ))
-            }
-          </Geographies>
-          {/* <Line
+    <ComposableMap
+      projection="geoEqualEarth"
+      projectionConfig={{
+        scale: 920,
+        center: [-30, 70],
+      }}
+    >
+      <ZoomableGroup zoom={0.2}>
+        <Graticule stroke="#DDD" />
+        <Geographies
+          geography={geoUrl}
+          fill="#D6D6DA"
+          stroke="#FFFFFF"
+          strokeWidth={0.5}
+        >
+          {({ geographies }) =>
+            geographies.map((geo) => (
+              <Geography
+                key={geo.rsmKey}
+                geography={geo}
+                style={{
+                  default: { outline: "none" },
+                  hover: { outline: "none" },
+                  pressed: { outline: "none" },
+                }}
+              />
+            ))
+          }
+        </Geographies>
+        {/* <Line
           coordinates={[
             [-74.006, 40.7128],
             [-33.006, 3.7128],
@@ -96,26 +95,26 @@ const MapChart = ({ ...props }) => {
           strokeWidth={4}
           strokeLinecap="round"
         /> */}
-          {/* ARLANDA to MALMÖ */}
-          {tripState.length > 0 &&
-            tripState.map((trip) => {
-              return (
-                <Line
-                  from={[trip[0].long, trip[0].lat]}
-                  to={[trip[1].long, trip[1].lat]}
-                  //   coordinates={[
-                  //     [12.916663, 55.583331],
-                  //     [17.917829662,59.651164062],
-                  //   ]}
-                  //   [longitude,latitude]
+        {/* ARLANDA to MALMÖ */}
+        {tripState.length > 0 &&
+          tripState.map((trip) => {
+            return (
+              <Line
+                from={[trip[0].long, trip[0].lat]}
+                to={[trip[1].long, trip[1].lat]}
+                //   coordinates={[
+                //     [12.916663, 55.583331],
+                //     [17.917829662,59.651164062],
+                //   ]}
+                //   [longitude,latitude]
 
-                  stroke="#FF5540"
-                  strokeWidth={1}
-                  strokeLinecap="round"
-                />
-              );
-            })}
-          {/* {tripState.length > 0 &&
+                stroke="#FF5540"
+                strokeWidth={1}
+                strokeLinecap="round"
+              />
+            );
+          })}
+        {/* {tripState.length > 0 &&
           tripState.map((trip) => {
             return trip.map((airport) => {
               return (
@@ -145,8 +144,8 @@ const MapChart = ({ ...props }) => {
                 );
             });
           })} */}
-        </ZoomableGroup>
-      </ComposableMap>
+      </ZoomableGroup>
+    </ComposableMap>
   );
 };
 
