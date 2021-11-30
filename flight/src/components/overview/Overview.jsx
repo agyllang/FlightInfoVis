@@ -1,61 +1,93 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import FlightMap from "../map/FlightMap";
+import ProgressBarYearly from "../progress/progressbar";
 // import VerticalBar from "./VerticalBar";
+
+function isEmptyObj(obj) {
+  return Object.keys(obj).length === 0 && obj.constructor === Object;
+}
 
 const Overview = ({ ...props }) => {
   const { data } = props;
-  //   console.log("Employees props", props);
+  console.log("Overview @data:", data);
+  // const [activeMonth, setActiveMonth] = useState()
+  // console.log("activeMonth",activeMonth)
+  const [calendar, setCalendar] = useState({});
+  console.log("YYYYYYYYYYYYY Overview Calendar: ", calendar);
+  // console.log("YYYYYYYYYYYYY Overview Calendar true or false: ", isEmptyObj(calendar));
+  const returnMonth = (index) => {
+    var months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Dec",
+    ];
+    return months[index];
+  };
+  // const addToCalendar = (month, item) => {
+  //   console.log("XXXXXXXXXXXXX Overview addToCalendar");
+
+  //   // setCalendar(prevState=> ({...prevState, ...prevState[month].push(item),
+  //   //  } ))
+  //   // setCalendar({...calendar[month]: [...calendar[month]: item]})
+  //   // return arr
+  // };
+  useEffect(() => {
+    //categorized all flights over the m
+    var structureCalendar = {
+      Jan: [],
+      Feb: [],
+      Mar: [],
+      Apr: [],
+      May: [],
+      Jun: [],
+      Jul: [],
+      Aug: [],
+      Sep: [],
+      Okt: [],
+      Nov: [],
+      Dec: [],
+    };
+    data &&
+      data.forEach((each) => {
+        var date = new Date(each["Avresedatum/-tid"]);
+        var m = date.getMonth();
+        var month = returnMonth(m);
+        // setCalendar((oldCalendar) => {...oldCalendar, ...oldCalendar[month].push(each)});
+        structureCalendar[month].push(each);
+        // addToCalendar(month, each)
+      });
+    setCalendar(structureCalendar);
+    return () => {
+      setCalendar({
+        Jan: [],
+        Feb: [],
+        Mar: [],
+        Apr: [],
+        May: [],
+        Jun: [],
+        Jul: [],
+        Aug: [],
+        Sep: [],
+        Okt: [],
+        Nov: [],
+        Dec: [],
+      });
+    };
+  }, [data]);
 
   return (
     <div className="page">
       <div className="page-title"> Overview</div>
-      <div>Progress bar?</div>
-      <div className="row">
-        <div>
-          This month?
-          <div
-            style={{
-              margin: "20px",
-
-              height: "100px",
-              width: "100px",
-              backgroundColor: "#3d73df",
-            }}
-          ></div>
-        </div>
-        <div>
-          Next month?
-          <div
-            style={{
-              margin: "20px",
-
-              height: "100px",
-              width: "100px",
-              backgroundColor: "#3d13df",
-            }}
-          ></div>
-        </div>
-        <div>
-          This year?
-          <div
-            style={{
-              margin: "20px",
-
-              height: "100px",
-              width: "100px",
-              backgroundColor: "#37f3df",
-            }}
-          ></div>
-        </div>
-        
-        <FlightMap
-          trips={[
-            ["ARN", "OSL"],
-            ["ARN", "GLA"],
-          ]}
-        />
-      </div>
-      {/* <VerticalBar values={[1,2,3,4,5,6,7]} labels={[1,2,3,4,5,6,7]}/> */}
+      {!isEmptyObj(calendar) && <ProgressBarYearly calendar={calendar} />}
     </div>
   );
 };

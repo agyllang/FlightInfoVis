@@ -3,6 +3,7 @@ import MapChart from "../map/FlightMap";
 
 const Flight = ({ ...props }) => {
   const { flightData } = props;
+  console.log("flightData",flightData)
   return (
     <>
       {/* <div className="flight-container align-items-flex-start row"> */}

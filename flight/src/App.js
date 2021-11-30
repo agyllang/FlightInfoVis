@@ -3,16 +3,29 @@ import { NavLink, Routes, Route } from "react-router-dom";
 import "./App.css";
 
 import VerticalBar from "./components/VerticalBar";
-import data from "./data";
+import { data18 } from "./JML_data2018";
+import { data19 } from "./JML_data2019";
 import Employees from "./components/employees/Employees";
 import Overview from "./components/overview/Overview";
 import Employee from "./components/employees/Employee";
 import EmployeeTest from "./components/employees/EmployeeTEST";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 // console.log("data",data)
 
 function App() {
   const [stateData, setStateData] = useState([]);
+  const [stateDataByDate, setStateDataByDate] = useState([]);
+  const [toggle, setToggle] = useState([false]);
 
+  const sortFlightsByDate = (array, datetype) => {
+    //input "@datetype" is flight objects [property]
+    return array.sort(
+      (a, b) =>
+        new Date(a[datetype]).getTime() - new Date(b[datetype]).getTime()
+    );
+  };
+  // console.log("sortFlightsByDate")
   const sortFlightsByPerson = (array) => {
     var newArray = [];
     var checkArray = [];
@@ -51,9 +64,11 @@ function App() {
     return newArray;
   };
   useEffect(() => {
-    setStateData(sortFlightsByPerson(data));
+    setStateData(sortFlightsByPerson(data19));
+    setStateDataByDate(sortFlightsByDate(data18, "Transaktionsdatum/-tid"));
   }, []);
   console.log("stateData", stateData);
+  console.log("sortFlightsByDate", stateDataByDate);
 
   return (
     <div className="App">
@@ -62,6 +77,7 @@ function App() {
           activeClassName="navlink-active"
           className="navlink"
           to="/"
+          key={"home"}
           end={true}
         >
           Home
@@ -70,23 +86,35 @@ function App() {
           activeClassName="navlink-active"
           className="navlink"
           to="/overview"
+          key={"overview"}
         >
           Overview
         </NavLink>
-        <NavLink
-          activeClassName="navlink-active"
-          className="navlink"
-          to="/employees"
+        <div
+          className="navlink-item"
+          className={`navlink-item ${toggle ? "scroll" : "no-scroll"}`}
         >
-          Employees
-          <div className="column">
+          <div
+            onClick={() => {
+              setToggle((prev) => !prev);
+            }}
+          >
+            Employees
+            <div
+              className={`arrow ${toggle ? "up" : "down"}`}
+              // style={{className: toggle? 'up':'down'}}
+            />
+          </div>
+
+          <div className="column" style={{ display: toggle ? "flex" : "none" }}>
             {stateData &&
               stateData.map((employee) => {
                 return (
                   <NavLink
                     to={`/employees/${employee.personId}`}
                     activeClassName="navlink-active"
-                    className="navlink"
+                    className="navlink indent"
+                    key={employee.personId}
                   >
                     {" "}
                     {employee.personId}
@@ -94,31 +122,20 @@ function App() {
                 );
               })}
           </div>
-        </NavLink>
+        </div>
       </div>
       <div className="page-viewer">
         <Routes>
           <Route path="/" element={Dummy("Home")} />
-          <Route path="/overview" element={<Overview />} />
-          {/* <Route path="/employees" element={<Employees data={stateData} />}/> */}
-          <Route path="/employees" element={<Employees data={stateData} />}>
-            {/* {stateData &&
-              stateData.map((employee) => {
-                return (
-                  <Route
-                    path={`/employees/:${employee.personId}`}
-                    element={
-                      <Employee key={employee.personId} person={employee} />
-                    }
-                  />
-                );
-              })} */}
-           
-          </Route>
           <Route
-              path={`/employees/:personId`}
-              element={<EmployeeTest data={stateData} />}
-            />
+            path="/overview"
+            element={<Overview data={stateDataByDate} />}
+          />
+          {/* <Route path="/employees" element={<Employees data={stateData} />}/> */}
+          <Route
+            path={`/employees/:personId`}
+            element={<EmployeeTest data={stateData} />}
+          />
         </Routes>
       </div>
       {/* <Employees data={stateData} /> */}
@@ -129,7 +146,6 @@ const Dummy = (title) => {
   return (
     <div className="page">
       <div className="page-title"> {title} </div>
-      <div className="row"></div>
       <VerticalBar
         values={[1, 2, 3, 4, 5, 6, 7]}
         labels={[1, 2, 3, 4, 5, 6, 7]}

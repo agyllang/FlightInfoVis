@@ -1,12 +1,27 @@
 .App {
   display: flex;
   flex-direction: row;
+  height:100%;
   /* text-align: center; */
 }
+/* SCROLL BAR SIDE-BAR */
+.navlink-item::-webkit-scrollbar {
+  width: 0.25em;
+}
+
+.navlink-item::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(184, 184, 184, 0.267);
+}
+
+.navlink-item::-webkit-scrollbar-thumb {
+background-color: darkgrey;
+/*   outline: 1px solid slategrey; */
+}
+/*  */
 
 .sidebar {
-  background-color: rgb(29, 42, 68);
-  width: 10vw;
+  background-color: rgb(11, 33, 75);
+  width: 12vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -14,14 +29,54 @@
   text-align: left;
   flex-grow: 0; /* default 0 */
 }
+/* used to for toggle in menu */
+.arrow {
+  border: solid rgb(255, 255, 255);
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  margin: 5px;
+  margin-left:10px;
+}
+.up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+/*  */
 
+.indent{
+  padding-left:15px;
+}
 .navlink {
   font-size: 1.75vw;
   text-decoration: none;
   font-weight: 500;
   border: none;
-  color: #676b6e;
+  color: #ffffff;
+  /* width: max-content; */
+}
+.navlink-item {
+  font-size: 1.75vw;
+  text-decoration: none;
+  font-weight: 500;
+  border: none;
+  color: #ffffff;
+
   width: max-content;
+  cursor: pointer;
+
+}
+.scroll {
+  overflow-y: scroll;
+  /* width: max-content; */
+}
+.no-scroll {
+  overflow-y: hidden;
+  /* width: max-content; */
 }
 .navlink:hover {
   background-color: #cdcfd1;
@@ -29,8 +84,11 @@
 }
 .navlink.active {
   border-bottom: 2px solid black;
-  color: #3d73df;
-  font-weight: 900;
+  color: #ffffff;
+  background-color: #f7d79d;
+  width: 100%;
+
+  font-weight: 700;
 }
 .page-viewer {
   display: flex;
