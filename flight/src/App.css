@@ -6,7 +6,7 @@
 }
 /* SCROLL BAR SIDE-BAR */
 .navlink-item::-webkit-scrollbar {
-  width: 0.25em;
+  width: 5px;
 }
 
 .navlink-item::-webkit-scrollbar-track {
@@ -15,7 +15,7 @@
 
 .navlink-item::-webkit-scrollbar-thumb {
 background-color: darkgrey;
-/*   outline: 1px solid slategrey; */
+  outline: 1px solid slategrey;
 }
 /*  */
 
@@ -25,8 +25,8 @@ background-color: darkgrey;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 8px 16px;
-  text-align: left;
+  /* padding: 8px 16px; */
+  text-align: center;
   flex-grow: 0; /* default 0 */
 }
 /* used to for toggle in menu */
@@ -36,7 +36,7 @@ background-color: darkgrey;
   display: inline-block;
   padding: 3px;
   margin: 5px;
-  margin-left:10px;
+  /* margin-left:10px; */
 }
 .up {
   transform: rotate(-135deg);
@@ -66,7 +66,7 @@ background-color: darkgrey;
   border: none;
   color: #ffffff;
 
-  width: max-content;
+  /* width: max-content; */
   cursor: pointer;
 
 }
@@ -90,16 +90,8 @@ background-color: darkgrey;
 
   font-weight: 700;
 }
-.page-viewer {
-  display: flex;
-  flex-grow: 1; /* default 0 */
-}
-.page {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin: 20px;
-}
+
+
 
 .row {
   display: flex;
@@ -112,8 +104,16 @@ background-color: darkgrey;
 .flex-grow {
   flex-grow: 1;
 }
+/* .page-title-container{
+  background-color: rgb(238, 203, 203);
+  --bs-gutter-x: 0px;
+} */
 .page-title {
-  font-size: 1.75rem;
+  font-size: 3rem;
+  text-align: center;
+  justify-content: center;
+  border-bottom: 4px solid black;
+  margin-bottom:1rem;
 }
 /* used for displaying the current employee in the employees list */
 .currentListItem {
@@ -145,8 +145,7 @@ background-color: darkgrey;
 }
 .employee-card {
   background-color: rgb(77, 110, 177);
-  margin: 10px;
-  margin-left: 0px;
+ 
   padding: 5px;
 }
 .employee-header-2 {

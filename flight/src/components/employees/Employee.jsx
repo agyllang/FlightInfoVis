@@ -2,17 +2,31 @@ import React, { useState, useEffect } from "react";
 import Bar from "react-chartjs-2";
 import Flight from "../flights/Flight";
 import { useParams } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
 const Employee = ({ ...props }) => {
-  const { person, data } = props;
+  const { data } = props;
   const [tripsData, setTripsData] = useState([]);
+  const [person, setPerson] = useState();
+
   const [flight, setFlight] = useState();
+
+  const params = useParams();
+
+  useEffect(() => {
+    var newPerson;
+    newPerson = data.filter((person) => person.personId === params.personId)[0];
+    console.log(newPerson);
+    // console.log("params.personId", params.personId);
+    newPerson && setPerson(newPerson);
+    // Fetch single product here
+  }, [params.personId]);
 
   useEffect(() => {
     return () => {
       //cleanup
       setFlight();
     };
-  }, [person]);
+  }, [params.personId]);
 
   var tripsCO2total = 0;
   // console.log("Employee overview: ", person);
@@ -26,20 +40,13 @@ const Employee = ({ ...props }) => {
       tripsCO2total += parseInt(trip.CO2);
     });
 
-  //   console.log("trips", person.trips);
-  // console.log("Employee props", props)
   return (
-    <div className="column flex-grow employee-card">
-      <div className="employee-title">
-        Employee: {person && person.personId}{" "}
-      </div>
-      {/* <div className="column align-items-flex-start">
-        
-      </div> */}
-      <div className="row">
-        <div className="align-items-flex-start column">
+    <Container key={params.personId}>
+      <Row className="page-title">Employee: {person && person.personId} </Row>
+      <Row>
+        <Col className="align-items-flex-start">
           <div className="employee-header-2">
-            <div>Flights ({person.trips.length}) </div>
+            <div>Flights ({person && person.trips.length}) </div>
             <div>CO2 total: {tripsCO2total} kg</div>
           </div>
           {person &&
@@ -50,16 +57,11 @@ const Employee = ({ ...props }) => {
                     {trip["Flygplatskodföravreseort"]} -{" "}
                     {trip["Flygplatskodfördestination"]}{" "}
                   </div>
-                  {/* <div className="">
-                    {trip["Slutdatum/-tidförresan"]}{" "}
-                  </div> */}
                 </div>
-
-                // return (<Flight tripData={trip}/>
               );
             })}
-        </div>
-        <div className="column">
+        </Col>
+        <Col className="column">
           {person &&
             Object.entries(person.hrData).map(([key, value]) => {
               return (
@@ -69,12 +71,12 @@ const Employee = ({ ...props }) => {
                 </span>
               );
             })}
-        </div>
-      </div>
-      <div className="row 123">
+        </Col>
+      </Row>
+      <Row className="row flex-grow">
         {flight && <Flight flightData={flight} />}
-      </div>
-    </div>
+      </Row>
+    </Container>
   );
 };
 

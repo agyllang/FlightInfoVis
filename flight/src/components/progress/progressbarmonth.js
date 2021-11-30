@@ -7,8 +7,8 @@ const ProgressBarMonth = ({ ...props }) => {
   const [accumulatedCO2, setAccumulatedCO2] = useState(0);
   useEffect(() => {
     data.forEach((trip) => {
-      console.log("trip", trip.CO2);
-      console.log("trip CO2", parseInt(trip.CO2));
+      // console.log("trip", trip.CO2);
+      // console.log("trip CO2", parseInt(trip.CO2));
       setAccumulatedCO2(
         (prevState) => parseInt(prevState) + parseInt(trip.CO2)
       );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Employee from "./Employee";
+import Employee from "./EmployeeFirstDraft";
 import VerticalBar from "../VerticalBar";
 
 const Employees = ({ ...props }) => {

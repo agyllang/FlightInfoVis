@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
-import FlightMap from "../map/FlightMap";
+// import FlightMap from "../map/FlightMap";
 import ProgressBarYearly from "../progress/progressbar";
+import Select from "react-select";
+import { Row, Col, Container,  } from "react-bootstrap";
+
 // import VerticalBar from "./VerticalBar";
 
 function isEmptyObj(obj) {
@@ -8,12 +11,12 @@ function isEmptyObj(obj) {
 }
 
 const Overview = ({ ...props }) => {
-  const { data } = props;
-  console.log("Overview @data:", data);
+  const { data, changeCurrentYear, currentYear } = props;
+  // console.log("Overview @data:", data);
   // const [activeMonth, setActiveMonth] = useState()
   // console.log("activeMonth",activeMonth)
   const [calendar, setCalendar] = useState({});
-  console.log("YYYYYYYYYYYYY Overview Calendar: ", calendar);
+  // console.log("YYYYYYYYYYYYY Overview Calendar: ", calendar);
   // console.log("YYYYYYYYYYYYY Overview Calendar true or false: ", isEmptyObj(calendar));
   const returnMonth = (index) => {
     var months = [
@@ -84,11 +87,47 @@ const Overview = ({ ...props }) => {
     };
   }, [data]);
 
+  const optionsYear = [
+    { value: 2018, label: 2018 },
+    { value: 2019, label: 2019 },
+  ];
+  const optionsMonth = [
+    { value: "Jan", label: "Jan" },
+    { value: "Feb", label: "Feb" },
+    { value: "Mar", label: "Mar" },
+    { value: "Apr", label: "Apr" },
+    { value: "May", label: "May" },
+    { value: "Jun", label: "Jun" },
+    { value: "Jul", label: "Jul" },
+    { value: "Aug", label: "Aug" },
+    { value: "Sep", label: "Sep" },
+    { value: "Okt", label: "Okt" },
+    { value: "Nov", label: "Nov" },
+    { value: "Dec", label: "Dec" },
+  ];
+  const handleInputChange = (event) => {
+    console.log("event:", event);
+    changeCurrentYear(event.value);
+  };
+  // changeCurrentYear();
+
   return (
-    <div className="page">
-      <div className="page-title"> Overview</div>
+    <Container className="">
+      <Row className="page-title">
+        Overview
+      </Row>
+      <Col md={2}>
+          <Select
+            onChange={handleInputChange}
+            placeholder={currentYear ? currentYear : "Choose year"}
+            options={optionsYear}
+            styles={""}
+          />
+        </Col>
+      <div>Displaying data from year {currentYear} </div>
+
       {!isEmptyObj(calendar) && <ProgressBarYearly calendar={calendar} />}
-    </div>
+    </Container>
   );
 };
 

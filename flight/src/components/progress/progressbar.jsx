@@ -19,7 +19,7 @@ const backgroundColorFunction = (number) => {
 const ProgressBarYearly = ({ ...props }) => {
     
     const {calendar, activeMonth, setActiveMonth} = props
-    console.log("___ProgressBarYearly___ @calendar",calendar)
+    // console.log("___ProgressBarYearly___ @calendar",calendar)
   
   // const [stateProgress, setStateProgress] = useState({});
   // console.log("stateProgress",stateProgress)
