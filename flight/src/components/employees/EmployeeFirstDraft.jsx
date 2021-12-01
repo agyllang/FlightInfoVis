@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Bar from "react-chartjs-2";
+// import Bar from "react-chartjs-2";
 import Flight from "../flights/Flight";
-import { useParams } from "react-router-dom";
-const Employee = ({ ...props }) => {
-  const { person, data } = props;
-  const [tripsData, setTripsData] = useState([]);
+// import { useParams } from "react-router-dom";
+const EmployeeTest = ({ ...props }) => {
+  const { person, } = props;
+  // const { person, data } = props;
+  // const [tripsData, setTripsData] = useState([]);
   const [flight, setFlight] = useState();
 
   useEffect(() => {
@@ -78,4 +79,4 @@ const Employee = ({ ...props }) => {
   );
 };
 
-export default Employee;
+export default EmployeeTest;

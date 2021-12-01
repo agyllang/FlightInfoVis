@@ -132,6 +132,13 @@ background-color: darkgrey;
 .align-items-flex-end {
   align-items: flex-end;
 }
+.flight-list{
+  border-left:3px solid black;
+  border-right:3px solid black;
+}
+.container-title{
+  font-size:1.5rem;
+}
 
 .employees-list {
   background-color: rgb(54, 77, 124);
@@ -159,7 +166,11 @@ background-color: darkgrey;
 .ticket-info {
   margin: 5px;
 }
-
+.flight-list-item{
+  background-color:rgb(157, 173, 202);
+  padding:2px;
+  margin:2px;
+}
 .flight-details{
   align-items: flex-start;
   flex-grow:1;

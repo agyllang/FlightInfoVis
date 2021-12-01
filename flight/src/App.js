@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, Routes, Route } from "react-router-dom";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row,  Container } from "react-bootstrap";
 
 import "./App.css";
 
 import VerticalBar from "./components/VerticalBar";
 import { data18 } from "./JML_data2018";
 import { data19 } from "./JML_data2019";
-import Employees from "./components/employees/Employees";
+// import Employees from "./components/employees/Employees";
 import Overview from "./components/overview/Overview";
 import Employee from "./components/employees/Employee";
 import "bootstrap/dist/css/bootstrap.min.css";

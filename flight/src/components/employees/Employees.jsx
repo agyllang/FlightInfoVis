@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Employee from "./EmployeeFirstDraft";
+import EmployeeTest from "./EmployeeFirstDraft";
 import VerticalBar from "../VerticalBar";
 
 const Employees = ({ ...props }) => {
@@ -30,7 +30,7 @@ const Employees = ({ ...props }) => {
               );
             })}
         </div>
-        {currentEmployee && <Employee person={currentEmployee} />}
+        {currentEmployee && <EmployeeTest person={currentEmployee} />}
       </div>
       {/* <VerticalBar values={[1,2,3,4,5,6,7]} labels={[1,2,3,4,5,6,7]}/> */}
     </div>
