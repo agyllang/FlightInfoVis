@@ -1,7 +1,8 @@
 .App {
   display: flex;
   flex-direction: row;
-  height:100%;
+  height: 100%;
+  font-family: 'Montserrat', sans-serif;
   /* text-align: center; */
 }
 /* SCROLL BAR SIDE-BAR */
@@ -14,7 +15,7 @@
 }
 
 .navlink-item::-webkit-scrollbar-thumb {
-background-color: darkgrey;
+  background-color: darkgrey;
   outline: 1px solid slategrey;
 }
 /*  */
@@ -48,8 +49,8 @@ background-color: darkgrey;
 }
 /*  */
 
-.indent{
-  padding-left:15px;
+.indent {
+  padding-left: 15px;
 }
 .navlink {
   font-size: 1.75vw;
@@ -68,7 +69,6 @@ background-color: darkgrey;
 
   /* width: max-content; */
   cursor: pointer;
-
 }
 .scroll {
   overflow-y: scroll;
@@ -91,8 +91,6 @@ background-color: darkgrey;
   font-weight: 700;
 }
 
-
-
 .row {
   display: flex;
   flex-direction: row;
@@ -108,12 +106,18 @@ background-color: darkgrey;
   background-color: rgb(238, 203, 203);
   --bs-gutter-x: 0px;
 } */
+
+.header-text-year{
+  font-size:16px;
+  align-items: center;
+  margin-bottom:10px;
+}
 .page-title {
   font-size: 3rem;
   text-align: center;
   justify-content: center;
   border-bottom: 4px solid black;
-  margin-bottom:1rem;
+  margin-bottom: 1rem;
 }
 /* used for displaying the current employee in the employees list */
 .currentListItem {
@@ -132,12 +136,12 @@ background-color: darkgrey;
 .align-items-flex-end {
   align-items: flex-end;
 }
-.flight-list{
-  border-left:3px solid black;
-  border-right:3px solid black;
+.flight-list {
+  border-left: 3px solid black;
+  border-right: 3px solid black;
 }
-.container-title{
-  font-size:1.5rem;
+.container-title {
+  font-size: 1.5rem;
 }
 
 .employees-list {
@@ -152,11 +156,11 @@ background-color: darkgrey;
 }
 .employee-card {
   background-color: rgb(77, 110, 177);
- 
+
   padding: 5px;
 }
 .employee-header-2 {
-  font-size:25px;
+  font-size: 25px;
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -166,15 +170,51 @@ background-color: darkgrey;
 .ticket-info {
   margin: 5px;
 }
-.flight-list-item{
-  background-color:rgb(157, 173, 202);
-  padding:2px;
-  margin:2px;
+.flight-list-item {
+  background-color: rgb(157, 173, 202);
+  padding: 2px;
+  margin: 2px;
 }
-.flight-details{
+.flight-details {
   align-items: flex-start;
-  flex-grow:1;
+  flex-grow: 1;
 }
-.map-chart-container{
-  flex-grow:2;
+.map-chart-container {
+  flex-grow: 2;
 }
+/* __________________ */
+
+/* DataCard */
+.data-card {
+  /* background-color: rgb(157, 173, 202); */
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  border:1px solid rgb(114, 114, 114);
+  height:100%;
+  width:100%;
+}
+.data-card-header {
+  /* font-weight: 600; */
+  font-size: 20px;
+  color:rgb(54, 77, 124)
+}
+.data-card-1 {
+  /* width: 50%; */
+  font-weight:600;
+  font-size: 15px;
+  /* max-width: none; */
+  /* justify-self: flex-end; */
+
+  /* flex-wrap: nowrap; */
+}
+.data-card-2 {
+  /* max-width: none; */
+  /* justify-self: flex-start; */
+  /* width: 50%; */
+  font-size: 15px;
+  color: rgb(165, 165, 165);
+
+  /* flex-wrap: nowrap; */
+}
+/* _______________________________ */

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 // import FlightMap from "../map/FlightMap";
 import ProgressBarYearly from "../progress/progressbar";
 import Select from "react-select";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col, Container, Stack } from "react-bootstrap";
+import DataCard from "../cards/datacard";
+import ComparisonBar from "../bars/comparisonBar";
 
 // import VerticalBar from "./VerticalBar";
 
@@ -41,20 +43,8 @@ var months = [
   "Dec",
 ];
 
-const DataCard = ({ ...props }) => {
-  const { header, information } = props;
-
-  return (
-    <>
-      <Col>
-        <Row>{header ? header : "Header goes here"}</Row>
-        <Row>{information ? information : "information goes here"}</Row>
-      </Col>
-    </>
-  );
-};
 const Overview = ({ ...props }) => {
-  const { data, changeCurrentYear, currentYear } = props;
+  const { data, changeCurrentYear, currentYear, allData } = props;
 
   const [calendar, setCalendar] = useState([]);
   // @calendar, array - stores a years' trips, categorized in objects for every month.
@@ -62,8 +52,8 @@ const Overview = ({ ...props }) => {
   const [calendarSelection, setCalendarSelection] = useState([]);
   // @calendarSelection, array - stores a certain selection of the entire year
 
-  const [currentMonth, setMonth] = useState();
-  // @currentMonth, integer - used as an index to decide what the current month is
+  const [currentMonthIndex, setMonth] = useState();
+  // @currentMonthIndex, integer - used as an index to decide what the current month is
 
   const [selectedCO2sum, setSelectedCO2sum] = useState(0);
   // @selectedCO2sum, integer - sums up the selected months CO2
@@ -82,8 +72,7 @@ const Overview = ({ ...props }) => {
   //   // setCalendar({...calendar[month]: [...calendar[month]: item]})
   //   // return arr
   // };
-  useEffect(() => {
-    //categorize and map all flights to a certain month based on when it was taking place ("Avresedatum/-tid")
+  const sumMonthsPerYear = (array) =>{
     var structureCalendar = [
       { Jan: [] },
       { Feb: [] },
@@ -98,17 +87,21 @@ const Overview = ({ ...props }) => {
       { Nov: [] },
       { Dec: [] },
     ];
-    data &&
-      data.forEach((each) => {
-        var date = new Date(each["Avresedatum/-tid"]);
-        var m = date.getMonth();
-        var month = returnMonth(m);
-        // setCalendar((oldCalendar) => {...oldCalendar, ...oldCalendar[month].push(each)});
-        structureCalendar[m][month].push(each);
-        // structureCalendar[month].push(each);
-        // addToCalendar(month, each)
-      });
-    setCalendar(structureCalendar);
+    array.forEach((each) => {
+      var date = new Date(each["Avresedatum/-tid"]);
+      var m = date.getMonth();
+      var month = returnMonth(m);
+      // setCalendar((oldCalendar) => {...oldCalendar, ...oldCalendar[month].push(each)});
+      structureCalendar[m][month].push(each);
+      // structureCalendar[month].push(each);
+      // addToCalendar(month, each)
+    });
+  return structureCalendar;
+  }
+  useEffect(() => {
+    //categorize and map all flights to a certain month based on when it was taking place ("Avresedatum/-tid")
+    
+    data && setCalendar(sumMonthsPerYear(data))
     // return () => {
     //   setCalendar({
     //     Jan: [],
@@ -179,7 +172,7 @@ const Overview = ({ ...props }) => {
 
   // calendar selection based on month
   useEffect(() => {
-    var selectedByMonth = [...calendar.slice(0, currentMonth + 1)];
+    var selectedByMonth = [...calendar.slice(0, currentMonthIndex + 1)];
     var sumCO2 = 0;
     selectedByMonth.length > 0 &&
       selectedByMonth.forEach((monthObj, index) => {
@@ -192,12 +185,13 @@ const Overview = ({ ...props }) => {
 
     setSelectedCO2sum(sumCO2);
     // console.log("sumTOtal", sumTotal);
-  }, [currentYear, currentMonth]);
+  }, [currentYear, currentMonthIndex]);
 
   return (
-    <Container className="">
+    <Container gap={2} className="">
       <Row className="page-title">Overview</Row>
-      <Row>
+      <Row className="header-text-year">
+        Displaying data from year
         <Col md={2}>
           <Select
             onChange={handleInputChangeYear}
@@ -206,36 +200,43 @@ const Overview = ({ ...props }) => {
             styles={""}
           />
         </Col>
+        in
         <Col md={2}>
           <Select
             onChange={handleInputChangeMonth}
             placeholder={
-              currentMonth ? optionsMonth[currentMonth].value : "Choose month"
+              currentMonthIndex ? optionsMonth[currentMonthIndex].value : "Choose month"
             }
             options={optionsMonth}
             styles={""}
           />
         </Col>
       </Row>
-      <div>Displaying data from year {currentYear} </div>
 
       {calendar.length > 0 && (
         <ProgressBarYearly
-          calendarSection={calendar.slice(0, currentMonth + 1)}
+          calendarSection={calendar.slice(0, currentMonthIndex + 1)}
           calendar={calendar}
           selectedCO2sum={selectedCO2sum}
           totalyearCO2={totalCO2year}
         />
       )}
-
-      <DataCard
-        header={`Emitted ${currentYear}`}
-        information={`${selectedCO2sum} CO2e/kg`}
-      />
-      <DataCard
-        header={`Total ${currentYear}`}
-        information={`${totalCO2year} CO2e/kg`}
-      />
+      <Row style={{ marginTop: "10px" }}>
+        <DataCard
+          header={`Emitted ${currentYear}`}
+          dataToPresent={selectedCO2sum}
+          dataUnitSymbol={"CO2e/kg"}
+          description={`CO2 emitted so far}, ${currentYear}`}
+        />
+        <DataCard
+          header={`Total ${currentYear}`}
+          dataToPresent={totalCO2year}
+          dataUnitSymbol={"CO2e/kg"}
+        />
+      </Row>
+      <Row>
+        <ComparisonBar yearForData={[2018,2019]} allData={allData}/>
+      </Row>
     </Container>
   );
 };

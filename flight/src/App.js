@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, Routes, Route } from "react-router-dom";
-import { Row,  Container } from "react-bootstrap";
+import { Row, Container } from "react-bootstrap";
 
 import "./App.css";
 
@@ -175,10 +175,10 @@ function App() {
                 setYear(year);
               }}
               data={stateDataByDate}
+              allData={[data18,data19]}
             />
           }
         />
-        {/* <Route path="/employees" element={<Employees data={stateData} />}/> */}
         <Route
           path={`/employees/:personId`}
           element={<Employee data={stateData} />}

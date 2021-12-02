@@ -131,7 +131,7 @@ const ProgressBarYearly = ({ ...props }) => {
 
   return (
     <Row>
-      <ProgressBar style={{ padding: 0 }}>
+      <ProgressBar style={{ padding: 0,height:"50px" }}>
         {calendarSection.length > 0 &&
           calendarSection.map((monthObj, index) => {
             return (
