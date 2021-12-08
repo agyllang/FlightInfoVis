@@ -180,7 +180,8 @@
   flex-grow: 1;
 }
 .map-chart-container {
-  flex-grow: 2;
+  /* flex-grow: 2; */
+  display:flex;
 }
 /* __________________ */
 
@@ -202,7 +203,7 @@
 .data-card-1 {
   /* width: 50%; */
   font-weight:600;
-  font-size: 15px;
+  font-size: 20px;
   /* max-width: none; */
   /* justify-self: flex-end; */
 

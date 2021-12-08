@@ -88,7 +88,7 @@ const Employee = ({ ...props }) => {
             })}
         </Col>
       </Row>
-      <Row className="row flex-grow">
+      <Row>
         {flight && <Flight flightData={flight} />}
       </Row>
     </Container>

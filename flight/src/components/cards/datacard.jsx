@@ -3,34 +3,33 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Button, Collapse, Container } from "react-bootstrap";
 
 const DataCard = ({ ...props }) => {
-  const { header, dataToPresent, dataUnitSymbol, description } = props;
+  const { header, dataToPresent, dataUnitSymbol, description, text1, text2 } =
+    props;
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <Col md={2} className="data-card">
-        <div className="data-card-header">
-          {header ? header : "Header goes here"}
-        </div>
-        <Row className="" >
-          <Col md={"auto"}className="data-card-1">
+      <Row>
+        <Col>
+        {props.children}
+          {/* {text1 ? text1 : <div className="data-card-header">{text1}</div>}
+          <span className="data-card-1">
             {dataToPresent ? dataToPresent : "No input yet"}
-          </Col>
-          <Col md={"auto"} className="data-card-2">
+          </span>{" "}
+          <span className="data-card-2">
             {dataUnitSymbol ? dataUnitSymbol : ""}
-          </Col>
-        </Row>
-
-        {description && (
+          </span>
+          {text2 ? text2 : <div className="data-card-header">{text2}</div>} */}
+          {/* {description && (
           <>
             <Button
               onClick={() => setOpen(!open)}
               aria-controls={`${header}-text`}
               aria-expanded={open}
-            //   style={{borderRadius:"100%"}}
-
-            > More info
-              
+              //   style={{borderRadius:"100%"}}
+            >
+              {" "}
+              More info
             </Button>
             <Collapse in={open}>
               <div id={`${header}-text`}>
@@ -41,8 +40,9 @@ const DataCard = ({ ...props }) => {
               </div>
             </Collapse>
           </>
-        )}
-      </Col>
+        )} */}
+        </Col>
+      </Row>
     </>
   );
 };

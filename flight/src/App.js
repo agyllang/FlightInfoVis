@@ -11,6 +11,7 @@ import { data19 } from "./JML_data2019";
 import Overview from "./components/overview/Overview";
 import Employee from "./components/employees/Employee";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Comparisons from "./components/comparisons/comparisons";
 
 // console.log("data",data)
 
@@ -131,6 +132,14 @@ function App() {
         >
           Overview
         </NavLink>
+        <NavLink
+          activeClassName="navlink-active"
+          className="navlink"
+          to="/comparisons"
+          key={"overview"}
+        >
+          Comparisons
+        </NavLink>
         <div className={`navlink-item ${toggle ? "scroll" : "no-scroll"}`}>
           <div
             onClick={() => {
@@ -174,8 +183,21 @@ function App() {
               changeCurrentYear={(year) => {
                 setYear(year);
               }}
-              data={stateDataByDate}
-              allData={[data18,data19]}
+              dataCurrentYear={stateDataByDate}
+              allData={[data18, data19]}
+            />
+          }
+        />
+        <Route
+          path="/comparisons"
+          element={
+            <Comparisons
+              currentYear={yearToPresent}
+              changeCurrentYear={(year) => {
+                setYear(year);
+              }}
+              dataCurrentYear={stateDataByDate}
+              allData={[data18, data19]}
             />
           }
         />

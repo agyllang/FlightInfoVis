@@ -59,17 +59,17 @@ const MapChart = ({ ...props }) => {
     <ComposableMap
       projection="geoEqualEarth"
       projectionConfig={{
-        scale: 920,
-        center: [-30, 70],
+        // scale: 620,
+        // center: [-40, 70],
       }}
     >
-      <ZoomableGroup zoom={0.2}>
+      <ZoomableGroup zoom={1}>
         <Graticule stroke="#DDD" />
         <Geographies
           geography={geoUrl}
           fill="#D6D6DA"
           stroke="#FFFFFF"
-          strokeWidth={0.5}
+          strokeWidth={0.7}
         >
           {({ geographies }) =>
             geographies.map((geo) => (
