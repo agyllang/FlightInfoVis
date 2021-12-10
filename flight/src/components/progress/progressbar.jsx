@@ -101,6 +101,7 @@ const ProgressBarYearly = ({ ...props }) => {
           plannedCalendar.map((monthObj, index) => {
             return (
               <ProgressBarMonth
+                // style={{borderTop:"2px dashed black",borderBottom:"2px dashed black",}}
                 animated
                 key={index}
                 min={0}
@@ -124,7 +125,7 @@ const ProgressBarYearly = ({ ...props }) => {
         ) : (
           // OVERSHOOT
           <ProgressBar
-            striped
+            // striped
             now={-CO2balance}
             style={{ backgroundColor: "rgb(0,0,0)" }}
             label={`overshoot ${CO2balance} (${Math.abs(

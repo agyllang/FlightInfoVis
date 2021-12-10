@@ -36,7 +36,7 @@ const Comparisons = ({ ...props }) => {
 
   return (
     <Container gap={2} className="">
-      <Row className="page-title">Overview</Row>
+      <Row className="page-title">Comparisons</Row>
       <Row className="header-text-year">
         Displaying data from year
         <Col md={2}>

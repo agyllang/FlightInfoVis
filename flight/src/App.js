@@ -136,7 +136,7 @@ function App() {
           activeClassName="navlink-active"
           className="navlink"
           to="/comparisons"
-          key={"overview"}
+          key={"comparisons"}
         >
           Comparisons
         </NavLink>
