@@ -6,6 +6,7 @@ import SearchBar from "../search/SearchBar";
 import FlightDetails from "./FlightDetails";
 import PurposeOfTrip from "./PurposeOfTrip";
 
+// console.log("API_KEY_Qlimatic",API_KEY_Qlimatic)
 const FindFlight = ({ ...props }) => {
   const {} = props;
 
@@ -109,7 +110,7 @@ const FindFlight = ({ ...props }) => {
       fetch("https://beta3.api.climatiq.io/travel/flights", {
         method: "POST",
         headers: {
-          Authorization: "Bearer ENQ7J3PDE7M2JXPRMT8C4EKC05EN	",
+          Authorization: `Bearer ${process.env.REACT_APP_API_KEY_QLIMATIC} `,
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: inputBody,

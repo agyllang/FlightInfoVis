@@ -343,4 +343,32 @@
 
 .searchInputs {
   display: flex;
+  align-items: center;
 }
+
+/* ____PRIORITY SCALE BUTTONS ___*/
+/* .Btn-Custom-BG-prio0 {
+  background-color: rgba(144, 235, 79, 0.892);
+}
+.Btn-Custom-BG-prio0.active {
+  background-color: rgb(89, 136, 55) !important;
+}
+.Btn-Custom-BG-prio1 {
+  background-color: rgba(214, 235, 79, 0.892) ;
+}
+.Btn-Custom-BG-prio1.active {
+  background-color: rgba(158, 174, 59, 0.892) ;
+}
+.Btn-Custom-BG-prio2 {
+  background-color: rgba(235, 173, 79, 0.892) !important;
+}
+.Btn-Custom-BG-prio2.active {
+  background-color: rgba(170, 125, 57, 0.892) ;
+}
+.Btn-Custom-BG-prio3 {
+  background-color: rgba(235, 89, 79, 0.892) !important;
+}
+.Btn-Custom-BG-prio3.active {
+  background-color: rgba(165, 62, 55, 0.892) ;
+} */
+

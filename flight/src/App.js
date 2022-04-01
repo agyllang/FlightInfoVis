@@ -13,8 +13,7 @@ import Employee from "./components/employees/Employee";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Comparisons from "./components/comparisons/comparisons";
 import Budget from "./components/budget/Budget";
-
-// console.log("data",data)
+// console.log("process.env.API_KEY_QLIMATIC",process.env.REACT_APP_API_KEY_QLIMATIC) // remove this after you've confirmed it working
 
 function App() {
   
