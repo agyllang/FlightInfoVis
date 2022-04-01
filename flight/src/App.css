@@ -208,7 +208,7 @@
   font-size: 20px;
   color: rgb(54, 77, 124);
 }
-.data-card-header-overshoot{
+.data-card-header-overshoot {
   font-size: 20px;
 
   /* font-weight:700; */
@@ -223,7 +223,7 @@
 
   /* flex-wrap: nowrap; */
 }
-.data-card-1-overshoot{
+.data-card-1-overshoot {
   font-size: 20px;
   font-weight: 600;
 
@@ -261,8 +261,8 @@
 /* ___________DATA CARD PROGRESS____ */
 .card-card-progress-container {
   /* width: 50%; */
-  background-color: rgb(217, 236, 255)  ;
-  margin:20px;
+  background-color: rgb(217, 236, 255);
+  margin: 20px;
   margin-top: 50px;
   margin-bottom: 50px;
   padding: 20px;
@@ -272,5 +272,75 @@
   color: rgb(158, 0, 0);
 }
 
-
 /* _________________________________ */
+
+.addEmployee-container {
+  background-color: rgb(195, 216, 236);
+  /* border: 2px solid grey; */
+  border-radius: 5px;
+  padding: 10px;
+  align-items: flex-start;
+  margin: 1rem;
+}
+
+.addEmployee-row {
+  background-color: rgb(238, 238, 238);
+  margin: 5px !important;
+}
+
+/* _______SEARCH ____ */
+.searchInput {
+  /* width:300px; */
+  background-color: white;
+  border: 0;
+  border-radius: 2px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  padding: 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.searchInput:focus {
+  outline: none;
+}
+.searchResult {
+  z-index: 1000;
+  position: absolute;
+  margin-top: 5px;
+  /* width: 350px; */
+  /* height: 200px; */
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+.dataResult::-webkit-scrollbar {
+  display: none;
+}
+.searchResultItem {
+  width: 100%;
+  /* height: 50px; */
+  display: flex;
+  align-items: center;
+  color: black;
+}
+.searchResultItem :hover {
+  background-color: rgb(165, 165, 165);
+  cursor: pointer;
+}
+.suggested {
+  background-color: rgba(226, 201, 55, 0.35);
+  border-bottom: 2px solid rgba(173, 174, 173, 0.35);
+}
+
+.suggestedText {
+  color: rgba(71, 114, 221, 0.55);
+  font-size: 12px;
+  /* text-align: right; */
+}
+#clearBtn {
+  cursor: pointer;
+}
+
+.searchInputs {
+  display: flex;
+}

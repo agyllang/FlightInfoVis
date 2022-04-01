@@ -12,10 +12,13 @@ import Overview from "./components/overview/Overview";
 import Employee from "./components/employees/Employee";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Comparisons from "./components/comparisons/comparisons";
+import Budget from "./components/budget/Budget";
 
 // console.log("data",data)
 
 function App() {
+  
+
   const [stateData, setStateData] = useState([]);
   //@stateData, array - the entire data set for a certain year
   const [yearToPresent, setYear] = useState(2018);
@@ -127,6 +130,14 @@ function App() {
         <NavLink
           activeClassName="navlink-active"
           className="navlink"
+          to="/budget"
+          key={"budget"}
+        >
+          Budget
+        </NavLink>
+        <NavLink
+          activeClassName="navlink-active"
+          className="navlink"
           to="/overview"
           key={"overview"}
         >
@@ -192,6 +203,19 @@ function App() {
           path="/comparisons"
           element={
             <Comparisons
+              currentYear={yearToPresent}
+              changeCurrentYear={(year) => {
+                setYear(year);
+              }}
+              dataCurrentYear={stateDataByDate}
+              allData={[data18, data19]}
+            />
+          }
+        />
+        <Route
+          path="/budget"
+          element={
+            <Budget
               currentYear={yearToPresent}
               changeCurrentYear={(year) => {
                 setYear(year);

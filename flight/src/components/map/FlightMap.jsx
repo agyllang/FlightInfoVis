@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import airports from "./airports";
+import airports from "./airports2";
 import {
   ComposableMap,
   Geographies,
