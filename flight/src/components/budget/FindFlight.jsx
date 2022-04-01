@@ -5,6 +5,10 @@ import RadioButton from "./RadioButton";
 import SearchBar from "../search/SearchBar";
 import FlightDetails from "./FlightDetails";
 import PurposeOfTrip from "./PurposeOfTrip";
+import MonthsPicker from "./MonthsPicker";
+
+import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
+import FlightLandIcon from "@mui/icons-material/FlightLand";
 
 // console.log("API_KEY_Qlimatic",API_KEY_Qlimatic)
 const FindFlight = ({ ...props }) => {
@@ -20,7 +24,7 @@ const FindFlight = ({ ...props }) => {
 
   // Secondary flight data fetch  options
   const [oneWay, setOneWay] = useState(1);
-  console.log("oneWay", oneWay)
+  console.log("oneWay", oneWay);
   const [multiCity, setMultiCity] = useState(false);
   const [seatClass, setSeatClass] = useState("unknown");
 
@@ -65,7 +69,7 @@ const FindFlight = ({ ...props }) => {
     passengers = 1
   ) => {
     setIsLoading(true);
-    setFlight()
+    setFlight();
     if (
       airport1 === "" ||
       airport2 === "" ||
@@ -139,6 +143,7 @@ const FindFlight = ({ ...props }) => {
               total: data.co2e,
               co2e_unit: data.co2e_unit,
               seatClass: seatClass,
+              oneWay: oneWay,
               legs: [
                 {
                   from: airport1,
@@ -172,8 +177,10 @@ const FindFlight = ({ ...props }) => {
     <Container style={{ border: "2px solid black" }}>
       <Row className="page-header2">Plan a Flight</Row>
       <Row>
+        {multiCity && <div>1.</div>}
         <Row>
           <Col md={6}>
+            <FlightTakeoffIcon />
             <label>From:</label>
             <SearchBar
               placeholder={"Choose airport"}
@@ -181,6 +188,7 @@ const FindFlight = ({ ...props }) => {
             />
           </Col>
           <Col md={6}>
+            <FlightLandIcon />
             <label>To:</label>
             <SearchBar
               placeholder={"Choose airport"}
@@ -188,13 +196,36 @@ const FindFlight = ({ ...props }) => {
             />
           </Col>
         </Row>
+        {multiCity && (
+          <>
+            <div style={{ marginTop: "1rem" }}>2.</div>
+            <Row>
+              <Col md={6}>
+                <FlightTakeoffIcon />
+
+                <label>From:</label>
+                <SearchBar
+                  placeholder={"Choose airport"}
+                  select={(airport) => setAirport3(airport)}
+                />
+              </Col>
+              <Col md={6}>
+                <FlightLandIcon />
+                <label>To:</label>
+                <SearchBar
+                  placeholder={"Choose airport"}
+                  select={(airport) => setAirport4(airport)}
+                />
+              </Col>
+            </Row>
+          </>
+        )}
         <Row gap={2} style={{ marginTop: "2rem" }}>
           <Col md={6}>
             <RadioButton
               setNumberOfTrips={(no) => {
                 setOneWay(no);
               }}
-            
               setMultiCity={(multi) => {
                 setMultiCity(multi);
               }}
@@ -211,26 +242,12 @@ const FindFlight = ({ ...props }) => {
             />
           </Col>
         </Row>
-        {multiCity && (
-          <Row>
-            <Col>
-              <label>From:</label>
-              <SearchBar
-                placeholder={"Choose airport"}
-                select={(airport) => setAirport3(airport)}
-              />
-            </Col>
-            <Col>
-              <label>To:</label>
-              <SearchBar
-                placeholder={"Choose airport"}
-                select={(airport) => setAirport4(airport)}
-              />
-            </Col>
-          </Row>
-        )}
+        <Row>
+          <MonthsPicker />
+        </Row>
         <Row>
           <Button
+            style={{ marginTop: "1rem" }}
             variant="primary"
             disabled={isLoading}
             onClick={handleButtonClick}
@@ -248,12 +265,33 @@ const FindFlight = ({ ...props }) => {
           </Button>{" "}
           {/* <Button variant={isLoading ?  : }> Estimate emissions</Button> */}
         </Row>
-        <Row>
-          {fetchMessage}
-          {foundFlight && <FlightDetails details={foundFlight} numberOfTrips={oneWay}/>}
-        </Row>
-        <Row>
-          <PurposeOfTrip/>
+        <Row style={{ margin: "1rem" }}>{fetchMessage}</Row>
+        <Row style={{ backgroundColor: "rgba(162, 245, 213, 0.55)" }}>
+          <Row>
+            {foundFlight && (
+              <FlightDetails details={foundFlight} numberOfTrips={oneWay} />
+            )}
+          </Row>
+          <Row>
+            {foundFlight && (
+              <>
+                <Row style={{ marginTop: "1rem" }}>
+                  {" "}
+                  <PurposeOfTrip />
+                </Row>
+
+                <Row md={5} gap={2} style={{ marginTop: "1rem" }}>
+                  <Button
+                    variant="success"
+                    // disabled={isLoading}
+                    // onClick={handleButtonClick}
+                  >
+                    Assign to Employee
+                  </Button>
+                </Row>
+              </>
+            )}
+          </Row>
         </Row>
       </Row>
     </Container>
