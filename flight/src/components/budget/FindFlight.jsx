@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Row, Col, Container, Button, Spinner } from "react-bootstrap";
 // import Select from "react-select";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormHelperText from "@mui/material/FormHelperText";
+// import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-import RadioButton from "./RadioButton";
+import RadioButtonGroup from "./RadioButton";
 import SearchBar from "../search/SearchBar";
 import FlightDetails from "./FlightDetails";
 import PurposeOfTrip from "./PurposeOfTrip";
@@ -20,7 +20,7 @@ import FlightLandIcon from "@mui/icons-material/FlightLand";
 
 const FindFlight = ({ ...props }) => {
   const { employeesID, addNewFlight, allResearchProjects } = props;
-
+  const [openContainer, setToggle] = useState(false);
   // Primary flight data fetch options
   const [airport1, setAirport1] = useState("");
   const [airport2, setAirport2] = useState("");
@@ -43,7 +43,6 @@ const FindFlight = ({ ...props }) => {
     { value: "economy", label: "Economy Class" },
     { value: "business", label: "Business Class" },
     { value: "first", label: "First Class" },
-    { value: "unknown", label: "Unknown" },
   ];
   const handleInputChangeSeat = (event) => {
     setSeatClass(event.target.value);
@@ -62,10 +61,16 @@ const FindFlight = ({ ...props }) => {
     }));
   };
 
+  const createFlightID = function () {
+    var d = Date.now().toString();
+
+    return "fID-" + d.slice(-4);
+  };
   const setEmployeeIDToFlight = (ID) => {
     setFlight((prevState) => ({
       ...prevState,
       ID: ID,
+      flightID: createFlightID(),
     }));
   };
 
@@ -82,6 +87,7 @@ const FindFlight = ({ ...props }) => {
     setMultiCity(false);
     setSeatClass("");
     setWorkdays("");
+    setToggle(!openContainer);
   };
   const handleAddFlight = () => {
     addNewFlight(foundFlight);
@@ -108,7 +114,7 @@ const FindFlight = ({ ...props }) => {
     seatClass = "economy",
     passengers = 1
   ) => {
-    seatClass = seatClass === "" ? "unknown" : seatClass;
+    seatClass = seatClass === "" ? "economy" : seatClass;
 
     setIsLoading(true);
     setFlight();
@@ -182,7 +188,7 @@ const FindFlight = ({ ...props }) => {
         .then((data) => {
           if (multiCity) {
             setFlight({
-              total: data.co2e,
+              total: Math.floor(data.co2e),
               co2e_unit: data.co2e_unit,
               seatClass: seatClass,
               oneWay: oneWay,
@@ -199,7 +205,7 @@ const FindFlight = ({ ...props }) => {
             });
           } else {
             setFlight({
-              total: data.co2e,
+              total: Math.floor(data.co2e),
               co2e_unit: data.co2e_unit,
               seatClass: seatClass,
               oneWay: oneWay,
@@ -223,145 +229,145 @@ const FindFlight = ({ ...props }) => {
   return (
     <Container className="findFlight-container">
       <h2 className="page-header2">Plan a Flight</h2>
-      <Row>
+      {openContainer ? (
         <Row>
-          {multiCity && <div>1.</div>}
-          <Col md={6}>
-            <FlightTakeoffIcon />
-            <label>From:</label>
-            <SearchBar
-              placeholder={"Choose airport"}
-              select={(airport) => setAirport1(airport)}
-            />
-          </Col>
-          <Col md={6}>
-            <FlightLandIcon />
-            <label>To:</label>
-            <SearchBar
-              placeholder={"Choose airport"}
-              select={(airport) => setAirport2(airport)}
-            />
-          </Col>
-        </Row>
-        {multiCity && (
-          <>
-            <div style={{ marginTop: "1rem" }}>2.</div>
-            <Row>
-              <Col md={6}>
-                <FlightTakeoffIcon />
-
-                <label>From:</label>
-                <SearchBar
-                  placeholder={"Choose airport"}
-                  select={(airport) => setAirport3(airport)}
-                />
-              </Col>
-              <Col md={6}>
-                <FlightLandIcon />
-                <label>To:</label>
-                <SearchBar
-                  placeholder={"Choose airport"}
-                  select={(airport) => setAirport4(airport)}
-                />
-              </Col>
-            </Row>
-          </>
-        )}
-        <Row gap={2} style={{ marginTop: "2rem" }}>
-          <Col md={6}>
-            <RadioButton
-              setNumberOfTrips={(no) => {
-                setOneWay(no);
-              }}
-              setMultiCity={(multi) => {
-                setMultiCity(multi);
-              }}
-            />
-          </Col>
-
-          <Col md={6}>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-helper-label">
-                Seat Class
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-helper-label"
-                id="demo-simple-select-helper"
-                value={seatClass}
-                label="Seat Class"
-                onChange={handleInputChangeSeat}
-              >
-                {optionsSeat.map((seat) => {
-                  return <MenuItem value={seat.value}>{seat.label}</MenuItem>;
-                })}
-              </Select>
-              {/* <FormHelperText>With label + helper text</FormHelperText> */}
-            </FormControl>
-          </Col>
-        </Row>
-        <Row>
-          <MonthsPicker
-            setDate={(date) => {
-              setDate(date);
-            }}
-            setWorkdays={(days) => setWorkdays(days)}
-          />
-        </Row>
-        <Row>
-          <Button
-            style={{ marginTop: "1rem" }}
-            variant="primary"
-            disabled={isLoading}
-            onClick={handleButtonClick}
-          >
-            {isLoading && (
-              <Spinner
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-                aria-hidden="true"
+          <Row>
+            {multiCity && <div>1.</div>}
+            <Col md={6}>
+              <FlightTakeoffIcon />
+              <label>From:</label>
+              <SearchBar
+                placeholder={"Choose airport"}
+                select={(airport) => setAirport1(airport)}
               />
-            )}
-            <span>{isLoading ? " Loading..." : " Estimate flight"}</span>
-          </Button>{" "}
-          {/* <Button variant={isLoading ?  : }> Estimate emissions</Button> */}
-        </Row>
-        <Row style={{ margin: "1rem" }}>{fetchMessage}</Row>
-        <Container className="flightDetails-container">
-          {foundFlight && (
-            <FlightDetails details={foundFlight} numberOfTrips={oneWay} />
-          )}
-
-          {foundFlight && (
+            </Col>
+            <Col md={6}>
+              <FlightLandIcon />
+              <label>To:</label>
+              <SearchBar
+                placeholder={"Choose airport"}
+                select={(airport) => setAirport2(airport)}
+              />
+            </Col>
+          </Row>
+          {multiCity && (
             <>
-              <PurposeOfTrip
-                setPurposeOfTrip={(prioVal, purpose) => {
-                  setPurposeOfTrip(prioVal, purpose);
-                }}
-              />
+              <div style={{ marginTop: "1rem" }}>2.</div>
+              <Row>
+                <Col md={6}>
+                  <FlightTakeoffIcon />
 
-              <AssignToEmployee
-                allResearchProjects={allResearchProjects}
-                employeesID={employeesID}
-                setEmployeeIDToFlight={(ID) => setEmployeeIDToFlight(ID)}
-                handleAddFlight={handleAddFlight}
-              />
-
-              {/* <Row md={5} gap={2} style={{ marginTop: "1rem" }}>
-                 
-                  <Button
-                    variant="success"
-                    // disabled={isLoading}
-                    // onClick={handleButtonClick}
-                  >
-                    Assign to Employee
-                  </Button>
-                </Row> */}
+                  <label>From:</label>
+                  <SearchBar
+                    placeholder={"Choose airport"}
+                    select={(airport) => setAirport3(airport)}
+                  />
+                </Col>
+                <Col md={6}>
+                  <FlightLandIcon />
+                  <label>To:</label>
+                  <SearchBar
+                    placeholder={"Choose airport"}
+                    select={(airport) => setAirport4(airport)}
+                  />
+                </Col>
+              </Row>
             </>
           )}
-        </Container>
-      </Row>
+          <Row gap={2} style={{ marginTop: "2rem" }}>
+            <Col md={6}>
+              <RadioButtonGroup
+                setNumberOfTrips={(number) => {
+                  setOneWay(number);
+                }}
+                setMultiCity={(multi) => {
+                  setMultiCity(multi);
+                }}
+                multiCity={multiCity}
+              />
+            </Col>
+
+            <Col md={6}>
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="demo-simple-select-helper-label">
+                  Seat Class
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-helper-label"
+                  id="demo-simple-select-helper"
+                  value={seatClass}
+                  label="Seat Class"
+                  onChange={handleInputChangeSeat}
+                >
+                  {optionsSeat.map((seat) => {
+                    return <MenuItem value={seat.value}>{seat.label}</MenuItem>;
+                  })}
+                </Select>
+                {/* <FormHelperText>With label + helper text</FormHelperText> */}
+              </FormControl>
+            </Col>
+          </Row>
+          <Row>
+            <MonthsPicker
+              setDate={(date) => {
+                setDate(date);
+              }}
+              setWorkdays={(days) => setWorkdays(days)}
+            />
+          </Row>
+          <Row>
+            <Button
+              style={{ marginTop: "1rem" }}
+              variant="primary"
+              disabled={isLoading}
+              onClick={handleButtonClick}
+            >
+              {isLoading && (
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              )}
+              <span>{isLoading ? " Loading..." : " Estimate flight"}</span>
+            </Button>{" "}
+          </Row>
+          <Row style={{ margin: "1rem" }}>{fetchMessage}</Row>
+          <Container className="flightDetails-container">
+            {foundFlight && (
+              <FlightDetails details={foundFlight} numberOfTrips={oneWay} />
+            )}
+
+            {foundFlight && (
+              <>
+                <PurposeOfTrip
+                  setPurposeOfTrip={(prioVal, purpose) => {
+                    setPurposeOfTrip(prioVal, purpose);
+                  }}
+                />
+
+                <AssignToEmployee
+                  allResearchProjects={allResearchProjects}
+                  employeesID={employeesID}
+                  setEmployeeIDToFlight={(ID) => setEmployeeIDToFlight(ID)}
+                  handleAddFlight={handleAddFlight}
+                />
+              </>
+            )}
+          </Container>
+        </Row>
+      ) : (
+        <Button
+          style={{ marginBottom: "1rem" }}
+          onClick={() => {
+            setToggle(!openContainer);
+          }}
+        >
+          Estimate Flight
+        </Button>
+      )}
     </Container>
   );
 };

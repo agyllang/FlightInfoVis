@@ -7,7 +7,9 @@ import Box from "@mui/material/Box";
 
 const MonthsPicker = ({ ...props }) => {
   const { setDate, setWorkdays } = props;
-  const [value, setValue] = useState();
+  const [value, setValue] = useState(["2022"]);
+  console.log(" Monthspicker value", value)
+
   const whatMonth = (date) => {
     const [month, year] = [date.getMonth(), date.getFullYear()];
     console.log("date", month + ":" + year);
@@ -33,7 +35,7 @@ const MonthsPicker = ({ ...props }) => {
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DatePicker
           views={["month", "year"]}
-          label="Month of planned trip"
+          label="Date of trip"
           minDate={new Date("2022-01-01")}
           maxDate={new Date("2023-06-01")}
           value={value}

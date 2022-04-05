@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Container, Button } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import AddEmployeeForm from "./AddEmployeeForm";
 import FindFlight from "./FindFlight";
 import EmployeeList from "./EmployeeList";
 import FlightList from "./FlightList";
 
 const Budget = ({ ...props }) => {
-  const { dataCurrentYear, changeCurrentYear, currentYear, allData } = props;
+  // const {  } = props;
   const [employees, setEmployee] = useState([
     {
       ID: "p123",

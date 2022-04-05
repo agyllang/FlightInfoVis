@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, Container, Button } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
@@ -9,10 +9,10 @@ const FlightList = ({ ...props }) => {
   const { flights } = props;
   console.log("flights", flights);
   const [focusedIndex, setFocused] = useState();
-  console.log("focused", focusedIndex);
+  // console.log("focused", focusedIndex);
 
   const handleFocus = (index) => {
-    console.log("handleFocus");
+    // console.log("handleFocus");
     if (index === focusedIndex) {
       setFocused();
     } else {
@@ -31,10 +31,10 @@ const FlightList = ({ ...props }) => {
           }}
         >
           {" "}
-          <Col xs={2}>ID</Col>
+          <Col xs={3}>FlightID</Col>
           <Col xs={2}>Date</Col>
           <Col xs={2}>CO2e(kg)</Col>
-          <Col xs={2}>Prio</Col>
+          <Col xs={2}>EmployeeID</Col>
           {/* <Col xs={3}>PRIO</Col> */}
         </Row>
         {flights.length > 0 &&
@@ -55,13 +55,13 @@ const FlightList = ({ ...props }) => {
                 }}
                 onClick={() => handleFocus(index)}
               >
-                <Col xs={2}>{flight.ID}</Col>
+                <Col xs={3}>{flight.flightID}</Col>
                 <Col xs={2}>
                   {flight.travelDate[0].month}/{flight.travelDate[0].year}
                 </Col>
-                <Col xs={2}>{Math.floor(flight.total)}</Col>
-                <Col xs={2}>{flight.priority}</Col>
-                <Col xs={{ span: 2, offset: 2 }}>
+                <Col xs={2}>{flight.total*flight.oneWay}</Col>
+                <Col xs={2}>{flight.ID}</Col>
+                <Col xs={{ span: 1, offset: 2 }}>
                   {focusedIndex === index ? (
                     <KeyboardArrowUpIcon />
                   ) : (
@@ -71,38 +71,82 @@ const FlightList = ({ ...props }) => {
 
                 {focusedIndex === index && (
                   <Container>
-                    <b>Flight details</b>
                     <Row>
-                      <Col xs={3}>From</Col>
+                      <Col className="flightListDetails-header">
+                        Flight details
+                      </Col>
+                    </Row>
+                    <Col
+                      xs={3}
+                      style={{
+                        borderRadius: "4px",
+                        border: "0.2px solid rgba(240, 240, 240,0.3)",
+                        marginBottom: "1rem",
+                      }}
+                    >
+                      Seat Class:
+                      <Col className="flightListDetails-item">
+                        {flight.seatClass}
+                      </Col>
+                    </Col>
+                    <Row>
+                      <Col xs={3}>From:</Col>
 
-                      <Col xs={3}>To </Col>
+                      <Col xs={3}>To:</Col>
                       <Col xs={3}>CO2e(kg)/leg</Col>
                     </Row>
 
                     {flight.legs.map((leg, i) => {
                       return (
                         <Row>
-                          <Col xs={3}>
+                          <Col className="flightListDetails-item" xs={3}>
                             <FlightTakeoffIcon />
                             {leg.from}
                           </Col>
 
-                          <Col xs={3}>
-                             <FlightLandIcon /> {leg.to}
+                          <Col className="flightListDetails-item" xs={3}>
+                            <FlightLandIcon /> {leg.to}
                           </Col>
-                          <Col xs={2}>{Math.floor(leg.co2e)}</Col>
+                          <Col className="flightListDetails-item" xs={2}>
+                            {Math.floor(leg.co2e)}
+                          </Col>
                         </Row>
                       );
                     })}
-
+                    <Row>
+                      <Col xs={3}>
+                        {flight.oneWay === 1 ? "(One way)" : "(Round trip)"}
+                      </Col>
+                      <Col xs={3}> </Col>
+                      <Col xs={4} className="flightListDetails-item" > x{flight.oneWay} </Col>
+                    </Row>
+                    <Row style={{ borderTop: "0.5px solid grey" }}>
+                      <Col className="flightListDetails-header">
+                        Purpose details
+                      </Col>
+                    </Row>
                     <Container>
-                      <Row xs={3}>Purpose: {flight.purpose}</Row>
+                      <Row>
+                        Purpose:{" "}
+                        <Col className="flightListDetails-item">
+                          {flight.purpose}
+                        </Col>
+                      </Row>
+                      <Row>
+                        Priority value:
+                        <Col className="flightListDetails-item">
+                          {flight.priority}
+                        </Col>{" "}
+                      </Row>
 
-                      <Row xs={3}>Workdays: {flight.workDays}</Row>
-                      <Row xs={3}>SeatClass: {flight.seatClass}</Row>
-
-                      {/* <Col xs={3}>CO2e</Col> */}
+                      <Row>
+                        Number of workdays:{" "}
+                        <Col className="flightListDetails-item">
+                          {flight.workDays}
+                        </Col>
+                      </Row>
                     </Container>
+                    {/* <Col xs={3}>CO2e</Col> */}
                   </Container>
                 )}
               </Row>

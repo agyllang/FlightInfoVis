@@ -402,3 +402,11 @@
 .react-select-3-listbox {
   z-index: 1000 !important;
 }
+/* FlightList */
+.flightListDetails-item {
+  font-weight: 600;
+  color:#1604bd;
+}
+.flightListDetails-header {
+  font-weight: 800;
+}
