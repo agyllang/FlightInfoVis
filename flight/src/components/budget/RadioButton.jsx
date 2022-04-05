@@ -18,7 +18,7 @@ const RadioButton = ({ ...props }) => {
   const handleRadioValue = (event) => {
     console.log("event", event);
     console.log("event.target.value", event.target.value);
-    setRadioVal(event.target.value)
+    // setRadioVal(event.target.value)
     // setMulti(multi);
     setNumberOfTrips(event.target.value);
   };

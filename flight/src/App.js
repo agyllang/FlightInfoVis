@@ -21,10 +21,10 @@ function App() {
   const [stateData, setStateData] = useState([]);
   //@stateData, array - the entire data set for a certain year
   const [yearToPresent, setYear] = useState(2018);
-  console.log(
-    "____________________________________________yearToPresent",
-    yearToPresent
-  );
+  // console.log(
+  //   "____________________________________________yearToPresent",
+  //   yearToPresent
+  // );
   //@yearToPresent, int - helps with selecting which dataset to use (local files imported - data18, data19)
   const [stateDataByDate, setStateDataByDate] = useState([]);
   //@stateDataByDate, array - dataset sorted by date, Jan 01->Dec 29
@@ -117,22 +117,23 @@ function App() {
   return (
     <div className="App">
       <div className="sidebar">
-        <NavLink
+        {/* <NavLink
           activeClassName="navlink-active"
           className="navlink"
           to="/"
           key={"home"}
-          end={true}
+         
         >
           Home
-        </NavLink>
+        </NavLink> */}
         <NavLink
           activeClassName="navlink-active"
           className="navlink"
           to="/budget"
           key={"budget"}
+          end={true}
         >
-          Budget
+         Plan budget
         </NavLink>
         <NavLink
           activeClassName="navlink-active"
@@ -142,15 +143,15 @@ function App() {
         >
           Overview
         </NavLink>
-        <NavLink
+        {/* <NavLink
           activeClassName="navlink-active"
           className="navlink"
           to="/comparisons"
           key={"comparisons"}
         >
           Comparisons
-        </NavLink>
-        <div className={`navlink-item ${toggle ? "scroll" : "no-scroll"}`}>
+        </NavLink> */}
+        {/* <div className={`navlink-item ${toggle ? "scroll" : "no-scroll"}`}>
           <div
             onClick={() => {
               setToggle((prev) => !prev);
@@ -180,7 +181,7 @@ function App() {
                 );
               })}
           </div>
-        </div>
+        </div> */}
       </div>
 
       <Routes>

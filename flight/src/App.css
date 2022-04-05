@@ -125,6 +125,7 @@
   justify-content: center;
   /* border-bottom: 4px solid black; */
   margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 }
 /* used for displaying the current employee in the employees list */
 .currentListItem {
@@ -272,11 +273,23 @@
   color: rgb(158, 0, 0);
 }
 
-/* _________________________________ */
+/* ADD NEW EMPLOYEE form*/
+.addNewInput {
+  /* width:300px; */
+  background-color: white;
+  border: 1px solid rgba(136, 136, 136, 0.87);
+  border-radius: 4px;
+  /* border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px; */
+  padding: 15px;
+  /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+}
 
+/* _________________________________ */
+/* Employee LIST  */
 .addEmployee-container {
-  background-color: rgb(195, 216, 236);
-  /* border: 2px solid grey; */
+  background-color: rgb(238, 229, 229);
+  border: 2px solid grey;
   border-radius: 5px;
   padding: 10px;
   align-items: flex-start;
@@ -284,11 +297,12 @@
 }
 
 .addEmployee-row {
-  background-color: rgb(238, 238, 238);
-  margin: 5px !important;
+  margin: 1px !important;
+  cursor: pointer;
 }
 
-/* _______SEARCH ____ */
+/* _________________________________ */
+/* _______SearchBar ____ */
 .searchInput {
   /* width:300px; */
   background-color: white;
@@ -346,14 +360,45 @@
   align-items: center;
 }
 
-/* __ Priority rating ___*/
-.purposeOfContainer{
-  margin-top: 2rem;
-  background-color: rgba(212, 241, 247, 0.892);
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  border:"2px solid grey";
-  border-radius:"5px";
+/* _________________________________ */
+/* FindFlight*/
+.findFlight-container {
+  border: 2px solid grey;
+  border-radius: 4px;
+  justify-content: center;
 }
- /* .Btn-Custom-BG-prio0 {
-  background-color: rgba(212, 241, 247, 0.892);
-} */
+
+/* _________________________________ */
+/* FlightDetails */
+.flightDetails-container {
+  background-color: rgba(245, 209, 162, 0.55);
+}
+
+/* _________________________________ */
+/* __ Purpose of trip ___*/
+.purposeOfTrip-container {
+  margin-top: 2rem !important;
+  background-color: rgba(178, 204, 243, 0.433);
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px;
+  /* border: 2px solid grey; */
+  border-radius: 5px;
+}
+
+.purposeOfTrip-header {
+  font-size: 1.2rem;
+  /* margin-top: 2rem;
+  margin-bottom: 1rem; */
+  padding: 1rem;
+}
+.purposeOfTrip-header2 {
+  font-size: 1rem;
+  /* margin-top: 2rem;
+  margin-bottom: 1rem; */
+  padding: 0.5rem;
+}
+.Btn-Custom-BG-prio0 {
+  background-color: rgba(177, 195, 240, 0.892);
+}
+.react-select-3-listbox {
+  z-index: 1000 !important;
+}

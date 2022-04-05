@@ -3,11 +3,37 @@ import { Row, Col, Container, Button } from "react-bootstrap";
 
 const FlightDetails = ({ ...props }) => {
   const { details, numberOfTrips } = props;
-//   var flightFactor = oneWay ? 1 : 2;
+  //   var flightFactor = oneWay ? 1 : 2;
+  console.log("details", details);
   var total = Math.floor(details.total);
+  var months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Okt",
+    "Nov",
+    "Dec",
+  ];
   return (
     <Container>
-      <Row className="page-header2">Estimated Flight Details</Row>
+      <h2 className="page-header2">Estimated Flight Details</h2>
+      <Row style={{marginTop:"1.5rem",marginBottom:"1.5rem"}}>
+        <Col>
+          <Col>
+            Date: {months[details.travelDate[0].month]}{" "}
+            {details.travelDate[0].year}{" "}
+          </Col>
+          <Col>Workdays: {details.workDays}</Col>
+        </Col>
+
+        <Col>Seat Class: {details.seatClass} </Col>
+      </Row>
       <Row style={{ fontWeight: "bold" }}>
         <Col>Flight</Col>
         <Col>CO2e (kg)</Col>
@@ -17,39 +43,31 @@ const FlightDetails = ({ ...props }) => {
           return (
             <Row key={`trip-leg-${index}`}>
               <Col>
-                {(index+1)} . {trip.from} - {trip.to}{" "}
+                {index + 1} . {trip.from} - {trip.to}{" "}
               </Col>
               <Col>{Math.floor(trip.co2e)}</Col>
             </Row>
           );
         })}
       </>
-      <Row
-        style={{ fontWeight: "bold",  }}
-        md={2}
-      >
-        <Col>Summary:</Col>
-      </Row>
       <Row>
-        <Col>Class: {details.seatClass} </Col>
-        <Col></Col>
+        <Col style={{ fontWeight: "bold" }}>Summary:</Col>
       </Row>
+
       <Row>
         <Col> </Col>
         <Col>{total}</Col>
       </Row>
       <Row>
-        <Col>{numberOfTrips==1 ? "(One way)" : "(Round trip)"}</Col>
-        <Col> x{numberOfTrips}  </Col>
+        <Col>{numberOfTrips == 1 ? "(One way)" : "(Round trip)"}</Col>
+        <Col> x{numberOfTrips} </Col>
       </Row>
-      <Row         style={{ fontWeight: "bold", borderBottom: "2px solid grey" }}
->
+      <Row style={{ fontWeight: "bold", borderBottom: "2px solid grey" }}>
         <Col>Total</Col>
         <Col>
           = {total * numberOfTrips} {details.co2e_unit} CO2e{" "}
         </Col>
       </Row>
-    
     </Container>
   );
 };

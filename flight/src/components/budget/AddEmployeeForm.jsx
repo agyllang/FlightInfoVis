@@ -1,20 +1,13 @@
 import React, { useState } from "react";
 
 import { Button } from "react-bootstrap";
-//import "./styles.css";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { useForm, useField, splitFormProps } from "react-form";
 
 async function sendToFakeServer(values) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   return values;
-}
-
-function validateID(value) {
-  if (!value) {
-    return "ID is required";
-  }
-  return false;
 }
 
 async function fakeCheckValidName(name, instance) {
@@ -46,25 +39,36 @@ const InputField = React.forwardRef((props, ref) => {
     <>
       <input {...getInputProps({ ref, ...rest })} />{" "}
       {isValidating ? (
-        <em>Validating...</em>
+        <div>Validating...</div>
       ) : isTouched && error ? (
-        <em>{error}</em>
+        <div>{error}</div>
       ) : null}
     </>
   );
 });
 
 const AddEmployeeForm = ({ ...props }) => {
-  const { addNew } = props;
+  const { addNew, addToEmployeesID, employeesID } = props;
+  // console.log("props",props)
   const [addEmployee, setAddEmployee] = useState(false);
   const defaultValues = React.useMemo(
     () => ({
-      name: "",
       ID: "",
-      projects: [""],
+      name: "",
+      projects: [],
     }),
     []
   );
+  function validateID(value) {
+    if (!value) {
+      return "ID is required";
+    }
+    if (employeesID.includes(value)) {
+      return "ID is already in use";
+    }
+    return false;
+  }
+
   // Use the useForm hook to create a form instance
   const {
     Form,
@@ -75,14 +79,15 @@ const AddEmployeeForm = ({ ...props }) => {
   } = useForm({
     defaultValues,
     onSubmit: async (values, instance) => {
-        console.log("defaultValues", defaultValues)
-        console.log("instance", instance)
+      console.log("defaultValues", defaultValues);
+      console.log("instance", instance);
       // onSubmit (and everything else in React Form)
       // has async support out-of-the-box
       await sendToFakeServer(values);
       addNew(values);
+      addToEmployeesID(values.ID)
       console.log("employee added!", values);
-      instance.reset()
+      instance.reset();
     },
     debugForm: false,
   });
@@ -90,62 +95,92 @@ const AddEmployeeForm = ({ ...props }) => {
   return (
     <Form
       style={{
-        // border: "2px solid blue",
+        border: "2px solid grey",
         padding: "1rem",
+        borderRadius: "4px",
+        // backgroundColor: "rgba(152, 155, 242, 0.892)",
       }}
     >
+      <h5>Add new employee</h5>
       {addEmployee && (
         <div>
           <div>
             <InputField
+              className="addNewInput"
               placeholder="Name"
               field="name"
               validate={fakeCheckValidName}
             />
           </div>
           <div>
-            <InputField placeholder="ID" field="ID" validate={validateID} />
+            <InputField
+              className="addNewInput"
+              placeholder="ID"
+              field="ID"
+              validate={validateID}
+              style={{
+                marginTop: "1rem",
+              }}
+            />
           </div>
           <div
             style={{
-              border: "1px solid black",
+              // border: "1px solid black",
+              marginTop: "1rem",
+              marginBottom: "2rem",
               padding: "1rem",
+              boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+              backgroundColor: "rgba(177, 195, 240, 0.32)",
             }}
           >
-            Projects
+            <h5>Research Projects</h5>
+            Research projects employee is working with
             <div>
               {values.projects.map((p, i) => (
                 <div key={i}>
                   <label>
                     Project: <InputField field={`projects.${i}`} />{" "}
-                    <button
-                      type="button"
+                    <CloseIcon
+                      id="clearBtn"
                       onClick={() => removeFieldValue("projects", i)}
-                    >
-                      X
-                    </button>
+                    />
                   </label>
                 </div>
               ))}
-              <button
-                type="button"
+              <Button
+                style={{
+                  marginTop: "1rem ",
+                }}
+                variant="primary"
                 onClick={() => pushFieldValue("projects", "")}
               >
-                Add Project
-              </button>
+                Add new project
+              </Button>
             </div>
           </div>
         </div>
       )}
       <div>
-        <button
+        <Button
           type="submit"
-          style={{backgroundColor: canSubmit ? "#357BF3" : "#8D9198" }}
+          // style={{ backgroundColor: canSubmit ? "#357BF3" : "#8D9198" }}
+          disabled={!canSubmit}
+          // style={{
+          //   marginTop: "1rem ",
+          // }}
+          variant="success"
+          onClick={() => setAddEmployee(!addEmployee)}
+        >
+          Add employee{" "}
+        </Button>
+        {/* <button
+          type="submit"
+          style={{ backgroundColor: canSubmit ? "#357BF3" : "#8D9198" }}
           disabled={!canSubmit}
           onClick={() => setAddEmployee(!addEmployee)}
         >
           + Add employee
-        </button>
+        </button> */}
       </div>
 
       <div>

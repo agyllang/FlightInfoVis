@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Container, Button, Spinner } from "react-bootstrap";
-import Select from "react-select";
+// import Select from "react-select";
+
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+
 import RadioButton from "./RadioButton";
 import SearchBar from "../search/SearchBar";
 import FlightDetails from "./FlightDetails";
 import PurposeOfTrip from "./PurposeOfTrip";
 import MonthsPicker from "./MonthsPicker";
 
+import AssignToEmployee from "./AssignToEmployee";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import FlightLandIcon from "@mui/icons-material/FlightLand";
 
-// console.log("API_KEY_Qlimatic",API_KEY_Qlimatic)
 const FindFlight = ({ ...props }) => {
-  const {} = props;
+  const { employeesID, addNewFlight, allResearchProjects } = props;
 
   // Primary flight data fetch options
   const [airport1, setAirport1] = useState("");
@@ -24,9 +31,12 @@ const FindFlight = ({ ...props }) => {
 
   // Secondary flight data fetch  options
   const [oneWay, setOneWay] = useState(1);
-  console.log("oneWay", oneWay);
+  // console.log("oneWay", oneWay);
   const [multiCity, setMultiCity] = useState(false);
-  const [seatClass, setSeatClass] = useState("unknown");
+  const [seatClass, setSeatClass] = useState("");
+
+  const [travelDate, setDate] = useState([{ month: "1", year: "2022" }]);
+  const [workDays, setWorkdays] = useState("");
 
   // Used for selecting seats
   const optionsSeat = [
@@ -36,17 +46,47 @@ const FindFlight = ({ ...props }) => {
     { value: "unknown", label: "Unknown" },
   ];
   const handleInputChangeSeat = (event) => {
-    setSeatClass(event.value);
+    setSeatClass(event.target.value);
   };
   // Fetching data
   const [isLoading, setIsLoading] = useState(false);
   const [fetchMessage, setFetchMessage] = useState("");
 
   const [foundFlight, setFlight] = useState();
+  console.log("foundFlight", foundFlight);
+  const setPurposeOfTrip = (prioValue, purpose) => {
+    setFlight((prevState) => ({
+      ...prevState,
+      priority: prioValue,
+      purpose: purpose,
+    }));
+  };
 
-  //   useEffect(() => {
-  //     //fetchFlightData(airport1,airport2,multicity,airport3,airport4,seatClass,1);
-  //   }, []);
+  const setEmployeeIDToFlight = (ID) => {
+    setFlight((prevState) => ({
+      ...prevState,
+      ID: ID,
+    }));
+  };
+
+  const resetAll = () => {
+    setFlight();
+    setAirport1("");
+    setAirport2("");
+    setAirport3("");
+    setAirport4("");
+
+    setDate([{ month: "1", year: "2022" }]);
+
+    setOneWay(1);
+    setMultiCity(false);
+    setSeatClass("");
+    setWorkdays("");
+  };
+  const handleAddFlight = () => {
+    addNewFlight(foundFlight);
+    resetAll();
+  };
 
   const handleButtonClick = () => {
     fetchFlightData(
@@ -68,6 +108,8 @@ const FindFlight = ({ ...props }) => {
     seatClass = "economy",
     passengers = 1
   ) => {
+    seatClass = seatClass === "" ? "unknown" : seatClass;
+
     setIsLoading(true);
     setFlight();
     if (
@@ -144,6 +186,8 @@ const FindFlight = ({ ...props }) => {
               co2e_unit: data.co2e_unit,
               seatClass: seatClass,
               oneWay: oneWay,
+              travelDate: travelDate,
+              workDays: workDays,
               legs: [
                 {
                   from: airport1,
@@ -158,6 +202,9 @@ const FindFlight = ({ ...props }) => {
               total: data.co2e,
               co2e_unit: data.co2e_unit,
               seatClass: seatClass,
+              oneWay: oneWay,
+              travelDate: travelDate,
+              workDays: workDays,
 
               legs: [
                 {
@@ -174,11 +221,11 @@ const FindFlight = ({ ...props }) => {
     }
   };
   return (
-    <Container style={{ border: "2px solid black" }}>
-      <Row className="page-header2">Plan a Flight</Row>
+    <Container className="findFlight-container">
+      <h2 className="page-header2">Plan a Flight</h2>
       <Row>
-        {multiCity && <div>1.</div>}
         <Row>
+          {multiCity && <div>1.</div>}
           <Col md={6}>
             <FlightTakeoffIcon />
             <label>From:</label>
@@ -233,17 +280,32 @@ const FindFlight = ({ ...props }) => {
           </Col>
 
           <Col md={6}>
-            <Select
-              onChange={handleInputChangeSeat}
-              placeholder={"Choose class"}
-              // placeholder={seatClass ? seatClass : "Choose class"}
-              options={optionsSeat}
-              styles={""}
-            />
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-helper-label">
+                Seat Class
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-helper-label"
+                id="demo-simple-select-helper"
+                value={seatClass}
+                label="Seat Class"
+                onChange={handleInputChangeSeat}
+              >
+                {optionsSeat.map((seat) => {
+                  return <MenuItem value={seat.value}>{seat.label}</MenuItem>;
+                })}
+              </Select>
+              {/* <FormHelperText>With label + helper text</FormHelperText> */}
+            </FormControl>
           </Col>
         </Row>
         <Row>
-          <MonthsPicker />
+          <MonthsPicker
+            setDate={(date) => {
+              setDate(date);
+            }}
+            setWorkdays={(days) => setWorkdays(days)}
+          />
         </Row>
         <Row>
           <Button
@@ -266,21 +328,28 @@ const FindFlight = ({ ...props }) => {
           {/* <Button variant={isLoading ?  : }> Estimate emissions</Button> */}
         </Row>
         <Row style={{ margin: "1rem" }}>{fetchMessage}</Row>
-        <Row style={{ backgroundColor: "rgba(162, 245, 213, 0.55)" }}>
-          <Row>
-            {foundFlight && (
-              <FlightDetails details={foundFlight} numberOfTrips={oneWay} />
-            )}
-          </Row>
-          <Row>
-            {foundFlight && (
-              <>
-                <Row style={{ marginTop: "1rem" }}>
-                  {" "}
-                  <PurposeOfTrip />
-                </Row>
+        <Container className="flightDetails-container">
+          {foundFlight && (
+            <FlightDetails details={foundFlight} numberOfTrips={oneWay} />
+          )}
 
-                <Row md={5} gap={2} style={{ marginTop: "1rem" }}>
+          {foundFlight && (
+            <>
+              <PurposeOfTrip
+                setPurposeOfTrip={(prioVal, purpose) => {
+                  setPurposeOfTrip(prioVal, purpose);
+                }}
+              />
+
+              <AssignToEmployee
+                allResearchProjects={allResearchProjects}
+                employeesID={employeesID}
+                setEmployeeIDToFlight={(ID) => setEmployeeIDToFlight(ID)}
+                handleAddFlight={handleAddFlight}
+              />
+
+              {/* <Row md={5} gap={2} style={{ marginTop: "1rem" }}>
+                 
                   <Button
                     variant="success"
                     // disabled={isLoading}
@@ -288,11 +357,10 @@ const FindFlight = ({ ...props }) => {
                   >
                     Assign to Employee
                   </Button>
-                </Row>
-              </>
-            )}
-          </Row>
-        </Row>
+                </Row> */}
+            </>
+          )}
+        </Container>
       </Row>
     </Container>
   );
