@@ -14,7 +14,7 @@ const FlightList = ({ ...props }) => {
   // const { flights } = props;
 
   const { flights } = useContext(FlightsContext);
-  console.log("flights", flights);
+  console.log("FlightList flights", flights);
 
 
   const [focusedIndex, setFocused] = useState();
@@ -48,7 +48,7 @@ const FlightList = ({ ...props }) => {
         </Row>
         {flights.length > 0 &&
           flights.map((flight, index) => {
-            console.log("flight", flight);
+            // console.log("flight", flight);
             return (
               <Row
                 key={`flightList-row-${index}`}

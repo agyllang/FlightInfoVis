@@ -6,18 +6,20 @@ import Select from "@mui/material/Select";
 
 const SelectFromArray = ({ ...props }) => {
   const { placeholder, array, callback } = props;
-    console.log("array",array)
+  console.log("SelectFromArray, array", array);
   const [value, setVal] = useState("");
 
   const handleChange = (event) => {
     setVal(event.target.value);
-    callback(event.target.value)
+    callback(event.target.value);
   };
 
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: 100 }}>
-        <InputLabel id="demo-simple-select-autowidth-label">{placeholder}</InputLabel>
+        <InputLabel id="demo-simple-select-autowidth-label">
+          {placeholder}
+        </InputLabel>
         <Select
           labelId="demo-simple-select-autowidth-label"
           id="demo-simple-select-autowidth"

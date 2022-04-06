@@ -26,6 +26,9 @@ const FindFlight = ({ ...props }) => {
   const { employeesID, allResearchProjects, employees} = useContext(EmployeesContext);
   const { addNewFlight } = useContext(FlightsContext);
 
+  const [flight, setFlight] = useState();
+  console.log("FindFlight flight", flight);
+
   const [openContainer, setToggle] = useState(false);
   // Primary flight data fetch options
   const [airport1, setAirport1] = useState("");
@@ -57,8 +60,7 @@ const FindFlight = ({ ...props }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [fetchMessage, setFetchMessage] = useState("");
 
-  const [foundFlight, setFlight] = useState();
-  console.log("foundFlight", foundFlight);
+
   const setPurposeOfTrip = (prioValue, purpose) => {
     setFlight((prevState) => ({
       ...prevState,
@@ -97,7 +99,7 @@ const FindFlight = ({ ...props }) => {
     setToggle(!openContainer);
   };
   const handleAddFlight = () => {
-    addNewFlight(foundFlight);
+    addNewFlight(flight);
     resetAll();
   };
 
@@ -176,7 +178,7 @@ const FindFlight = ({ ...props }) => {
       })
         .then((response) => {
           setIsLoading(false);
-          console.log("response", response);
+          console.log("FindFlight response", response);
           if (response.status === 200) {
             setFetchMessage("Result:");
             return response.json();
@@ -229,7 +231,7 @@ const FindFlight = ({ ...props }) => {
             });
           }
 
-          console.log("data", data);
+          console.log("FindFlight, data from fetch:", data);
         });
     }
   };
@@ -343,11 +345,11 @@ const FindFlight = ({ ...props }) => {
           </Row>
           <Row style={{ margin: "1rem" }}>{fetchMessage}</Row>
           <Container className="flightDetails-container">
-            {foundFlight && (
-              <FlightDetails details={foundFlight} numberOfTrips={oneWay} />
+            {flight && (
+              <FlightDetails details={flight} numberOfTrips={oneWay} />
             )}
 
-            {foundFlight && (
+            {flight && (
               <>
                 <PurposeOfTrip
                   setPurposeOfTrip={(prioVal, purpose) => {

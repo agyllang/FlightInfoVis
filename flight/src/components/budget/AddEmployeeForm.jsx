@@ -16,7 +16,7 @@ async function fakeCheckValidName(name, instance) {
   }
 
   return instance.debounce(async () => {
-    console.log("checking name");
+    // console.log("checking name");
     await new Promise((resolve) => setTimeout(resolve, 1000));
     // All names are valid, so return a false error
     return false;
@@ -80,8 +80,8 @@ const AddEmployeeForm = ({ ...props }) => {
   } = useForm({
     defaultValues,
     onSubmit: async (values, instance) => {
-      console.log("defaultValues", defaultValues);
-      console.log("instance", instance);
+      // console.log("defaultValues", defaultValues);
+      // console.log("instance", instance);
       // onSubmit (and everything else in React Form)
       // has async support out-of-the-box
       await sendToFakeServer(values);

@@ -14,7 +14,7 @@ import chroma from "chroma-js";
 // };
 
 const VBar = ({ ...props }) => {
-  const {} = props;
+  const {flights} = props;
   const [xAxis, setX] = useState("ID");
   const [yAxis, setY] = useState("total");
   const [max, setMax] = useState(2500);
@@ -173,11 +173,12 @@ const VBar = ({ ...props }) => {
 
   const ColorScaleBar = ({ ...props }) => {
     const { datum } = props;
-    console.log("datum", datum);
+    // console.log("datum", datum);
     return (
       <Bar {...props} style={{ fill: chromaScale(datum._y).hex() }}></Bar>
     );
   };
+  
   var dNew = newArry.sort(sort_by("total", true));
   console.log(dNew);
 
