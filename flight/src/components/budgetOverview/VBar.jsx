@@ -15,7 +15,7 @@ import chroma from "chroma-js";
 
 const VBar = ({ ...props }) => {
   const {flights} = props;
-  const [xAxis, setX] = useState("ID");
+  const [xAxis, setX] = useState("flightID");
   const [yAxis, setY] = useState("total");
   const [max, setMax] = useState(2500);
   const [min, setMin] = useState(0);
@@ -178,9 +178,9 @@ const VBar = ({ ...props }) => {
       <Bar {...props} style={{ fill: chromaScale(datum._y).hex() }}></Bar>
     );
   };
-  
-  var dNew = newArry.sort(sort_by("total", true));
-  console.log(dNew);
+
+  var sortedFlights = flights.sort(sort_by("total", true));
+  console.log("sortedFlights",sortedFlights);
 
   return (
     <div style={{ width: "50%" }}>
@@ -190,7 +190,7 @@ const VBar = ({ ...props }) => {
         // strokeDasharray={"0"}
         height={400}
         width={400}
-        domainPadding={{ x: 50, y: [0, 20] }}
+        domainPadding={{ x: 20, y: [0, 20] }}
         scale={{ x: "linear" }}
         tickLabelComponent={<VictoryLabel dy={30}/>}
 
@@ -203,7 +203,7 @@ const VBar = ({ ...props }) => {
             />
           }
           //   style={this.state.style}
-          data={dNew}
+          data={sortedFlights}
           // data accessor for x values
           x={xAxis}
           // data accessor for y values
