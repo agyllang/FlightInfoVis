@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { EmployeesContext } from "../../contexts/EmployeesContext";
+import { FlightsContext } from "../../contexts/FlightsContext";
+
 import { Row, Col, Container, Button, Spinner } from "react-bootstrap";
 // import Select from "react-select";
 
@@ -9,7 +12,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 import RadioButtonGroup from "./RadioButton";
-import SearchBar from "../search/SearchBar";
+import SearchBar from "../../search/SearchBar";
 import FlightDetails from "./FlightDetails";
 import PurposeOfTrip from "./PurposeOfTrip";
 import MonthsPicker from "./MonthsPicker";
@@ -19,7 +22,10 @@ import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import FlightLandIcon from "@mui/icons-material/FlightLand";
 
 const FindFlight = ({ ...props }) => {
-  const { employeesID, addNewFlight, allResearchProjects } = props;
+  // const { addNewFlight } = props;
+  const { employeesID, allResearchProjects, employees} = useContext(EmployeesContext);
+  const { addNewFlight } = useContext(FlightsContext);
+
   const [openContainer, setToggle] = useState(false);
   // Primary flight data fetch options
   const [airport1, setAirport1] = useState("");
@@ -66,10 +72,11 @@ const FindFlight = ({ ...props }) => {
 
     return "fID-" + d.slice(-4);
   };
-  const setEmployeeIDToFlight = (ID) => {
+  const setEmployeeToFlight = (ID,project) => {
     setFlight((prevState) => ({
       ...prevState,
       ID: ID,
+      project: project,
       flightID: createFlightID(),
     }));
   };
@@ -299,8 +306,8 @@ const FindFlight = ({ ...props }) => {
                   label="Seat Class"
                   onChange={handleInputChangeSeat}
                 >
-                  {optionsSeat.map((seat) => {
-                    return <MenuItem value={seat.value}>{seat.label}</MenuItem>;
+                  {optionsSeat.map((seat,index) => {
+                    return <MenuItem  key={`seat-${index}`}value={seat.value}>{seat.label}</MenuItem>;
                   })}
                 </Select>
                 {/* <FormHelperText>With label + helper text</FormHelperText> */}
@@ -351,8 +358,10 @@ const FindFlight = ({ ...props }) => {
                 <AssignToEmployee
                   allResearchProjects={allResearchProjects}
                   employeesID={employeesID}
-                  setEmployeeIDToFlight={(ID) => setEmployeeIDToFlight(ID)}
+                  setEmployeeToFlight={(ID,project) => setEmployeeToFlight(ID,project)}
                   handleAddFlight={handleAddFlight}
+                  employees={employees}
+                  
                 />
               </>
             )}

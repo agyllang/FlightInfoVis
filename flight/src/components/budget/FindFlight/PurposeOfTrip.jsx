@@ -14,7 +14,7 @@ const PurposeOfTrip = ({ ...props }) => {
   }, [priorityValue, textFieldValue]);
 
   const handleChange = (event, newValue) => {
-    setPriorityValue(newValue);
+    setPriorityValue(parseInt(newValue));
   };
   const handleChangeTextField = (event) => {
     setTextFieldValue(event.target.value);

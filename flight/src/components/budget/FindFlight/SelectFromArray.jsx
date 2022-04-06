@@ -26,7 +26,7 @@ const SelectFromArray = ({ ...props }) => {
           autoWidth
           label={placeholder}
         >
-          <MenuItem value="None">
+          <MenuItem value="">
             <em>None</em>
           </MenuItem>
           {array.length > 0 &&

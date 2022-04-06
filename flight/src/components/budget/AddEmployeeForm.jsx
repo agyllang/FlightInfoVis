@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useState, useContext } from "react";
+import { EmployeesContext } from "../contexts/EmployeesContext";
 import { Button } from "react-bootstrap";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -48,7 +48,8 @@ const InputField = React.forwardRef((props, ref) => {
 });
 
 const AddEmployeeForm = ({ ...props }) => {
-  const { addNew, addToEmployeesID, employeesID } = props;
+  // const { addNew, addToEmployeesID, employeesID } = props;
+  const {employeesID , addNewEmployee} = useContext(EmployeesContext)
   // console.log("props",props)
   const [addEmployee, setAddEmployee] = useState(false);
   const defaultValues = React.useMemo(
@@ -84,8 +85,8 @@ const AddEmployeeForm = ({ ...props }) => {
       // onSubmit (and everything else in React Form)
       // has async support out-of-the-box
       await sendToFakeServer(values);
-      addNew(values);
-      addToEmployeesID(values.ID)
+      addNewEmployee(values);
+      // addToEmployeesID(values.ID)
       console.log("employee added!", values);
       instance.reset();
     },

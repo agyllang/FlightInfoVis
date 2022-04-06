@@ -1,8 +1,9 @@
-import React from "react";
+import React,{useContext} from "react";
 import { Row, Col, Container } from "react-bootstrap";
+import { EmployeesContext } from "../contexts/EmployeesContext";
 
 const EmployeeList = ({ ...props }) => {
-  const { employees } = props;
+  const { employees } = useContext(EmployeesContext);
 
   return (
     <Container className="addEmployee-container">
@@ -23,6 +24,7 @@ const EmployeeList = ({ ...props }) => {
           ? employees.map((employee, index) => {
               return (
                 <Row
+                key={`employeelist-item${index}`}
                   className="addEmployee-row"
                   style={{
                     backgroundColor:

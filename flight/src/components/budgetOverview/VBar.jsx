@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { VictoryBar, VictoryChart, Bar,VictoryLabel  } from "victory";
-import SelectFromArray from "../budget/SelectFromArray";
 import chroma from "chroma-js";
 
 // const handleMouseOver = () => {
@@ -21,9 +20,11 @@ const VBar = ({ ...props }) => {
   const [max, setMax] = useState(2500);
   const [min, setMin] = useState(0);
   const [reverse, setReverse] = useState(false);
+  
+  
   var chromaScale =  chroma.scale('OrRd').domain([min,max]).classes(8).padding([0.2, 0]);
  
-  console.log("chroma scale",chromaScale)
+//   console.log("chroma scale",chromaScale)
   const handleMouseOver = (e) => {
     console.log("handleMouseOver event", e);
   };
@@ -165,33 +166,10 @@ const VBar = ({ ...props }) => {
       },
   ];
 
-  //   var d = [
-  //     { x: "a", y: 2 },
-  //     { x: "b", y: 20 },
-  //     { x: "c", y: 5 },
-  //     { x: "d", y: 100 },
-  //     { x: "e", y: 23 },
-  //     { x: "f", y: 240 },
-  //     { x: "g", y: 54 },
-  //     { x: "h", y: 130 },
-  //     { x: "i", y: 22 },
-  //     { x: "j", y: 20 },
-  //     { x: "k", y: 53 },
-  //     { x: "l", y: 13 },
-  //   ];
+
   //   var dNew = d.sort(sort_by("x",true,(a) => a.toUpperCase()));
   //   var dNew = d.sort(sort_by("y", false));
-  //   class CatPoint extends React.Component {
-  //     render() {
-  //       const { x, y, datum } = this.props; // VictoryScatter supplies x, y and datum
-  //       const cat = datum._y >= 0 ? "😻" : "😹";
-  //       return (
-  //         <text x={x} y={y} fontSize={30}>
-  //           {cat}
-  //         </text>
-  //       );
-  //     }
-  //   }
+ 
 
   const ColorScaleBar = ({ ...props }) => {
     const { datum } = props;

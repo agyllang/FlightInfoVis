@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
+import { FlightsContext } from "../contexts/FlightsContext";
+
 import { Row, Col, Container } from "react-bootstrap";
+
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import FlightLandIcon from "@mui/icons-material/FlightLand";
 
+
+
 const FlightList = ({ ...props }) => {
-  const { flights } = props;
+  // const { flights } = props;
+
+  const { flights } = useContext(FlightsContext);
   console.log("flights", flights);
+
+
   const [focusedIndex, setFocused] = useState();
   // console.log("focused", focusedIndex);
 
@@ -115,7 +124,7 @@ const FlightList = ({ ...props }) => {
                     })}
                     <Row>
                       <Col xs={3}>
-                        {flight.oneWay === 1 ? "(One way)" : "(Round trip)"}
+                        {flight.oneWay === 1 ? "(One-way)" : "(Round trip)"}
                       </Col>
                       <Col xs={3}> </Col>
                       <Col xs={4} className="flightListDetails-item" > x{flight.oneWay} </Col>
