@@ -4,7 +4,7 @@ import AddEmployeeForm from "./AddEmployeeForm";
 import FindFlight from "./FindFlight/FindFlight";
 import EmployeeList from "./EmployeeList";
 import FlightList from "./FlightList";
-
+import BudgetProgressBar from "../progress/BudgetProgressBar";
 
 const PlanBudget = ({ ...props }) => {
   // const {  } = props;
@@ -64,31 +64,18 @@ const PlanBudget = ({ ...props }) => {
   return (
     <Container>
       <Row className="page-title">Plan Carbon budget</Row>
-      <Row className="container">
+      <Row>
+        <BudgetProgressBar></BudgetProgressBar>
+      </Row>
+      <Row>
         <Col>
-          <EmployeeList/>
-          <Col>
-            <AddEmployeeForm
-              // addNew={(newEmployee) =>
-              //   setEmployee((oldArr) => [...oldArr, newEmployee])
-              // }
-              // addToEmployeesID={(ID) =>
-              //   setEmployeesID((oldArr) => [...oldArr, ID])
-              // }
-              // employeesID={employeesID}
-            />
-          </Col>
+          <EmployeeList />
+          <AddEmployeeForm />
         </Col>
 
         <Col>
-          <FlightList  />
-          <FindFlight
-            // employeesID={employeesID}
-            // addNewFlight={(flight) => {
-            //   setFlight((prevState) => [...prevState, flight]);
-            // }}
-          />
-          <Col></Col>
+          <FlightList />
+          <FindFlight />
         </Col>
       </Row>
     </Container>

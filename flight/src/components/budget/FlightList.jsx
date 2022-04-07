@@ -68,7 +68,7 @@ const FlightList = ({ ...props }) => {
                 <Col xs={2}>
                   {flight.travelDate[0].month}/{flight.travelDate[0].year}
                 </Col>
-                <Col xs={2}>{flight.total*flight.oneWay}</Col>
+                <Col xs={2}>{flight.totalco2e}</Col>
                 <Col xs={2}>{flight.ID}</Col>
                 <Col xs={{ span: 1, offset: 2 }}>
                   {focusedIndex === index ? (

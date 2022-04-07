@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { Row, Col, Container, Button } from "react-bootstrap";
+import React from "react";
+import { Row, Col, Container,  } from "react-bootstrap";
 
 const FlightDetails = ({ ...props }) => {
   const { details, numberOfTrips } = props;
   //   var flightFactor = oneWay ? 1 : 2;
-  console.log("details", details);
+  // console.log("details", details);
   var total = Math.floor(details.total);
   var months = [
     "Jan",
@@ -56,7 +56,7 @@ const FlightDetails = ({ ...props }) => {
 
       <Row>
         <Col> </Col>
-        <Col>{total}</Col>
+        <Col>{details.co2e}</Col>
       </Row>
       <Row>
         <Col>{numberOfTrips == 1 ? "(One way)" : "(Round trip)"}</Col>
@@ -65,7 +65,7 @@ const FlightDetails = ({ ...props }) => {
       <Row style={{ fontWeight: "bold", borderBottom: "2px solid grey" }}>
         <Col>Total</Col>
         <Col>
-          = {total * numberOfTrips} {details.co2e_unit} CO2e{" "}
+          = {details.totalco2e} {details.co2e_unit} CO2e{" "}
         </Col>
       </Row>
     </Container>

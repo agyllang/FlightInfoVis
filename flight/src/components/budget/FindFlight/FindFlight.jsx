@@ -197,7 +197,8 @@ const FindFlight = ({ ...props }) => {
         .then((data) => {
           if (multiCity) {
             setFlight({
-              total: Math.floor(data.co2e),
+              totalco2e: (Math.floor(data.co2e)*oneWay),
+              co2e: Math.floor(data.co2e),
               co2e_unit: data.co2e_unit,
               seatClass: seatClass,
               oneWay: oneWay,
@@ -214,7 +215,8 @@ const FindFlight = ({ ...props }) => {
             });
           } else {
             setFlight({
-              total: Math.floor(data.co2e),
+              totalco2e: (Math.floor(data.co2e)*oneWay),
+              co2e: Math.floor(data.co2e),
               co2e_unit: data.co2e_unit,
               seatClass: seatClass,
               oneWay: oneWay,
