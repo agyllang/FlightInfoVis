@@ -22,7 +22,7 @@ const FlightDetails = ({ ...props }) => {
   ];
   return (
     <Container>
-      <h2 className="page-header2">Estimated Flight Details</h2>
+      <h5 className="component-title">Estimated Trip Details</h5>
       <Row style={{marginTop:"1.5rem",marginBottom:"1.5rem"}}>
         <Col>
           <Col>

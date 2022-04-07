@@ -6,9 +6,12 @@ const EmployeeList = ({ ...props }) => {
   const { employees } = useContext(EmployeesContext);
 
   return (
-    <Container className="addEmployee-container">
+    <Container className="component-container">
+    {/* <Container className="addEmployee-container"> */}
       <Col>
-        <div className="page-header2">Employees ({employees.length})</div>
+      <h5 className="component-title">Employees ({employees.length})</h5>
+
+        {/* <div className="page-header2">Employees ({employees.length})</div> */}
       </Col>
       <Col >
         <Row

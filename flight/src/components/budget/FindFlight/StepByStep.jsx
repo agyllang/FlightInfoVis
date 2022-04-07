@@ -1,8 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { Row, Col, Container } from "react-bootstrap";
+
 import { EmployeesContext } from "../../contexts/EmployeesContext";
 import { FlightsContext } from "../../contexts/FlightsContext";
 
-import { Row, Col, Container, Button, Spinner } from "react-bootstrap";
 // import Select from "react-select";
 
 import InputLabel from "@mui/material/InputLabel";
@@ -21,8 +22,37 @@ import AssignToEmployee from "./AssignToEmployee";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import FlightLandIcon from "@mui/icons-material/FlightLand";
 
-const FindFlight = ({ ...props }) => {
-  // const { addNewFlight } = props;
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import StepContent from "@mui/material/StepContent";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+
+const steps = [
+  {
+    label: "Plan trip",
+    description: `For each ad campaign that you create, you can control how much
+              you're willing to spend on clicks and conversions, which networks
+              and geographical locations you want your ads to show on, and more.`,
+  },
+  {
+    label: "Purpose of trip",
+    description:
+      "An ad group contains one or more ads which target a shared set of keywords.",
+  },
+  {
+    label: "Confirm trip",
+    description: `Try out different ad text to see what brings in the most customers,
+              and learn how to enhance your ads using features like ad extensions.
+              If you run into any problems with your ads, find out how to tell if
+              they're running and how to resolve approval issues.`,
+  },
+];
+
+const StepByStep = () => {
   const { employeesID, allResearchProjects, employees } =
     useContext(EmployeesContext);
   const { addNewFlight } = useContext(FlightsContext);
@@ -30,7 +60,7 @@ const FindFlight = ({ ...props }) => {
   const [flight, setFlight] = useState();
   console.log("FindFlight flight", flight);
 
-  const [openContainer, setToggle] = useState(false);
+//   const [openContainer, setToggle] = useState(false);
   // Primary flight data fetch options
   const [airport1, setAirport1] = useState("");
   const [airport2, setAirport2] = useState("");
@@ -48,7 +78,6 @@ const FindFlight = ({ ...props }) => {
   const [travelDate, setDate] = useState([{ month: "1", year: "2022" }]);
   const [workDays, setWorkdays] = useState("");
 
-  // Used for selecting seats
   const optionsSeat = [
     { value: "economy", label: "Economy Class" },
     { value: "business", label: "Business Class" },
@@ -57,6 +86,7 @@ const FindFlight = ({ ...props }) => {
   const handleInputChangeSeat = (event) => {
     setSeatClass(event.target.value);
   };
+
   // Fetching data
   const [isLoading, setIsLoading] = useState(false);
   const [fetchMessage, setFetchMessage] = useState("");
@@ -96,11 +126,11 @@ const FindFlight = ({ ...props }) => {
     setMultiCity(false);
     setSeatClass("");
     setWorkdays("");
-    setToggle(!openContainer);
+    // setToggle(!openContainer);
   };
   const handleAddFlight = () => {
     addNewFlight(flight);
-    resetAll();
+    // resetAll();
   };
 
   const handleButtonClick = () => {
@@ -232,131 +262,167 @@ const FindFlight = ({ ...props }) => {
               ],
             });
           }
+          handleNext();
 
           console.log("FindFlight, data from fetch:", data);
         });
     }
   };
+
+  const [activeStep, setActiveStep] = useState(0);
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
+
   return (
-    // <Container className="findFlight-container">
     <Container className="component-container">
-      <h5 className="component-title">Plan a Flight</h5>
+      <Stepper activeStep={activeStep} orientation="vertical">
+        <Step key={"Plan trip"}>
+          <StepLabel>{"Plan trip"}</StepLabel>
+          <StepContent>
+            <Row>
+              {/* {multiCity && <div>1.</div>} */}
+              <Col md={6}>
+                <FlightTakeoffIcon />
+                <label>From:</label>
+                <SearchBar
+                  placeholder={"Choose airport"}
+                  select={(airport) => setAirport1(airport)}
+                />
+              </Col>
+              <Col md={6}>
+                <FlightLandIcon />
+                <label>To:</label>
+                <SearchBar
+                  placeholder={"Choose airport"}
+                  select={(airport) => setAirport2(airport)}
+                />
+              </Col>
+            </Row>
+            {multiCity && (
+              <>
+                {/* <div style={{ marginTop: "1rem" }}>2.</div> */}
+                <Row style={{ marginTop: "1rem" }}>
+                  <Col md={6}>
+                    <FlightTakeoffIcon />
 
-      {openContainer ? (
-        <Row>
-          <Row>
-            {multiCity && <div>1.</div>}
-            <Col md={6}>
-              <FlightTakeoffIcon />
-              <label>From:</label>
-              <SearchBar
-                placeholder={"Choose airport"}
-                select={(airport) => setAirport1(airport)}
-              />
-            </Col>
-            <Col md={6}>
-              <FlightLandIcon />
-              <label>To:</label>
-              <SearchBar
-                placeholder={"Choose airport"}
-                select={(airport) => setAirport2(airport)}
-              />
-            </Col>
-          </Row>
-          {multiCity && (
-            <>
-              <div style={{ marginTop: "1rem" }}>2.</div>
-              <Row>
-                <Col md={6}>
-                  <FlightTakeoffIcon />
+                    <label>From:</label>
+                    <SearchBar
+                      placeholder={"Choose airport"}
+                      select={(airport) => setAirport3(airport)}
+                    />
+                  </Col>
+                  <Col md={6}>
+                    <FlightLandIcon />
+                    <label>To:</label>
+                    <SearchBar
+                      placeholder={"Choose airport"}
+                      select={(airport) => setAirport4(airport)}
+                    />
+                  </Col>
+                </Row>
+              </>
+            )}
+            <Row gap={2} style={{ marginTop: "2rem" }}>
+              <Col md={6}>
+                <RadioButtonGroup
+                  setNumberOfTrips={(number) => {
+                    setOneWay(number);
+                  }}
+                  setMultiCity={(multi) => {
+                    setMultiCity(multi);
+                  }}
+                  multiCity={multiCity}
+                />
+              </Col>
 
-                  <label>From:</label>
-                  <SearchBar
-                    placeholder={"Choose airport"}
-                    select={(airport) => setAirport3(airport)}
-                  />
-                </Col>
-                <Col md={6}>
-                  <FlightLandIcon />
-                  <label>To:</label>
-                  <SearchBar
-                    placeholder={"Choose airport"}
-                    select={(airport) => setAirport4(airport)}
-                  />
-                </Col>
-              </Row>
-            </>
-          )}
-          <Row gap={2} style={{ marginTop: "2rem" }}>
-            <Col md={6}>
-              <RadioButtonGroup
-                setNumberOfTrips={(number) => {
-                  setOneWay(number);
-                }}
-                setMultiCity={(multi) => {
-                  setMultiCity(multi);
-                }}
-                multiCity={multiCity}
-              />
-            </Col>
+              <Col md={6}>
+                <FormControl sx={{ minWidth: 120 }}>
+                  <InputLabel id="demo-simple-select-helper-label">
+                    Seat Class
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-helper-label"
+                    id="demo-simple-select-helper"
+                    value={seatClass}
+                    label="Seat Class"
+                    onChange={handleInputChangeSeat}
+                  >
+                    {optionsSeat.map((seat, index) => {
+                      return (
+                        <MenuItem key={`seat-${index}`} value={seat.value}>
+                          {seat.label}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                  {/* <FormHelperText>With label + helper text</FormHelperText> */}
+                </FormControl>
+              </Col>
+            </Row>
 
-            <Col md={6}>
-              <FormControl sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-helper-label">
-                  Seat Class
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-helper-label"
-                  id="demo-simple-select-helper"
-                  value={seatClass}
-                  label="Seat Class"
-                  onChange={handleInputChangeSeat}
-                >
-                  {optionsSeat.map((seat, index) => {
-                    return (
-                      <MenuItem key={`seat-${index}`} value={seat.value}>
-                        {seat.label}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-                {/* <FormHelperText>With label + helper text</FormHelperText> */}
-              </FormControl>
-            </Col>
-          </Row>
-          <Row>
             <MonthsPicker
               setDate={(date) => {
                 setDate(date);
               }}
               setWorkdays={(days) => setWorkdays(days)}
             />
-          </Row>
-          <Row>
-            <Button
-              style={{ marginTop: "1rem" }}
-              variant="primary"
-              disabled={isLoading}
-              onClick={handleButtonClick}
-            >
-              {isLoading && (
-                <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                />
-              )}
-              <span>{isLoading ? " Loading..." : " Estimate flight"}</span>
-            </Button>{" "}
-          </Row>
-          <Row style={{ margin: "1rem" }}>{fetchMessage}</Row>
-          <Container className="flightDetails-container">
+
+            <Box sx={{ mb: 2 }}>
+              <div>
+                <Button
+                  variant="contained"
+                  onClick={handleButtonClick}
+                  sx={{ mt: 1, mr: 1 }}
+                  disabled={isLoading}
+                >
+                  {/* {index === steps.length - 1 ? "Finish" : "Continue"} */}
+                  Estimate trip
+                </Button>
+              </div>
+            </Box>
+          </StepContent>
+        </Step>
+
+        <Step key={"Emissions estimate"}>
+          <StepLabel>{"Emissions estimate"}</StepLabel>
+          <StepContent>
             {flight && (
               <FlightDetails details={flight} numberOfTrips={oneWay} />
             )}
-
+            <Box sx={{ mb: 2 }}>
+              <div>
+                <Button
+                  variant="contained"
+                  onClick={handleNext}
+                  sx={{ mt: 1, mr: 1 }}
+                >
+                  {/* {index === steps.length - 1 ? "Finish" : "Continue"} */}
+                  Continue
+                </Button>
+                <Button
+                  //disabled={index === 0}
+                  onClick={handleBack}
+                  sx={{ mt: 1, mr: 1 }}
+                >
+                  Back
+                </Button>
+              </div>
+            </Box>
+          </StepContent>
+        </Step>
+        <Step key={"Assign trip"}>
+          <StepLabel>{"Assign trip"}</StepLabel>
+          <StepContent>
             {flight && (
               <>
                 <PurposeOfTrip
@@ -373,23 +439,41 @@ const FindFlight = ({ ...props }) => {
                   }
                   handleAddFlight={handleAddFlight}
                   employees={employees}
+                  handleNext={handleNext}
                 />
               </>
             )}
-          </Container>
-        </Row>
-      ) : (
-        <Button
-          style={{ marginBottom: "1rem" }}
-          onClick={() => {
-            setToggle(!openContainer);
-          }}
-        >
-          Estimate Flight
-        </Button>
+            <Box sx={{ mb: 2 }}>
+              <div>
+                {/* <Button
+                  variant="contained"
+                  style={{backgroundColor:"green"}}
+                  onClick={ handleNext}
+                  sx={{ mt: 1, mr: 1 }}
+                >
+                  Assign
+                </Button> */}
+                <Button
+                  //disabled={index === 0}
+                  onClick={handleBack}
+                  sx={{ mt: 1, mr: 1 }}
+                >
+                  Back
+                </Button>
+              </div>
+            </Box>
+          </StepContent>
+        </Step>
+      </Stepper>
+      {activeStep === steps.length && (
+        <Paper square elevation={0} sx={{ p: 3 }}>
+          <Typography>Flight has been added to budget estimate</Typography>
+          <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+            Plan new trip
+          </Button>
+        </Paper>
       )}
     </Container>
   );
 };
-
-export default FindFlight;
+export default StepByStep;

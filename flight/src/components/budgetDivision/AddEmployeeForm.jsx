@@ -49,7 +49,7 @@ const InputField = React.forwardRef((props, ref) => {
 
 const AddEmployeeForm = ({ ...props }) => {
   // const { addNew, addToEmployeesID, employeesID } = props;
-  const {employeesID , addNewEmployee} = useContext(EmployeesContext)
+  const { employeesID, addNewEmployee } = useContext(EmployeesContext);
   // console.log("props",props)
   const [addEmployee, setAddEmployee] = useState(false);
   const defaultValues = React.useMemo(
@@ -94,15 +94,8 @@ const AddEmployeeForm = ({ ...props }) => {
   });
 
   return (
-    <Form
-      style={{
-        border: "2px solid grey",
-        padding: "1rem",
-        borderRadius: "4px",
-        // backgroundColor: "rgba(152, 155, 242, 0.892)",
-      }}
-    >
-      <h5>Add new employee</h5>
+    <Form className="component-container">
+      <h5 className="component-title">Add new employee</h5>
       {addEmployee && (
         <div>
           <div>
@@ -174,14 +167,6 @@ const AddEmployeeForm = ({ ...props }) => {
         >
           Add employee{" "}
         </Button>
-        {/* <button
-          type="submit"
-          style={{ backgroundColor: canSubmit ? "#357BF3" : "#8D9198" }}
-          disabled={!canSubmit}
-          onClick={() => setAddEmployee(!addEmployee)}
-        >
-          + Add employee
-        </button> */}
       </div>
 
       <div>

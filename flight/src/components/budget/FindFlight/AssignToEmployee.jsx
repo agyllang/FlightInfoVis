@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button, Container } from "react-bootstrap";
 // import TextField from "@mui/material/TextField";
 import SelectFromArray from "./SelectFromArray";
 
@@ -10,6 +10,7 @@ const AssignToEmployee = ({ ...props }) => {
     handleAddFlight,
     allResearchProjects,
     employees,
+    handleNext,
   } = props;
   const [ID, setID] = useState("");
   const [project, setProject] = useState("");
@@ -38,20 +39,25 @@ const AssignToEmployee = ({ ...props }) => {
       setEmployeeToFlight(ID, project);
     }
   };
-
+  const onClick = () => {
+    handleAddFlight();
+    handleNext();
+  };
   //   const handleChangeTextField = (event) => {
   //     setID(event.target.value);
   //     validateID(event.target.value);
   //   };
   return (
-    <Col
-      style={{
-        marginTop: "1.5rem",
-        marginBottom: "1rem",
-        alignItems: "center",
-        display: "flex",
-        flexDirection: "column",
-      }}
+    <Container
+      style={
+        {
+          // marginTop: "1.5rem",
+          // marginBottom: "1rem",
+          // alignItems: "center",
+          // display: "flex",
+          // flexDirection: "column",
+        }
+      }
     >
       <h5 className="purposeOfTrip-header">Assign trip to employee </h5>
       <Row>
@@ -81,12 +87,12 @@ const AssignToEmployee = ({ ...props }) => {
           //   size="lg"
           // style={{ width: "auto" }}
           disabled={disable}
-          onClick={handleAddFlight}
+          onClick={onClick}
         >
           Assign
         </Button>
       </Row>
-    </Col>
+    </Container>
   );
 };
 

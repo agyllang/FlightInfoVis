@@ -28,7 +28,7 @@ import fakeFlights from "../../fakeData";
 const VBar = ({ ...props }) => {
   const { flights } = props;
   const [xAxis, setX] = useState("flightID");
-  const [yAxis, setY] = useState("total");
+  const [yAxis, setY] = useState("totalco2e");
   const [max, setMax] = useState(2500);
   const [min, setMin] = useState(0);
   const [reverse, setReverse] = useState(false);

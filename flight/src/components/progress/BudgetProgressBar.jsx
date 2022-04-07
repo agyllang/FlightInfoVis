@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import Row from "react-bootstrap/Row";
+import { Row, Container, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { FlightsContext } from "../contexts/FlightsContext";
 import chroma from "chroma-js";
 
@@ -27,26 +27,36 @@ const sort_by = (field, reverse, primer) => {
 };
 
 const BudgetProgressBar = ({ ...props }) => {
-  const { flights,CO2eTotal } = useContext(FlightsContext);
-  console.log("budgetProgressBar flights", flights);
+ const {  } = props;
+  const { flights, CO2eTotal } = useContext(FlightsContext);
+  //   console.log("budgetProgressBar flights", flights);
+  const [flightInFocus, setFocus] = useState();
+
   var sortedFlights = flights.sort(sort_by("total", false));
   return (
-    <div>
-      <ProgressBar style={{ padding: 0, height: "50px", border:"2px solid black" }}>
+    <Row className="">
+      <ProgressBar
+        style={{ padding: 0, height: "100px", border: "4px solid grey" }}
+      >
         {sortedFlights.length > 0 &&
           sortedFlights.map((flight, index) => {
             return (
               <ProgressBar
                 key={index}
                 now={flight.totalco2e}
-                style={{ backgroundColor: `${chromaScale(flight.totalco2e).hex()}`,margin:"0.5px" }}
+                style={{
+                  backgroundColor: `${chromaScale(flight.totalco2e).hex()}`,
+                //   marginRight: "1px",
+                //   marginLeft: "1px",
+                }}
                
               ></ProgressBar>
             );
           })}
       </ProgressBar>
-      <div>Accumulated: {CO2eTotal}</div>
-    </div>
+
+      <div>Accumulated: {CO2eTotal} CO2e kg</div>
+    </Row>
   );
 };
 

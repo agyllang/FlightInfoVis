@@ -8,11 +8,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import PlanBudget from "./components/budget/PlanBudget";
 import BudgetOverview from "./components/budgetOverview/BudgetOverview";
 import FlightsContextProvider from "./components/contexts/FlightsContext";
+import Division from "./components/budgetDivision/Division";
 
 function App() {
   return (
     <div className="App">
-      <div className="sidebar">
+      <div className="sidebar-v">
+        <NavLink
+          activeClassName="navlink-active"
+          className="navlink"
+          to="/division"
+          key={"division"}
+          // end={true}
+        >
+          Division
+        </NavLink>
         <NavLink
           activeClassName="navlink-active"
           className="navlink"
@@ -34,13 +44,9 @@ function App() {
       <EmployeesContextProvider>
         <FlightsContextProvider>
           <Routes>
-            {/* <EmployeesContext.Provider value={providerValue}> */}
-            {/* <FlightsContextProvider> */}
+            <Route path="/division" element={<Division />} />
             <Route path="/budget" element={<PlanBudget />} />
             <Route path="/budgetoverview" element={<BudgetOverview />} />
-
-            {/* </FlightsContextProvider> */}
-            {/* </EmployeesContext.Provider> */}
           </Routes>
         </FlightsContextProvider>
       </EmployeesContextProvider>
