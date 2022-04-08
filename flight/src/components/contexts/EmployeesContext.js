@@ -5,19 +5,19 @@ export const EmployeesContext = createContext();
 const EmployeesContextProvider = ({ ...props }) => {
   const [employees, setEmployee] = useState([
     {
-      ID: "p123",
+      ID: "p1",
       name: "Rachel Smith",
       projects: ["PROJECT1", "PROJECT2"],
     },
     {
-      ID: "p146",
+      ID: "p2",
       name: "Roland Andersson",
       projects: ["PROJECT2"],
     },
     {
-      ID: "p430",
+      ID: "p3",
       name: "Anna Johnsson",
-      projects: [],
+      projects: ["PROJECT3"],
     },
   ]);
   console.log("EmployeesContextProvider employees:", employees);

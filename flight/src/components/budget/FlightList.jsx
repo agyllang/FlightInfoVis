@@ -27,7 +27,7 @@ const FlightList = ({ ...props }) => {
   };
   return (
     <Container className="component-container">
-      <h5 className="component-title">Flights ({flights.length})</h5>
+      <h5 className="component-title"> Planned Flights ({flights.length}) </h5>
 
       <Col>
         <Row>
@@ -45,24 +45,36 @@ const FlightList = ({ ...props }) => {
           </Col>
           {/* <Col xs={3}>PRIO</Col> */}
         </Row>
-        <div className="flightList-table">
+        <div className="list-table">
           {flights.length > 0 &&
             flights.map((flight, index) => {
               // console.log("flight", flight);
+              const ref = React.createRef();
+
+              const handleClick = (e) => {
+                  handleFocus(index)
+                  ref.current.scrollIntoView(
+                    {
+                    behavior: "smooth",
+                    block: "center",
+                  }
+                  );
+                }
+
+            
+
               return (
                 <Row
+                  ref={ref}
                   key={`flightList-row-${index}`}
                   className="addEmployee-row"
                   style={{
-                    border:
-                      index === focusedIndex
-                        ? "2px solid black"
-                        : "0.5px solid grey",
-                    borderRadius: "4px",
+                    border: index === focusedIndex ? "2px solid black" : "",
+                    borderRadius: "1px",
                     margin: "3px",
-                    backgroundColor: index % 2 ? "#ccdbfd" : "#b6ccfe",
+                    backgroundColor: index % 2 ? "#eaeaea" : "#ffffff",
                   }}
-                  onClick={() => handleFocus(index)}
+                  onClick={handleClick}
                 >
                   <Col xs={3}>{flight.flightID}</Col>
                   <Col xs={2}>

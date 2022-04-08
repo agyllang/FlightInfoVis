@@ -11,7 +11,11 @@ const BudgetOverview = ({ ...props }) => {
   return (
     <Container fluid>
       <Row className="page-title">Budget Overview</Row>
-      <VBar flights={flights} />
+      <Row>
+        <Col xs={6}>
+          <VBar flights={flights} />
+        </Col>
+      </Row>
     </Container>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Container,  } from "react-bootstrap";
+import { Row, Col, Container, Stack } from "react-bootstrap";
 
 const FlightDetails = ({ ...props }) => {
   const { details, numberOfTrips } = props;
@@ -23,16 +23,22 @@ const FlightDetails = ({ ...props }) => {
   return (
     <Container>
       <h5 className="component-title">Estimated Trip Details</h5>
-      <Row style={{marginTop:"1.5rem",marginBottom:"1.5rem"}}>
-        <Col>
+      <Row style={{ marginTop: "1.5rem", marginBottom: "1.5rem" }}>
+        <Stack>
           <Col>
-            Date: {months[details.travelDate[0].month]}{" "}
-            {details.travelDate[0].year}{" "}
+            Planned date:{" "}
+            <b>
+              {months[details.travelDate[0].month]} {details.travelDate[0].year}{" "}
+            </b>
           </Col>
-          <Col>Workdays: {details.workDays}</Col>
-        </Col>
-
-        <Col>Seat Class: {details.seatClass} </Col>
+          <Col>
+            Efficient workdays: <b>{details.workDays}</b>
+          </Col>
+          <Col>
+            Seat class: <b>{details.seatClass}</b>{" "}
+          </Col>
+        </Stack>
+        <Col></Col>
       </Row>
       <Row style={{ fontWeight: "bold" }}>
         <Col>Flight</Col>

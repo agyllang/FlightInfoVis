@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import AddEmployeeForm from "./AddEmployeeForm";
+import AddEmployeeForm2 from "./AddEmployeeForm2"
 import EmployeeList from "./EmployeeList";
 
 const Division = () => {
@@ -10,6 +11,7 @@ const Division = () => {
       <Row>
         <Col xs={4}>
           <AddEmployeeForm />
+          {/* <AddEmployeeForm2/> */}
         </Col>
         <Col>
           <EmployeeList />
