@@ -31,36 +31,15 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 
-const steps = [
-  {
-    label: "Plan trip",
-    description: `For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.`,
-  },
-  {
-    label: "Purpose of trip",
-    description:
-      "An ad group contains one or more ads which target a shared set of keywords.",
-  },
-  {
-    label: "Confirm trip",
-    description: `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`,
-  },
-];
-
 const StepByStep = () => {
   const { employeesID, allResearchProjects, employees } =
     useContext(EmployeesContext);
   const { addNewFlight } = useContext(FlightsContext);
 
   const [flight, setFlight] = useState();
-  console.log("FindFlight flight", flight);
+  console.log("StepByStep building Flight obj.:", flight);
 
-//   const [openContainer, setToggle] = useState(false);
+  //   const [openContainer, setToggle] = useState(false);
   // Primary flight data fetch options
   const [airport1, setAirport1] = useState("");
   const [airport2, setAirport2] = useState("");
@@ -71,26 +50,18 @@ const StepByStep = () => {
 
   // Secondary flight data fetch  options
   const [oneWay, setOneWay] = useState(1);
-  // console.log("oneWay", oneWay);
   const [multiCity, setMultiCity] = useState(false);
   const [seatClass, setSeatClass] = useState("");
 
-  const [travelDate, setDate] = useState([{ month: "1", year: "2022" }]);
+  // const [travelDate, setDate] = useState([{ month: "1", year: "2022", echoTime: 1646089200000  }]);
+  const [travelDate, setDate] = useState(1640991600000);
   const [workDays, setWorkdays] = useState("");
 
-  const optionsSeat = [
-    { value: "economy", label: "Economy Class" },
-    { value: "business", label: "Business Class" },
-    { value: "first", label: "First Class" },
-  ];
-  const handleInputChangeSeat = (event) => {
-    setSeatClass(event.target.value);
-  };
 
   // Fetching data
   const [isLoading, setIsLoading] = useState(false);
-  const [fetchMessage, setFetchMessage] = useState("");
-
+  // const [fetchMessage, setFetchMessage] = useState("");
+  // console.log("fetchMessage:")
   const setPurposeOfTrip = (prioValue, purpose) => {
     setFlight((prevState) => ({
       ...prevState,
@@ -120,7 +91,7 @@ const StepByStep = () => {
     setAirport3("");
     setAirport4("");
 
-    setDate([{ month: "1", year: "2022" }]);
+    setDate(1640991600000);
 
     setOneWay(1);
     setMultiCity(false);
@@ -163,7 +134,7 @@ const StepByStep = () => {
       (multiCity && (airport3 === "" || airport4 === ""))
     ) {
       setIsLoading(false);
-      setFetchMessage("Please choose airports");
+      // setFetchMessage("Please choose airports");
     } else {
       var legs = [];
       if (multiCity) {
@@ -192,12 +163,12 @@ const StepByStep = () => {
         ];
       }
 
-      console.log("legs", legs);
+      // console.log("legs", legs);
 
       var inputBody = JSON.stringify({
         legs: legs,
       });
-      console.log("inputBody", inputBody);
+      // console.log("inputBody", inputBody);
       fetch("https://beta3.api.climatiq.io/travel/flights", {
         method: "POST",
         headers: {
@@ -210,18 +181,18 @@ const StepByStep = () => {
           setIsLoading(false);
           console.log("FindFlight response", response);
           if (response.status === 200) {
-            setFetchMessage("Result:");
+            // setFetchMessage("Result:");
             return response.json();
           }
           if (response.status === 404) {
-            setFetchMessage(
-              "No flights found between these airports. Try something else!"
-            );
+            // setFetchMessage(
+            //   "No flights found between these airports. Try something else!"
+            // );
           }
           if (response.status === 400) {
-            setFetchMessage(
-              "No flights found, all input-fields has to be submitted!"
-            );
+            // setFetchMessage(
+            //   "No flights found, all input-fields has to be submitted!"
+            // );
           }
         })
         .then((data) => {
@@ -232,7 +203,8 @@ const StepByStep = () => {
               co2e_unit: data.co2e_unit,
               seatClass: seatClass,
               oneWay: oneWay,
-              travelDate: travelDate,
+              // travelDate: travelDate,
+              echoTimeDate: travelDate,
               workDays: workDays,
               legs: [
                 {
@@ -250,7 +222,9 @@ const StepByStep = () => {
               co2e_unit: data.co2e_unit,
               seatClass: seatClass,
               oneWay: oneWay,
-              travelDate: travelDate,
+              // travelDate: travelDate,
+              echoTimeDate: travelDate,
+
               workDays: workDays,
 
               legs: [
@@ -355,9 +329,15 @@ const StepByStep = () => {
                     id="demo-simple-select-helper"
                     value={seatClass}
                     label="Seat Class"
-                    onChange={handleInputChangeSeat}
+                    onChange={(event) => {
+                      setSeatClass(event.target.value);
+                    }}
                   >
-                    {optionsSeat.map((seat, index) => {
+                    {[
+                      { value: "economy", label: "Economy Class" },
+                      { value: "business", label: "Business Class" },
+                      { value: "first", label: "First Class" },
+                    ].map((seat, index) => {
                       return (
                         <MenuItem key={`seat-${index}`} value={seat.value}>
                           {seat.label}
@@ -465,7 +445,7 @@ const StepByStep = () => {
           </StepContent>
         </Step>
       </Stepper>
-      {activeStep === steps.length && (
+      {activeStep === 3 && (
         <Paper square elevation={0} sx={{ p: 3 }}>
           <Typography>Flight has been added to budget estimate</Typography>
           <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>

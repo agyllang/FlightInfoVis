@@ -30,7 +30,7 @@ const PurposeOfTrip = ({ ...props }) => {
   return (
     <Container className="purposeOfTrip-container">
       {/* <h5 className="component-title">Prioritization of trip</h5> */}
-      <h5 className="purposeOfTrip-header2">Whats the purpose of the trip?</h5>
+      <h3 className="purposeOfTrip-header2">Whats the purpose of the trip?</h3>
       <Col>
         <TextField
           sx={{ marginBottom: "2rem" }}

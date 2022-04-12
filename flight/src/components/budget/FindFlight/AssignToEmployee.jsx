@@ -33,9 +33,9 @@ const AssignToEmployee = ({ ...props }) => {
     // employeesID.includes(ID) ?
     // setError(!employeesID.includes(ID));
 
-    setDisable(!employeesID.includes(ID));
+    setDisable(!employeesID.includes(ID) && project !== "");
 
-    if (employeesID.includes(ID)) {
+    if (employeesID.includes(ID) && project !== "") {
       setEmployeeToFlight(ID, project);
     }
   };
@@ -43,6 +43,7 @@ const AssignToEmployee = ({ ...props }) => {
     handleAddFlight();
     handleNext();
   };
+  console.log(employees);
   //   const handleChangeTextField = (event) => {
   //     setID(event.target.value);
   //     validateID(event.target.value);
@@ -61,16 +62,18 @@ const AssignToEmployee = ({ ...props }) => {
     >
       <h5 className="purposeOfTrip-header">Assign trip to employee </h5>
       <Row>
-        <Col>
+        <Col xs={6}>
           <SelectFromArray
-            placeholder={"EmployeeID"}
-            array={employeesID}
+            placeholder={"Employee"}
+            array={employees}
             callback={(id) => {
               setID(id);
             }}
+            propValue={"ID"}
+            propLabel={"name"}
           />
         </Col>
-        <Col>
+        <Col xs={6}>
           {ID && (
             <SelectFromArray
               placeholder={"Project"}

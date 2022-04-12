@@ -90,7 +90,7 @@ const SearchBar = ({ ...props }) => {
           {suggested.length > 0 &&
             suggested.map((airport, index) => {
               return (
-                <>
+                <div key={`suggested-${index}`}>
                   <div className="searchResultItem suggested" key={index}>
                     <div
                       onClick={() => {
@@ -101,7 +101,7 @@ const SearchBar = ({ ...props }) => {
                       <p className="suggestedText">suggested</p>
                     </div>
                   </div>
-                </>
+                </div>
               );
             })}
 

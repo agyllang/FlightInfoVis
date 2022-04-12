@@ -1,6 +1,6 @@
 import React from "react";
 // import ProgressBar from "react-bootstrap/ProgressBar";
-import { Row, Col, } from "react-bootstrap";
+import { Row, Col, Container} from "react-bootstrap";
 // import { FlightsContext } from "../contexts/FlightsContext";
 import chroma from "chroma-js";
 
@@ -16,8 +16,10 @@ const ColorScale = ({ ...props }) => {
   //   console.log("chroma", chromaScale.colors(5));
 
   return (
-    <Col>
-      <Row  style={{ marginTop: "1rem", fontSize: "14px" }}>
+    <Container>
+      <Row  style={{
+        //  marginTop: "1rem",
+          fontSize: "14px" }}>
         (CO2e kg) per trip
       </Row>
       <Row>
@@ -48,7 +50,7 @@ const ColorScale = ({ ...props }) => {
           );
         })}
       </Row>
-    </Col>
+    </Container>
   );
 };
 

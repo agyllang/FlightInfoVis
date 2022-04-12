@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FlightsContext } from "../contexts/FlightsContext";
-
+import { sortBy, returnMonthYear } from "../utility/functions";
 import { Row, Col, Container } from "react-bootstrap";
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -8,11 +8,16 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import FlightLandIcon from "@mui/icons-material/FlightLand";
 
-const FlightList = ({ ...props }) => {
-  // const { flights } = props;
 
-  const { flights } = useContext(FlightsContext);
+const FlightList = ({ ...props }) => {
+  const { sortValue,reverseSorting } = props;
   // console.log("FlightList flights", flights);
+  const { flights } = useContext(FlightsContext);
+
+  useEffect(() => {
+    console.log("useEffect flightList");
+  }, [sortValue, flights]);
+  var sortedFlights = flights.sort(sortBy(sortValue, reverseSorting));
 
   const [focusedIndex, setFocused] = useState();
   // console.log("focused", focusedIndex);
@@ -31,7 +36,7 @@ const FlightList = ({ ...props }) => {
 
       <Col>
         <Row>
-          <Col className="list-column-header" xs={3}>
+          <Col className="list-column-header" xs={2}>
             FlightID
           </Col>
           <Col className="list-column-header" xs={2}>
@@ -43,25 +48,27 @@ const FlightList = ({ ...props }) => {
           <Col className="list-column-header" xs={2}>
             EmployeeID
           </Col>
+          <Col className="list-column-header" xs={2}>
+            Priority
+          </Col>
+          {/* <Col xs={3}> {"a "}</Col> */}
           {/* <Col xs={3}>PRIO</Col> */}
         </Row>
         <div className="list-table">
-          {flights.length > 0 &&
-            flights.map((flight, index) => {
+          {sortedFlights.length > 0 &&
+            sortedFlights.map((flight, index) => {
               // console.log("flight", flight);
               const ref = React.createRef();
 
               const handleClick = (e) => {
-                  handleFocus(index)
-                  ref.current.scrollIntoView(
-                    {
-                    behavior: "smooth",
-                    block: "center",
-                  }
-                  );
-                }
-
-            
+                handleFocus(index);
+                // ref.current.scrollIntoView(
+                //   {
+                //   behavior: "smooth",
+                //   block: "center",
+                // }
+                // );
+              };
 
               return (
                 <Row
@@ -76,13 +83,13 @@ const FlightList = ({ ...props }) => {
                   }}
                   onClick={handleClick}
                 >
-                  <Col xs={3}>{flight.flightID}</Col>
-                  <Col xs={2}>
-                    {flight.travelDate[0].month}/{flight.travelDate[0].year}
+                  <Col xs={2}>{flight.flightID}</Col>
+                  <Col xs={2}> {returnMonthYear(flight.echoTimeDate)}
                   </Col>
                   <Col xs={2}>{flight.totalco2e}</Col>
                   <Col xs={2}>{flight.ID}</Col>
-                  <Col xs={{ span: 1, offset: 2 }}>
+                  <Col xs={2}>{flight.priority}</Col>
+                  <Col xs={{ span: 1, offset: 1 }}>
                     {focusedIndex === index ? (
                       <KeyboardArrowUpIcon />
                     ) : (
@@ -111,21 +118,21 @@ const FlightList = ({ ...props }) => {
                         </Col>
                       </Col>
                       <Row>
-                        <Col xs={3}>From:</Col>
+                        <Col xs={2}>From:</Col>
 
-                        <Col xs={3}>To:</Col>
-                        <Col xs={3}>CO2e(kg)/leg</Col>
+                        <Col xs={2}>To:</Col>
+                        <Col xs={2}>CO2e(kg)/leg</Col>
                       </Row>
 
                       {flight.legs.map((leg, i) => {
                         return (
                           <Row>
-                            <Col className="flightListDetails-item" xs={3}>
+                            <Col className="flightListDetails-item" xs={2}>
                               <FlightTakeoffIcon />
                               {leg.from}
                             </Col>
 
-                            <Col className="flightListDetails-item" xs={3}>
+                            <Col className="flightListDetails-item" xs={2}>
                               <FlightLandIcon /> {leg.to}
                             </Col>
                             <Col className="flightListDetails-item" xs={2}>
@@ -135,10 +142,10 @@ const FlightList = ({ ...props }) => {
                         );
                       })}
                       <Row>
-                        <Col xs={3}>
+                        <Col xs={2}>
                           {flight.oneWay === 1 ? "(One-way)" : "(Round trip)"}
                         </Col>
-                        <Col xs={3}> </Col>
+                        <Col xs={2}> </Col>
                         <Col xs={4} className="flightListDetails-item">
                           {" "}
                           x{flight.oneWay}{" "}

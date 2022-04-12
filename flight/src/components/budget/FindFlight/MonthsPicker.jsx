@@ -3,24 +3,24 @@ import DatePicker from "@mui/lab/DatePicker";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import { Row, Col, Container, Button, Spinner } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 const MonthsPicker = ({ ...props }) => {
   const { setDate, setWorkdays } = props;
-  const [value, setValue] = useState(["2022"]);
-  console.log(" Monthspicker value", value);
+  const [value, setValue] = useState(new Date(2022, 1));
+  // console.log(" Monthspicker value", value);
 
   const whatMonth = (t) => {
+    // console.log("t",t)
     const [month, year] = [t.getMonth(), t.getFullYear()];
-    // console.log("date", month + ":" + year);
+    // reset to echotime to beginning of month and year
     setValue(t);
 
     var time = new Date(year, month).getTime();
-    var date = [{ month: month, year: year, echoTime: time }];
+    // var date = [{ month: month, year: year, echoTime: time }];
     // console.log("monthYear",monthYear)
 
-    setDate(date);
+    setDate(time);
     // console.log("date", date);
     // console.log("departureMonthIndex", departureMonthIndex);
     // console.log("departureyear", departureYear);

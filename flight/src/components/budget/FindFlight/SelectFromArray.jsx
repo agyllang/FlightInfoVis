@@ -5,7 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 const SelectFromArray = ({ ...props }) => {
-  const { placeholder, array, callback } = props;
+  const { placeholder, array, callback, propValue, propLabel } = props;
   console.log("SelectFromArray, array", array);
   const [value, setVal] = useState("");
 
@@ -28,14 +28,14 @@ const SelectFromArray = ({ ...props }) => {
           autoWidth
           label={placeholder}
         >
-          <MenuItem value="">
+          {/* <MenuItem value="">
             <em>None</em>
-          </MenuItem>
+          </MenuItem> */}
           {array.length > 0 &&
             array.map((each, index) => {
               return (
-                <MenuItem key={index} value={each}>
-                  {each}
+                <MenuItem key={index} value={ propValue ? each[propValue] : each}>
+                  {propLabel ? each[propLabel] : each}
                 </MenuItem>
               );
             })}

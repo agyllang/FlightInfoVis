@@ -1,14 +1,22 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Row, Col, Container, Stack } from "react-bootstrap";
 import { FlightsContext } from "../contexts/FlightsContext";
-
-import FindFlight from "./FindFlight/FindFlight";
+import Sort from "../budgetOverview/Sort";
+// import FindFlight from "./FindFlight/FindFlight";
 import FlightList from "./FlightList";
 import BudgetProgressBar from "../progress/BudgetProgressBar";
 import StepByStep from "./FindFlight/StepByStep";
+import ColorScale from "../progress/ColorScale";
+
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { Button } from "@mui/material";
 
 const PlanBudget = ({ ...props }) => {
   const { flights, CO2eTotal } = useContext(FlightsContext);
+  const [sortValue, setSortValue] = useState("totalco2e");
+  const [reverseSorting, setReverseSorting] = useState(false);
+
   var max = Math.max.apply(
     Math,
     flights.map(function (o) {
@@ -37,9 +45,46 @@ const PlanBudget = ({ ...props }) => {
         <Col xs={4}>
           <StepByStep />
         </Col>
-        <Col>
-          <BudgetProgressBar max={max}  />
-          <FlightList />
+        <Col className="component-container">
+          <BudgetProgressBar
+            max={max}
+            sortValue={sortValue}
+            reverseSorting={reverseSorting}
+          />
+          <Row>
+            <Col>
+              <ColorScale max={max} steps={10} />
+            </Col>
+            <Col
+              style={{
+                display: "flex",
+                alignContent: "center",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Sort
+                placeholder={"Sorting on"}
+                array={[
+                  { value: "totalco2e", label: "CO2e" },
+                  { value: "priority", label: "Priority" },
+                  { value: "ID", label: "ID" },
+                  { value: "workDays", label: "Work days" },
+                  { value: "echoTimeDate", label: "Date" },
+                ]}
+                callback={(sort) => {
+                  setSortValue(sort);
+                }}
+              />
+              <Button
+                size="small"
+                onClick={() => setReverseSorting((prev) => !prev)}
+              >
+                {reverseSorting ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />}
+              </Button>
+            </Col>
+          </Row>
+
+          <FlightList sortValue={sortValue} reverseSorting={reverseSorting} />
         </Col>
 
         <Col xs={2}>

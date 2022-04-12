@@ -82,8 +82,14 @@ const VBar = ({ ...props }) => {
       <Row>
         <Col>
           <Sort
-            placeholder={"Sort"}
-            array={["totalco2e", "priority", "project"]}
+            placeholder={"Sorting on"}
+            array={[
+              {value:"totalco2e",label:"CO2e"},
+              {value:"priority",label:"Priority"},
+              {value:"ID", label:"ID"},
+              {value:"workDays", label:"Work days"},
+              {value:"echoTimeDate",label:"Date"}
+            ]}
             callback={(sort) => {
               setSortValue(sort);
             }}

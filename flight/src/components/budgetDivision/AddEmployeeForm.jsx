@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { EmployeesContext } from "../contexts/EmployeesContext";
-import { Button } from "react-bootstrap";
+import { Button, Stack } from "react-bootstrap";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { useForm, useField, splitFormProps } from "react-form";
@@ -49,7 +49,8 @@ const InputField = React.forwardRef((props, ref) => {
 
 const AddEmployeeForm = ({ ...props }) => {
   // const { addNew, addToEmployeesID, employeesID } = props;
-  const { employeesID, addNewEmployee } = useContext(EmployeesContext);
+  const { employeesID, addNewEmployee, employees } =
+    useContext(EmployeesContext);
   // console.log("props",props)
   const [addEmployee, setAddEmployee] = useState(false);
   const defaultValues = React.useMemo(
@@ -69,54 +70,87 @@ const AddEmployeeForm = ({ ...props }) => {
     }
     return false;
   }
-
+  function employeeAdded() {
+   return "Employee is added"
+  }
+  // `p${employees.length + 1}`
   // Use the useForm hook to create a form instance
   const {
     Form,
     values,
     pushFieldValue,
     removeFieldValue,
+
     meta: { isSubmitting, canSubmit },
   } = useForm({
     defaultValues,
     onSubmit: async (values, instance) => {
+      // console.log("values", values);
+      // console.log("instance", instance);
       // console.log("defaultValues", defaultValues);
       // console.log("instance", instance);
       // onSubmit (and everything else in React Form)
       // has async support out-of-the-box
-      await sendToFakeServer(values);
+       await sendToFakeServer(values);
+      values.ID = `p${employees.length + 1}`;
       addNewEmployee(values);
       // addToEmployeesID(values.ID)
-      console.log("employee added!", values);
+      // console.log("employee added!", values);
+      
+        // setAddEmployee(!addEmployee);
+      
       instance.reset();
     },
     debugForm: false,
   });
+  // const onSubmit = (data) => {
 
+  //     // setAddEmployee(!addEmployee);
+  //     // reset();
+
+  //   alert(JSON.stringify(data));
+  // };
   return (
     <Form className="component-container">
       <h5 className="component-title">Add new employee</h5>
       {addEmployee && (
         <div>
-          <div>
+          <Stack>
+            <label>Name</label>
             <InputField
               className="addNewInput"
               placeholder="Name"
               field="name"
               validate={fakeCheckValidName}
             />
-          </div>
-          <div>
+            {/* <label
+              style={{
+                marginTop: "1rem",
+              }}
+            >
+              Employee ID
+            </label>
             <InputField
+              disabled
               className="addNewInput"
               placeholder="ID"
               field="ID"
               validate={validateID}
               style={{
                 marginTop: "1rem",
+                color: "#c6c6c6",
               }}
-            />
-          </div>
+
+              // value={`p${employees.length + 1}`}
+            /> */}
+            {/* <span
+              style={{
+                color: "#c6c6c6",
+              }}
+            >
+              *Employee ID was generated
+            </span> */}
+          </Stack>
           <div
             style={{
               // border: "1px solid black",
@@ -163,14 +197,16 @@ const AddEmployeeForm = ({ ...props }) => {
           //   marginTop: "1rem ",
           // }}
           variant="success"
-          onClick={() => setAddEmployee(!addEmployee)}
+          onClick={() => {
+            setAddEmployee(!addEmployee);
+          }}
         >
           Add employee{" "}
         </Button>
       </div>
 
       <div>
-        <em>{isSubmitting ? "Submitting..." : null}</em>
+        <em>{isSubmitting ? "Employee is being added..." : null}</em>
       </div>
     </Form>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import { Row, Col, Container, Stack } from "react-bootstrap";
+import { returnMonthYear } from "../../utility/functions";
 
 const FlightDetails = ({ ...props }) => {
   const { details, numberOfTrips } = props;
@@ -26,10 +27,7 @@ const FlightDetails = ({ ...props }) => {
       <Row style={{ marginTop: "1.5rem", marginBottom: "1.5rem" }}>
         <Stack>
           <Col>
-            Planned date:{" "}
-            <b>
-              {months[details.travelDate[0].month]} {details.travelDate[0].year}{" "}
-            </b>
+            Planned date: <b>{returnMonthYear(details.echoTimeDate)}</b>
           </Col>
           <Col>
             Efficient workdays: <b>{details.workDays}</b>
