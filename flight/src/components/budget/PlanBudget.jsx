@@ -42,16 +42,18 @@ const PlanBudget = ({ ...props }) => {
     <Container fluid>
       <Row className="page-title">Plan Carbon budget</Row>
       <Row>
-        <Col xs={4}>
+        <Col md={"auto"}>
           <StepByStep />
         </Col>
-        <Col className="component-container">
-          <BudgetProgressBar
-            max={max}
-            sortValue={sortValue}
-            reverseSorting={reverseSorting}
-          />
-          <Row>
+        <Col lg={6} className="component-container">
+          <Col>
+            <BudgetProgressBar
+              max={max}
+              sortValue={sortValue}
+              reverseSorting={reverseSorting}
+            />
+          </Col>
+          <Row style={{ justifyContent: "space-between" }}>
             <Col>
               <ColorScale max={max} steps={10} />
             </Col>
@@ -87,7 +89,7 @@ const PlanBudget = ({ ...props }) => {
           <FlightList sortValue={sortValue} reverseSorting={reverseSorting} />
         </Col>
 
-        <Col xs={2}>
+        <Col md={"auto"}>
           <Stack gap={2}>
             <Col>
               <DataCard
@@ -103,9 +105,6 @@ const PlanBudget = ({ ...props }) => {
               <DataCard title="Number of flights" value={flights.length} />
             </Col>
           </Stack>
-          {/* <Row>
-          
-          </Row> */}
         </Col>
       </Row>
       {/* <Row>

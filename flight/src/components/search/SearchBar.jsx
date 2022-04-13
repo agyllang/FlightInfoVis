@@ -7,9 +7,8 @@ import React, { useState } from "react";
 
 // import CloseIcon from "@mui/icons-material/icons/Close";
 // import SearchIcon from "@mui/material/icons/Search";
-import CloseIcon from '@mui/icons-material/Close';
-import SearchIcon from '@mui/icons-material/Search';
-
+import CloseIcon from "@mui/icons-material/Close";
+import SearchIcon from "@mui/icons-material/Search";
 
 import airports from "../map/airports2";
 
@@ -59,16 +58,15 @@ const SearchBar = ({ ...props }) => {
     var presentChosen = `(${code}), ${name}`;
 
     setQuery(presentChosen);
-    setChosen(code)
-    
+    setChosen(code);
   };
   const clearInput = () => {
     setFilteredAirports([]);
     setQuery("");
-    select("")
-    setChosen("")
+    select("");
+    setChosen("");
   };
-  
+
   return (
     <div>
       <div className="searchInputs">
@@ -79,11 +77,11 @@ const SearchBar = ({ ...props }) => {
           value={query}
           onChange={handleFilter}
         />
-          {(chosen === "") ? (
-        <SearchIcon/>
-          ) : (
-            <CloseIcon id="clearBtn" onClick={clearInput}/>
-          )}
+        {chosen === "" ? (
+          <SearchIcon />
+        ) : (
+          <CloseIcon id="clearBtn" onClick={clearInput} />
+        )}
       </div>
       {filteredAirports.length !== 0 && (
         <div className="searchResult">
@@ -91,7 +89,7 @@ const SearchBar = ({ ...props }) => {
             suggested.map((airport, index) => {
               return (
                 <div key={`suggested-${index}`}>
-                  <div className="searchResultItem suggested" key={index}>
+                  <div className="searchResult-item suggested" key={index}>
                     <div
                       onClick={() => {
                         clickItem(airport.iata_code, airport.name);
@@ -107,13 +105,22 @@ const SearchBar = ({ ...props }) => {
 
           {filteredAirports.slice(0, 15).map((airport, index) => {
             return (
-              <div className="searchResultItem" key={`${index}-suggested`}>
-                <div
-                  onClick={() => {
-                    clickItem(airport.iata_code, airport.name);
-                  }}
-                >
-                  {airport.name} <b>{airport.iata_code}</b>
+              <div
+              className="searchResult-item"
+                style={{
+                 
+                  backgroundColor: index % 2 ? "#eaeaea" : "#ffffff",
+                 
+                }}
+                key={`${index}-suggested`}
+                onClick={() => {
+                  clickItem(airport.iata_code, airport.name);
+                }}
+                
+              >
+                <div className="searchResult-itemName">{airport.name}</div>
+                <div className="searchResult-itemShort">
+                  <b>{airport.iata_code}</b>
                 </div>
               </div>
             );

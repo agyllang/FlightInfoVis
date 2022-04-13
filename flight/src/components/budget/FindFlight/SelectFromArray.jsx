@@ -16,7 +16,9 @@ const SelectFromArray = ({ ...props }) => {
 
   return (
     <div>
-      <FormControl sx={{ m: 1, minWidth: 100 }}>
+      <FormControl 
+      sx={{ m: 1,}}
+      >
         <InputLabel id="demo-simple-select-autowidth-label">
           {placeholder}
         </InputLabel>

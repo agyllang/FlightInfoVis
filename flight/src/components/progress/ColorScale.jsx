@@ -1,11 +1,11 @@
 import React from "react";
 // import ProgressBar from "react-bootstrap/ProgressBar";
-import { Row, Col, Container} from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 // import { FlightsContext } from "../contexts/FlightsContext";
 import chroma from "chroma-js";
 
 const ColorScale = ({ ...props }) => {
-  const { max, steps} = props;
+  const { max, steps } = props;
   // const { max, steps } = props;
   var colsteps = steps ? steps : 10;
   var chromaScale = chroma
@@ -17,20 +17,24 @@ const ColorScale = ({ ...props }) => {
 
   return (
     <Container>
-      <Row  style={{
-        //  marginTop: "1rem",
-          fontSize: "14px" }}>
+      <Row
+        style={{
+          //  marginTop: "1rem",
+          fontSize: "14px",
+        }}
+      >
         (CO2e kg) per trip
       </Row>
       <Row>
         {chromaScale.colors(colsteps).map((color, index) => {
           return (
-            <div
+            <Col
               key={`color-scale-${index}`}
               style={{
                 display: "inline",
                 fontSize: "10px",
                 width: "30px",
+                minWidth: "15px",
                 height: "10px",
                 backgroundColor: `${color}`,
                 padding: 0,
@@ -46,7 +50,7 @@ const ColorScale = ({ ...props }) => {
               >
                 {Math.floor((max / colsteps) * (index + 1))}
               </span>
-            </div>
+            </Col>
           );
         })}
       </Row>

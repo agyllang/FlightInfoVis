@@ -61,8 +61,8 @@ const AssignToEmployee = ({ ...props }) => {
       }
     >
       <h5 className="purposeOfTrip-header">Assign trip to employee </h5>
-      <Row>
-        <Col xs={6}>
+      <Row style={{ justifyContent: "space-between" }}>
+        <Col md={"auto"}>
           <SelectFromArray
             placeholder={"Employee"}
             array={employees}
@@ -73,7 +73,7 @@ const AssignToEmployee = ({ ...props }) => {
             propLabel={"name"}
           />
         </Col>
-        <Col xs={6}>
+        <Col md={"auto"}>
           {ID && (
             <SelectFromArray
               placeholder={"Project"}
@@ -86,7 +86,7 @@ const AssignToEmployee = ({ ...props }) => {
         </Col>
 
         <Button
-          variant="success"
+          variant={!disable ? "success" : "secondary"}
           //   size="lg"
           // style={{ width: "auto" }}
           disabled={disable}

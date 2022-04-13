@@ -4,7 +4,7 @@
   height: 100vh;
   font-family: "Montserrat", sans-serif;
   /* text-align: center; */
-  background-color:  rgb(224 224 224 / 80%);
+  background-color: rgb(224 224 224 / 80%);
 }
 /* general page */
 .page-title {
@@ -336,14 +336,14 @@
 /* _______SearchBar ____ */
 .searchInput {
   /* width:300px; */
-  font-size:14px;
+  font-size: 14px;
   background-color: white;
   border: 0;
   border-radius: 4px;
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
   padding: 10px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
 }
 .searchInput:focus {
   outline: none;
@@ -353,19 +353,38 @@
   position: absolute;
   margin-top: 5px;
   /* width: 350px; */
-  /* height: 200px; */
+  max-height: 300px;
   background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
   overflow: hidden;
   overflow-y: auto;
 }
 .dataResult::-webkit-scrollbar {
   display: none;
 }
-.searchResultItem {
-  width: 100%;
+.searchResult-item{
+  cursor:pointer;
+  margin: 3px;
+}
+.searchResult-item:hover{
+  background-color: rgb(121, 121, 121) !important;
+}
+.searchResult-itemName {
+  max-width: 250px;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+
+  overflow: hidden;
   /* height: 50px; */
-  display: flex;
+  display: block;
+  align-items: center;
+  color: black;
+}
+.searchResult-itemShort {
+  font-size: 13px;
+  display:inline-block;
   align-items: center;
   color: black;
 }
@@ -377,9 +396,12 @@
   background-color: rgba(226, 201, 55, 0.35);
   border-bottom: 2px solid rgba(173, 174, 173, 0.35);
 }
+.suggested:hover {
+  color:"#ffffff" !important;
+}
 
 .suggestedText {
-  color: rgba(71, 114, 221, 0.55);
+  color: rgba(236, 131, 171, 0.744);
   font-size: 12px;
   /* text-align: right; */
 }
@@ -440,7 +462,6 @@
   overflow-y: auto;
   height: 50vh;
   /* border: 1px solid; */
-
 }
 .flightListDetails-item {
   font-weight: 600;

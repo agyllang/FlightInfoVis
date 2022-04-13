@@ -11,28 +11,35 @@ const DataCard = ({ ...props }) => {
   const { title, value, unit } = props;
   return (
     // <Col xs lg="5" className="component-container">
-    <Container className="component-container">
-      <div style={{ color: "rgb(180,180,180)" }}>{title}</div>
+    <Container style={{ padding: "10px" }} className="component-container">
+      <Row style={{ color: "rgb(180,180,180)" }}>{title}</Row>
 
-      <div className="component-title" style={{ fontWeight: "700" }}>
-        {value}
-      </div>
-      {unit && <div style={{ color: "rgb(180,180,180)" }}>{unit}</div>}
+      <Row>
+        <Col className="component-title" style={{ fontWeight: "700" }}>
+          {value}
+        </Col>
+        {unit && (
+          <Col style={{ color: "rgb(180,180,180)", fontSize: "14px" }}>
+            {unit}
+          </Col>
+        )}
+      </Row>
     </Container>
   );
 };
 const ProjectComponent = ({ projectDetails, goBack, projectFlights }) => {
   // console.log("ProjectComponent projectFlights", projectFlights);
   return (
-    <div>
-      <Row style={{ borderBottom: "2px solid #c6c6c6",marginBottom:"1rem"  }}>
-        <Col xs={3}>
+    <Container>
+      <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
+        <Col md={"auto"}>
           <Button sx={{ padding: 0 }} onClick={goBack}>
             <ArrowBackIosIcon />
             Go back
           </Button>
         </Col>
-        <Col xs={4}>
+        {/* <Col style={{ display: "flex", justifyContent: "center" }}> */}
+        <Col>
           <h5
             style={{
               backgroundColor: `${projectDetails.projectColor}`,
@@ -53,7 +60,6 @@ const ProjectComponent = ({ projectDetails, goBack, projectFlights }) => {
                 return (
                   <Row
                     key={`projectemployee-item${index}`}
-                    className="addEmployee-row"
                     style={{
                       // border: index === focusedIndex ? "2px solid black" : "",
                       borderRadius: "1px",
@@ -67,14 +73,14 @@ const ProjectComponent = ({ projectDetails, goBack, projectFlights }) => {
               })}
           </Col>
 
-          <Col xs={2}>
+          <Col>
             <DataCard
               title={"Emissions"}
               value={projectFlights.projectCO2e}
               unit={"CO2e kg"}
             />
           </Col>
-          <Col xs={2}>
+          <Col>
             <DataCard
               title={"Flights"}
               value={projectFlights.projFlights.length}
@@ -83,8 +89,7 @@ const ProjectComponent = ({ projectDetails, goBack, projectFlights }) => {
           </Col>
         </Row>
       </Row>
-      <Row></Row>
-    </div>
+    </Container>
   );
 };
 
@@ -124,7 +129,9 @@ const Projects = ({ ...props }) => {
       </Col>
       {!displayProject && (
         <Col>
-          <Row style={{ borderBottom: "2px solid #c6c6c6",marginBottom:"1rem" }}>
+          <Row
+            style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}
+          >
             <h5 className="component-title">
               Research Projects ({allResearchProjectsArray.length})
             </h5>

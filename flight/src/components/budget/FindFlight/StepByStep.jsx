@@ -12,7 +12,9 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-import RadioButtonGroup from "./RadioButton";
+import TravelType from "./TravelType";
+import SeatClass from "./SeatClass";
+// import RadioButtonGroup from "./RadioButton";
 import SearchBar from "../../search/SearchBar";
 import FlightDetails from "./FlightDetails";
 import PurposeOfTrip from "./PurposeOfTrip";
@@ -56,7 +58,6 @@ const StepByStep = () => {
   // const [travelDate, setDate] = useState([{ month: "1", year: "2022", echoTime: 1646089200000  }]);
   const [travelDate, setDate] = useState(1640991600000);
   const [workDays, setWorkdays] = useState("");
-
 
   // Fetching data
   const [isLoading, setIsLoading] = useState(false);
@@ -263,9 +264,9 @@ const StepByStep = () => {
         <Step key={"Plan trip"}>
           <StepLabel>{"Plan trip"}</StepLabel>
           <StepContent>
-            <Row>
+            <Row style={{ justifyContent: "space-between" }}>
               {/* {multiCity && <div>1.</div>} */}
-              <Col md={6}>
+              <Col md={"auto"}>
                 <FlightTakeoffIcon />
                 <label>From:</label>
                 <SearchBar
@@ -273,7 +274,7 @@ const StepByStep = () => {
                   select={(airport) => setAirport1(airport)}
                 />
               </Col>
-              <Col md={6}>
+              <Col md={"auto"}>
                 <FlightLandIcon />
                 <label>To:</label>
                 <SearchBar
@@ -285,8 +286,10 @@ const StepByStep = () => {
             {multiCity && (
               <>
                 {/* <div style={{ marginTop: "1rem" }}>2.</div> */}
-                <Row style={{ marginTop: "1rem" }}>
-                  <Col md={6}>
+                <Row
+                  style={{ marginTop: "1rem", justifyContent: "space-between" }}
+                >
+                  <Col md={"auto"}>
                     <FlightTakeoffIcon />
 
                     <label>From:</label>
@@ -295,7 +298,7 @@ const StepByStep = () => {
                       select={(airport) => setAirport3(airport)}
                     />
                   </Col>
-                  <Col md={6}>
+                  <Col md={"auto"}>
                     <FlightLandIcon />
                     <label>To:</label>
                     <SearchBar
@@ -306,9 +309,16 @@ const StepByStep = () => {
                 </Row>
               </>
             )}
-            <Row gap={2} style={{ marginTop: "2rem" }}>
-              <Col md={6}>
-                <RadioButtonGroup
+            <Row
+              style={{
+                marginTop: "2rem",
+                marginBottom: "2rem",
+                justifyContent: "space-between",
+              }}
+            >
+              <Col md={"auto"}>
+                <Col>Travel type</Col>
+                <TravelType
                   setNumberOfTrips={(number) => {
                     setOneWay(number);
                   }}
@@ -317,10 +327,25 @@ const StepByStep = () => {
                   }}
                   multiCity={multiCity}
                 />
+                {/* <RadioButtonGroup
+                  setNumberOfTrips={(number) => {
+                    setOneWay(number);
+                  }}
+                  setMultiCity={(multi) => {
+                    setMultiCity(multi);
+                  }}
+                  multiCity={multiCity}
+                /> */}
               </Col>
 
-              <Col md={6}>
-                <FormControl sx={{ minWidth: 120 }}>
+              <Col md={"auto"}>
+                <Col>Seat class</Col>
+                <SeatClass
+                  setSeatClass={(seat) => {
+                    setSeatClass(seat);
+                  }}
+                />
+                {/* <FormControl sx={{ minWidth: 120 }}>
                   <InputLabel id="demo-simple-select-helper-label">
                     Seat Class
                   </InputLabel>
@@ -346,7 +371,7 @@ const StepByStep = () => {
                     })}
                   </Select>
                   {/* <FormHelperText>With label + helper text</FormHelperText> */}
-                </FormControl>
+                {/* </FormControl>  */}
               </Col>
             </Row>
 
@@ -362,7 +387,7 @@ const StepByStep = () => {
                 <Button
                   variant="contained"
                   onClick={handleButtonClick}
-                  sx={{ mt: 1, mr: 1 }}
+                  sx={{ mt: 5, mr: 1 }}
                   disabled={isLoading}
                 >
                   {/* {index === steps.length - 1 ? "Finish" : "Continue"} */}
@@ -404,24 +429,27 @@ const StepByStep = () => {
           <StepLabel>{"Assign trip"}</StepLabel>
           <StepContent>
             {flight && (
-              <>
-                <PurposeOfTrip
-                  setPurposeOfTrip={(prioVal, purpose) => {
-                    setPurposeOfTrip(prioVal, purpose);
-                  }}
-                />
-
-                <AssignToEmployee
-                  allResearchProjects={allResearchProjects}
-                  employeesID={employeesID}
-                  setEmployeeToFlight={(ID, project) =>
-                    setEmployeeToFlight(ID, project)
-                  }
-                  handleAddFlight={handleAddFlight}
-                  employees={employees}
-                  handleNext={handleNext}
-                />
-              </>
+              <Row>
+                <Col md={"auto"}>
+                  <PurposeOfTrip
+                    setPurposeOfTrip={(prioVal, purpose) => {
+                      setPurposeOfTrip(prioVal, purpose);
+                    }}
+                  />
+                </Col>
+                <Col md={"auto"}>
+                  <AssignToEmployee
+                    allResearchProjects={allResearchProjects}
+                    employeesID={employeesID}
+                    setEmployeeToFlight={(ID, project) =>
+                      setEmployeeToFlight(ID, project)
+                    }
+                    handleAddFlight={handleAddFlight}
+                    employees={employees}
+                    handleNext={handleNext}
+                  />
+                </Col>
+              </Row>
             )}
             <Box sx={{ mb: 2 }}>
               <div>
