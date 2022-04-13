@@ -18,12 +18,12 @@ const DataCard = ({ ...props }) => {
         <Col className="component-title" style={{ fontWeight: "700" }}>
           {value}
         </Col>
-        {unit && (
-          <Col style={{ color: "rgb(180,180,180)", fontSize: "14px" }}>
-            {unit}
-          </Col>
-        )}
       </Row>
+      {unit && (
+        <Row style={{ color: "rgb(180,180,180)", fontSize: "14px" }}>
+          <Col>{unit}</Col>
+        </Row>
+      )}
     </Container>
   );
 };
@@ -160,7 +160,10 @@ const Projects = ({ ...props }) => {
                   >
                     <Col xs={5}>{project.project}</Col>
                     {/* <Col xs={3}>{employee.ID}</Col> */}
-                    <Col xs={{ span: 1, offset: 6 }}>
+                    <Col
+                      style={{ color: "rgb(25, 118, 210)" }}
+                      xs={{ span: 1, offset: 6 }}
+                    >
                       <ArrowForwardIosIcon />
                     </Col>
                   </Row>

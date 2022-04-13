@@ -61,8 +61,11 @@ const FlightsContextProvider = ({ ...props }) => {
   };
 
   const getEmployeeFlights = (ID) => {
-    var returnArray = [];
-    
+    var empFlights = [];
+    flights.map((f) => {
+      f.ID === ID && empFlights.push(f);
+    });
+    return empFlights;
   };
 
   return (
@@ -74,6 +77,7 @@ const FlightsContextProvider = ({ ...props }) => {
         CO2eTotal,
         projectFlights,
         getProjectFlights,
+        getEmployeeFlights,
       }}
     >
       {props.children}

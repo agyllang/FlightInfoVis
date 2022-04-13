@@ -1,12 +1,138 @@
 import React, { useContext, useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import { EmployeesContext } from "../contexts/EmployeesContext";
+import { FlightsContext } from "../contexts/FlightsContext";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+const DataCard = ({ ...props }) => {
+  const { title, value, unit } = props;
+  return (
+    // <Col xs lg="5" className="component-container">
+    <Container style={{ padding: "10px" }} className="component-container">
+      <Row style={{ color: "rgb(180,180,180)" }}>{title}</Row>
+
+      <Row>
+        <Col className="component-title" style={{ fontWeight: "700" }}>
+          {value}
+        </Col>
+        {unit && (
+          <Col style={{ color: "rgb(180,180,180)", fontSize: "14px" }}>
+            {unit}
+          </Col>
+        )}
+      </Row>
+    </Container>
+  );
+};
+
+const EmployeeDetails = ({ employeeFlights }) => {
+  console.log("EmployeeDetails employeeFlights", employeeFlights);
+  var total = 0;
+  employeeFlights.forEach((each) => {
+    total += each.totalco2e;
+  });
+
+  return (
+    <Container style={{ marginTop: "1rem" }}>
+      <Row>
+        {/* <Col style={{ display: "flex", justifyContent: "center" }}> */}
+        <Col>
+          <h5
+            style={{
+              backgroundColor: `${employeeFlights.projectColor}`,
+              textAlign: "center",
+            }}
+            className="component-title"
+          >
+            {employeeFlights.project}
+          </h5>
+        </Col>
+      </Row>
+
+      <Row style={{ borderBottom: "2px solid #c6c6c6" }}>
+        <Row>
+          <Col className="list-column-header">
+            Flights ({employeeFlights.length}):
+          </Col>
+          <Col className="list-column-header">Priority </Col>
+          <Col>
+            <Col className="list-column-header">CO2e kg </Col>
+            <Col style={{ fontSize: "14px", color: "grey" }}>
+              Total(<b style={{ color: "black" }}>{total}</b>)
+            </Col>
+          </Col>
+          <Col className="list-column-header">From/To</Col>
+        </Row>
+      </Row>
+      <Row>
+        {employeeFlights.length > 0 &&
+          employeeFlights.map((f, index) => {
+            return (
+              <Row
+                key={`employeeflight-item${index}`}
+                style={{
+                  backgroundColor: index % 2 ? "#e1effc" : "#ffffff",
+
+                  // border: index === focusedIndex ? "2px solid black" : "",
+                  borderRadius: "1px",
+                  margin: "3px",
+                }}
+              >
+                <Row>
+                  <Col>{f.flightID}</Col>
+                  <Col>{f.priority}</Col>
+                  <Col>{f.totalco2e}</Col>
+                  <Col>
+                    {f.legs.map((leg, index) => {
+                      return (
+                        <Row key={`leg-${index}`}>
+                          {leg.from}/{leg.to}
+                        </Row>
+                      );
+                    })}
+                    {/* ({f.oneWay === 1 ? "One-way" : "Round trip"}) */}
+                  </Col>
+                  {/* <Col xs={3}>{employee.ID}</Col> */}
+                </Row>
+                <Row
+                //  style={{ borderBottom: "0.2px solid grey" }}
+                >
+                  <Col
+                    style={{ color: "grey", fontStyle: "italic" }}
+                    md={"auto"}
+                  >
+                    {" "}
+                    "{f.purpose}"
+                  </Col>
+                </Row>
+              </Row>
+            );
+          })}
+
+        {/* <Col>
+            <DataCard
+              title={"Emissions"}
+              value={projectFlights.projectCO2e}
+              unit={"CO2e kg"}
+            />
+          </Col>
+          <Col>
+            <DataCard
+              title={"Flights"}
+              value={projectFlights.projFlights.length}
+              // unit={"CO2e kg"}
+            />
+          </Col> */}
+      </Row>
+    </Container>
+  );
+};
+
 const EmployeeList = ({ ...props }) => {
   const { employees } = useContext(EmployeesContext);
+  const { getEmployeeFlights } = useContext(FlightsContext);
   const [focusedIndex, setFocused] = useState();
-
+  console.log(getEmployeeFlights("p1"));
   const handleFocus = (index) => {
     // console.log("handleFocus");
     if (index === focusedIndex) {
@@ -18,11 +144,11 @@ const EmployeeList = ({ ...props }) => {
   return (
     <Container className="component-container">
       {/* <Container className="addEmployee-container"> */}
-      <Col>
+      <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
         <h5 className="component-title">Employees ({employees.length})</h5>
 
         {/* <div className="page-header2">Employees ({employees.length})</div> */}
-      </Col>
+      </Row>
       <Col>
         <Row>
           <Col className="list-column-header" xs={5}>
@@ -50,10 +176,10 @@ const EmployeeList = ({ ...props }) => {
                   key={`employeelist-item${index}`}
                   className="addEmployee-row"
                   style={{
-                    border: index === focusedIndex ? "2px solid black" : "",
+                    border: index === focusedIndex ? "1px solid black" : "",
                     borderRadius: "1px",
                     margin: "3px",
-                    backgroundColor: index % 2 ? "#eaeaea" : "#ffffff",
+                    backgroundColor: index % 2 ? "#eaeaea" : "#e4eaee",
                   }}
                   onClick={handleClick}
                 >
@@ -66,7 +192,20 @@ const EmployeeList = ({ ...props }) => {
                       <KeyboardArrowDownIcon />
                     )}
                   </Col>
-                  {focusedIndex === index && <Container></Container>}{" "}
+                  {focusedIndex === index && (
+                    <Container>
+                      <EmployeeDetails
+                        employeeFlights={getEmployeeFlights(employee.ID)}
+                      />
+                      {/* <Row>
+                        <Col>
+                          {getEmployeeFlights(employee.ID).map((each) => {
+                            return <Row>{each.flightID}</Row>;
+                          })}
+                        </Col>
+                      </Row> */}
+                    </Container>
+                  )}{" "}
                 </Row>
               );
             })}
