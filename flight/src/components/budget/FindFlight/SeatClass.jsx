@@ -9,7 +9,7 @@ import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 
-const options = [ "Economy Class","Business Class","First Class"]
+const options = ["Economy", "Business", "First"];
 
 const SeatClass = ({ ...props }) => {
   const { setSeatClass } = props;
@@ -19,13 +19,13 @@ const SeatClass = ({ ...props }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   useEffect(() => {
     if (selectedIndex === 0) {
-      setSeatClass("economy")
+      setSeatClass("economy");
     }
     if (selectedIndex === 1) {
-      setSeatClass("business")
+      setSeatClass("business");
     }
     if (selectedIndex === 2) {
-      setSeatClass("first")
+      setSeatClass("first");
     }
   }, [selectedIndex]);
   // console.log(selectedIndex);

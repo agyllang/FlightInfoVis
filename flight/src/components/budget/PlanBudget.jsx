@@ -42,19 +42,18 @@ const PlanBudget = ({ ...props }) => {
     <Container fluid>
       <Row className="page-title">Plan Carbon budget</Row>
       <Row>
-        <Col md={"auto"}>
+        <Col md={4}>
           <StepByStep />
         </Col>
-        <Col lg={6} className="component-container">
-          <Col>
-            <BudgetProgressBar
-              max={max}
-              sortValue={sortValue}
-              reverseSorting={reverseSorting}
-            />
-          </Col>
+        <Col lg={6} style={{ paddingTop: 0 }} className="component-container">
+          <BudgetProgressBar
+            max={max}
+            sortValue={sortValue}
+            reverseSorting={reverseSorting}
+          />
+
           <Row style={{ justifyContent: "space-between" }}>
-            <Col>
+            <Col md={"auto"}>
               <ColorScale max={max} steps={10} />
             </Col>
             <Col
@@ -62,6 +61,7 @@ const PlanBudget = ({ ...props }) => {
                 display: "flex",
                 alignContent: "center",
                 justifyContent: "flex-end",
+                alignItems: "center",
               }}
             >
               <Sort
@@ -77,12 +77,18 @@ const PlanBudget = ({ ...props }) => {
                   setSortValue(sort);
                 }}
               />
-              <Button
-                size="small"
-                onClick={() => setReverseSorting((prev) => !prev)}
-              >
-                {reverseSorting ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />}
-              </Button>
+
+              {reverseSorting ? (
+                <ArrowDownwardIcon
+                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                  onClick={() => setReverseSorting((prev) => !prev)}
+                />
+              ) : (
+                <ArrowUpwardIcon
+                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                  onClick={() => setReverseSorting((prev) => !prev)}
+                />
+              )}
             </Col>
           </Row>
 

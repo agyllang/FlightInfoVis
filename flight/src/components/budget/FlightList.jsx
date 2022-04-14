@@ -118,7 +118,7 @@ const FlightList = ({ ...props }) => {
 
                         {flight.legs.map((leg, i) => {
                           return (
-                            <Row>
+                            <Row key={`flightleg-${i}`}>
                               <Col className="flightListDetails-item" xs={2}>
                                 <FlightTakeoffIcon />
                                 {leg.from}

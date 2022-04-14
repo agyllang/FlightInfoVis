@@ -4,50 +4,33 @@ import { Row, Col, Button, Container } from "react-bootstrap";
 import SelectFromArray from "./SelectFromArray";
 
 const AssignToEmployee = ({ ...props }) => {
-  const {
-    employeesID,
-    setEmployeeToFlight,
-    handleAddFlight,
-    allResearchProjects,
-    employees,
-    handleNext,
-  } = props;
+  const { setEmployeeToFlight, handleAddFlight, employees, handleNext } = props;
+
   const [ID, setID] = useState("");
   const [project, setProject] = useState("");
   const [disable, setDisable] = useState(true);
-  //   const [error, setError] = useState(false);
   useEffect(() => {
-    validateID(ID, project);
+    //changes state of disable
+    setDisable(ID === "" || project === "");
+    if (ID !== "" && project !== "") {
+      setEmployeeToFlight(ID, project);
+    }
   }, [ID, project]);
 
-  const findEmployeeProjects = (ID) => {
-    employees.filter((obj) => obj.ID == ID).map((obj) => obj.projects);
-  };
+  useEffect(() => {
+    //if ID of employee changes reset project value
+
+    setProject("");
+  }, [ID]);
 
   const getProject = (ID) =>
     employees.filter((obj) => obj.ID == ID).map((obj) => obj.projects);
 
-  //   console.log("error", error);
-  const validateID = (ID, project) => {
-    console.log("validateID", ID);
-    // employeesID.includes(ID) ?
-    // setError(!employeesID.includes(ID));
-
-    setDisable(!employeesID.includes(ID) && project !== "");
-
-    if (employeesID.includes(ID) && project !== "") {
-      setEmployeeToFlight(ID, project);
-    }
-  };
   const onClick = () => {
     handleAddFlight();
     handleNext();
   };
-  console.log(employees);
-  //   const handleChangeTextField = (event) => {
-  //     setID(event.target.value);
-  //     validateID(event.target.value);
-  //   };
+
   return (
     <Container
       style={
@@ -62,7 +45,7 @@ const AssignToEmployee = ({ ...props }) => {
     >
       <h5 className="purposeOfTrip-header">Assign trip to employee </h5>
       <Row style={{ justifyContent: "space-between" }}>
-        <Col md={"auto"}>
+        <Col>
           <SelectFromArray
             placeholder={"Employee"}
             array={employees}
@@ -73,7 +56,7 @@ const AssignToEmployee = ({ ...props }) => {
             propLabel={"name"}
           />
         </Col>
-        <Col md={"auto"}>
+        <Col>
           {ID && (
             <SelectFromArray
               placeholder={"Project"}
@@ -84,11 +67,10 @@ const AssignToEmployee = ({ ...props }) => {
             />
           )}
         </Col>
-
+      </Row>
+      <Row>
         <Button
           variant={!disable ? "success" : "secondary"}
-          //   size="lg"
-          // style={{ width: "auto" }}
           disabled={disable}
           onClick={onClick}
         >

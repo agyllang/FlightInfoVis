@@ -26,14 +26,14 @@ const BudgetProgressBar = ({ ...props }) => {
   //   console.log("useEffect budgetProggressbar");
   //   sortedFlights = flights.sort(sortBy(sortValue, reverseSorting));
   // }, [sortValue, flights, reverseSorting]);
-  const procentFunc =(part,whole) =>{
-   var procent =  Math.floor((part/whole)*100)
-   if (procent < 1){
-    return "<1 %" 
-   } else {
-     return procent + "%"
-   }
-  }
+  const procentFunc = (part, whole) => {
+    var procent = Math.floor((part / whole) * 100);
+    if (procent < 1) {
+      return "<1 %";
+    } else {
+      return procent + "%";
+    }
+  };
 
   var chromaScale = chroma
     .scale("OrRd")
@@ -42,7 +42,9 @@ const BudgetProgressBar = ({ ...props }) => {
     .padding([0.2, 0]);
   return (
     <Container className="component-container">
-      <h5 className="component-title">Carbon Budget estimate </h5>
+      <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
+        <h5 className="component-title">Carbon budget estimate </h5>
+      </Row>
       <Row>
         <ProgressBar
           style={{
@@ -88,7 +90,7 @@ const BudgetProgressBar = ({ ...props }) => {
                         //   marginLeft: "1px",
                         cursor: "pointer",
                       }}
-                      label={procentFunc(flight.totalco2e,CO2eTotal)}
+                      label={procentFunc(flight.totalco2e, CO2eTotal)}
                       // onClick={() => {
                       //   setFocus(flight);
                       // }}

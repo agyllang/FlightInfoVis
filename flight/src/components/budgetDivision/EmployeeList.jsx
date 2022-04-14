@@ -4,26 +4,6 @@ import { EmployeesContext } from "../contexts/EmployeesContext";
 import { FlightsContext } from "../contexts/FlightsContext";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-const DataCard = ({ ...props }) => {
-  const { title, value, unit } = props;
-  return (
-    // <Col xs lg="5" className="component-container">
-    <Container style={{ padding: "10px" }} className="component-container">
-      <Row style={{ color: "rgb(180,180,180)" }}>{title}</Row>
-
-      <Row>
-        <Col className="component-title" style={{ fontWeight: "700" }}>
-          {value}
-        </Col>
-        {unit && (
-          <Col style={{ color: "rgb(180,180,180)", fontSize: "14px" }}>
-            {unit}
-          </Col>
-        )}
-      </Row>
-    </Container>
-  );
-};
 
 const EmployeeDetails = ({ employeeFlights }) => {
   console.log("EmployeeDetails employeeFlights", employeeFlights);
@@ -71,10 +51,11 @@ const EmployeeDetails = ({ employeeFlights }) => {
               <Row
                 key={`employeeflight-item${index}`}
                 style={{
-                  backgroundColor: index % 2 ? "#e1effc" : "#ffffff",
+                  backgroundColor:  "#ffffff",
+                  // backgroundColor: index % 2 ? "#e1effc" : "#ffffff",
 
-                  // border: index === focusedIndex ? "2px solid black" : "",
-                  borderRadius: "1px",
+                  borderBottom:  "1px solid #e1effc" ,
+                  // borderRadius: "1px",
                   margin: "3px",
                 }}
               >
@@ -132,7 +113,7 @@ const EmployeeList = ({ ...props }) => {
   const { employees } = useContext(EmployeesContext);
   const { getEmployeeFlights } = useContext(FlightsContext);
   const [focusedIndex, setFocused] = useState();
-  console.log(getEmployeeFlights("p1"));
+  // console.log(getEmployeeFlights("p1"));
   const handleFocus = (index) => {
     // console.log("handleFocus");
     if (index === focusedIndex) {
@@ -197,15 +178,8 @@ const EmployeeList = ({ ...props }) => {
                       <EmployeeDetails
                         employeeFlights={getEmployeeFlights(employee.ID)}
                       />
-                      {/* <Row>
-                        <Col>
-                          {getEmployeeFlights(employee.ID).map((each) => {
-                            return <Row>{each.flightID}</Row>;
-                          })}
-                        </Col>
-                      </Row> */}
                     </Container>
-                  )}{" "}
+                  )}
                 </Row>
               );
             })}

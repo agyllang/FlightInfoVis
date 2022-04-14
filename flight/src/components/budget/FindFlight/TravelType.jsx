@@ -34,7 +34,7 @@ const TravelType = ({ ...props }) => {
   console.log(selectedIndex);
 
   const handleClick = () => {
-    console.info(`You clicked ${options[selectedIndex]}`);
+    //console.info(`You clicked ${options[selectedIndex]}`);
   };
 
   const handleMenuItemClick = (event, index) => {

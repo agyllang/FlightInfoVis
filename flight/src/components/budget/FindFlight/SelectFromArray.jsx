@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -6,8 +6,11 @@ import Select from "@mui/material/Select";
 
 const SelectFromArray = ({ ...props }) => {
   const { placeholder, array, callback, propValue, propLabel } = props;
-  console.log("SelectFromArray, array", array);
+  // console.log("SelectFromArray, array", array);
   const [value, setVal] = useState("");
+  useEffect (()=>{
+      setVal("")
+  },[array])
 
   const handleChange = (event) => {
     setVal(event.target.value);
@@ -15,35 +18,29 @@ const SelectFromArray = ({ ...props }) => {
   };
 
   return (
-    <div>
-      <FormControl 
-      sx={{ m: 1,}}
+    <FormControl sx={{ m: 1, minWidth: 120 }}>
+      <InputLabel id="demo-simple-select">{placeholder}</InputLabel>
+      <Select
+        labelId="demo-simple-select"
+        id="demo-simple-select"
+        value={value}
+        onChange={handleChange}
+        // autoWidth
+        label={placeholder}
       >
-        <InputLabel id="demo-simple-select-autowidth-label">
-          {placeholder}
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-autowidth-label"
-          id="demo-simple-select-autowidth"
-          value={value}
-          onChange={handleChange}
-          autoWidth
-          label={placeholder}
-        >
-          {/* <MenuItem value="">
+        {/* <MenuItem value="">
             <em>None</em>
           </MenuItem> */}
-          {array.length > 0 &&
-            array.map((each, index) => {
-              return (
-                <MenuItem key={index} value={ propValue ? each[propValue] : each}>
-                  {propLabel ? each[propLabel] : each}
-                </MenuItem>
-              );
-            })}
-        </Select>
-      </FormControl>
-    </div>
+        {array.length > 0 &&
+          array.map((each, index) => {
+            return (
+              <MenuItem key={index} value={propValue ? each[propValue] : each}>
+                {propLabel ? each[propLabel] : each}
+              </MenuItem>
+            );
+          })}
+      </Select>
+    </FormControl>
   );
 };
 

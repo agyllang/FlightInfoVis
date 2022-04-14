@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import { Row, Col, Container, Button } from "react-bootstrap";
 // import SearchIcon from "@mui/icons-material/Search";
 // import SearchIcon from "@mui/icons-material/Search";
@@ -18,6 +18,15 @@ const SearchBar = ({ ...props }) => {
   const [chosen, setChosen] = useState("");
   const [query, setQuery] = useState("");
   const [filteredAirports, setFilteredAirports] = useState([]);
+  useEffect(() => {
+    //reset iata code in parent container when unmounted
+    select("");
+  }, []);
+  useEffect(() => {
+    if (query === "") {
+      setChosen("");
+    }
+  }, [query]);
 
   const [suggested, setSuggested] = useState([]);
 
@@ -66,7 +75,8 @@ const SearchBar = ({ ...props }) => {
     select("");
     setChosen("");
   };
-
+  // console.log("query:", query);
+  // console.log("chosen:", chosen);
   return (
     <div>
       <div className="searchInputs">
@@ -106,17 +116,14 @@ const SearchBar = ({ ...props }) => {
           {filteredAirports.slice(0, 15).map((airport, index) => {
             return (
               <div
-              className="searchResult-item"
+                className="searchResult-item"
                 style={{
-                 
                   backgroundColor: index % 2 ? "#eaeaea" : "#ffffff",
-                 
                 }}
                 key={`${index}-suggested`}
                 onClick={() => {
                   clickItem(airport.iata_code, airport.name);
                 }}
-                
               >
                 <div className="searchResult-itemName">{airport.name}</div>
                 <div className="searchResult-itemShort">

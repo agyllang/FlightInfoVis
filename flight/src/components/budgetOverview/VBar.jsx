@@ -10,8 +10,13 @@ import {
   VictoryVoronoiContainer,
 } from "victory";
 import chroma from "chroma-js";
-import Sort from "./Sort";
 import { Row, Col, Container, Stack } from "react-bootstrap";
+
+import Sort from "./Sort";
+
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { Button } from "@mui/material";
 
 import fakeFlights from "../../fakeData";
 import ColorScale from "../progress/ColorScale";
@@ -33,8 +38,9 @@ const VBar = ({ ...props }) => {
   const [yAxis, setY] = useState("totalco2e");
   const [max, setMax] = useState(2500);
   const [min, setMin] = useState(0);
-  const [reverse, setReverse] = useState(false);
-  const [sortValue, setSortValue] = useState("total");
+  const [sortValue, setSortValue] = useState("totalco2e");
+  const [reverseSorting, setReverseSorting] = useState(false);
+
   useEffect(() => {
     var maxco2e = Math.max.apply(
       Math,
@@ -45,7 +51,12 @@ const VBar = ({ ...props }) => {
     setMax(maxco2e);
   }, [flights]);
 
-  var colorScale = chroma.scale("OrRd").domain([0, max]).classes(15);
+  var colorScale = chroma
+    .scale("OrRd")
+    .domain([0, max])
+    .classes(15)
+    .padding([0.2, 0]);
+
   // .padding([0.2, 0]);
 
   const sort_by = (field, reverse, primer) => {
@@ -73,37 +84,63 @@ const VBar = ({ ...props }) => {
     return <Bar {...props} style={{ fill: colorScale(datum._y).hex() }}></Bar>;
   };
 
-  var sortedFlights = fakeFlights.sort(sort_by(sortValue, reverse));
+  var sortedFlights = flights.sort(sort_by(sortValue, reverseSorting));
   // console.log("sortedFlights", sortedFlights);
 
   return (
     <Container className="component-container">
+      <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
+        <h5 className="component-title">All planned flights of budget </h5>
+
+        {/* <div className="page-header2">Employees ({employees.length})</div> */}
+      </Row>
       {/* <div style={{ width: "50%" }}> */}
       <Row>
-        <Col>
+        <Col md={"auto"}>
+          <ColorScale max={max} step={10} />
+        </Col>
+        <Col
+          style={{
+            display: "flex",
+            alignContent: "center",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
           <Sort
             placeholder={"Sorting on"}
             array={[
-              {value:"totalco2e",label:"CO2e"},
-              {value:"priority",label:"Priority"},
-              {value:"ID", label:"ID"},
-              {value:"workDays", label:"Work days"},
-              {value:"echoTimeDate",label:"Date"}
+              { value: "totalco2e", label: "CO2e" },
+              { value: "priority", label: "Priority" },
+              { value: "ID", label: "ID" },
+              { value: "workDays", label: "Work days" },
+              { value: "echoTimeDate", label: "Date" },
             ]}
             callback={(sort) => {
               setSortValue(sort);
             }}
           />
-          <ColorScale max={max} step={10} />
+
+          {reverseSorting ? (
+            <ArrowDownwardIcon
+              style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+              onClick={() => setReverseSorting((prev) => !prev)}
+            />
+          ) : (
+            <ArrowUpwardIcon
+              style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+              onClick={() => setReverseSorting((prev) => !prev)}
+            />
+          )}
         </Col>
       </Row>
 
       <VictoryChart
-        padding={{ left: 90, top: 50, right: 0, bottom: 50 }}
+        padding={{ left: 90, top: 0, right: 0, bottom: 50 }}
         // theme={VictoryTheme.material}
         // strokeDasharray={"0"}
-        height={500}
-        width={500}
+        height={300}
+        width={400}
         domainPadding={{ x: 20, y: [10, 20] }}
         scale={{ x: "linear" }}
         // tickLabelComponent={<VictoryLabel style={{ fontSize: '12px'}} />}
@@ -112,7 +149,7 @@ const VBar = ({ ...props }) => {
             mouseFollowTooltips
             voronoiDimension="x"
             labels={({ datum }) =>
-              `Emp.ID: ${datum.ID} \n Project: ${datum.project} \n  CO2e: ${datum.totalco2e} \n Date: ${datum.travelDate[0].month}/${datum.travelDate[0].year} \n Prio: ${datum.priority} `
+              `Emp.ID: ${datum.ID} \n Project: ${datum.project} \n  CO2e: ${datum.totalco2e} \n Date: ${new Date(datum.echoTimeDate).getMonth()}/${new Date(datum.echoTimeDate).getFullYear()} \n Prio: ${datum.priority} `
             }
             labelComponent={
               <VictoryTooltip
@@ -128,10 +165,10 @@ const VBar = ({ ...props }) => {
                   fill: "#FFFFFF",
                 }}
                 style={{
-                  fill: "#868C97",
+                  fill: "#000",
                   fontSize: 10,
                   fontWeight: 400,
-                  textAnchor: "center",
+                  textAnchor: "start",
                 }}
               />
             }
@@ -143,15 +180,20 @@ const VBar = ({ ...props }) => {
         <VictoryAxis
           style={{
             tickLabels: {
-              fontSize: 7,
+              fontSize: 9,
+              fontWeight: "400",
+              fontFamily: "Helvetica, Arial, sans-serif",
             },
             axisLabel: {
-              // fontFamily: "inherit",
-              fontWeight: 500,
-              letterSpacing: "1px",
+              fontFamily: "Helvetica, Arial, sans-serif !important",
+              fontWeight: 700,
+              // whiteSpace: "nowrap",
+              // textAlign: "start",
+              // textSizeAdjust: "100%",
+              // letterSpacing: "1px",
               // stroke: "white",
-              // fontSize: 20
-              padding: 50,
+              fontSize: 11,
+              padding: 60,
             },
           }}
           label={"Flight ID"}
@@ -161,7 +203,17 @@ const VBar = ({ ...props }) => {
           orientation="bottom"
           style={{
             tickLabels: { fontSize: 10 },
-            grid: { stroke: "#F4F5F7", strokeWidth: 2 },
+            grid: { stroke: "#ecebf4", strokeWidth: 2 },
+            axisLabel: {
+              fontSize: 11,
+              fontWeight: 700,
+              fontFamily: "Helvetica, Arial, sans-serif !important",
+
+              // letterSpacing: "1px",
+              // stroke: "white",
+              // fontSize: 20
+              padding: 30,
+            },
           }}
           tick
           label={"CO2e kg"}
@@ -178,33 +230,6 @@ const VBar = ({ ...props }) => {
           x={xAxis}
           // data accessor for y values
           y={yAxis}
-          // labels={({ datum }) =>
-          //   `Emp.ID: ${datum.ID} \n Project: ${datum.project} \n  CO2e: ${
-          //     datum.total * datum.oneWay
-          //   } \n Date: ${datum.travelDate[0].month}/${
-          //     datum.travelDate[0].year
-          //   } \n Prio: ${datum.priority} `
-          // }
-          // labelComponent={
-          //   <VictoryTooltip
-          //     flyoutWidth={95}
-          //     flyoutHeight={55}
-          //     cornerRadius={2}
-          //     pointerLength={15}
-          //     pointerWidth={0.1}
-          //     flyoutStyle={{
-          //       stroke: "#868C97",
-          //       strokeWidth: 1,
-          //       fill: "#FFFFFF",
-          //     }}
-          //     style={{
-          //       fill: "#868C97",
-          //       fontSize: 10,
-          //       fontWeight: 400,
-          //       textAnchor: "center",
-          //     }}
-          //   />
-          // }
         />
       </VictoryChart>
       {/* </div> */}
