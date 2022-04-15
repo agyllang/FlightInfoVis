@@ -149,7 +149,7 @@ const VBar = ({ ...props }) => {
             mouseFollowTooltips
             voronoiDimension="x"
             labels={({ datum }) =>
-              `Emp.ID: ${datum.ID} \n Project: ${datum.project} \n  CO2e: ${datum.totalco2e} \n Date: ${new Date(datum.echoTimeDate).getMonth()}/${new Date(datum.echoTimeDate).getFullYear()} \n Prio: ${datum.priority} `
+              `Emp.ID: ${datum.ID} \n Project: ${datum.project} \n  CO2e: ${datum.totalco2e} \n Date: ${new Date(datum.echoTimeDate).getMonth()+1}/${new Date(datum.echoTimeDate).getFullYear()} \n Prio: ${datum.priority} `
             }
             labelComponent={
               <VictoryTooltip
