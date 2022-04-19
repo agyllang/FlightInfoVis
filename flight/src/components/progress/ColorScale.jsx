@@ -32,9 +32,9 @@ const ColorScale = ({ ...props }) => {
               key={`color-scale-${index}`}
               style={{
                 display: "inline",
-                fontSize: "10px",
+                fontSize: "7px",
                 width: "30px",
-                minWidth: "15px",
+                minWidth: "20px",
                 height: "10px",
                 backgroundColor: `${color}`,
                 padding: 0,

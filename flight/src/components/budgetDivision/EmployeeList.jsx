@@ -1,9 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState,useEffect } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import { EmployeesContext } from "../contexts/EmployeesContext";
 import { FlightsContext } from "../contexts/FlightsContext";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { getCorrectTextColor } from "../utility/functions";
 
 const EmployeeDetails = ({ employeeFlights }) => {
   console.log("EmployeeDetails employeeFlights", employeeFlights);
@@ -51,10 +52,10 @@ const EmployeeDetails = ({ employeeFlights }) => {
               <Row
                 key={`employeeflight-item${index}`}
                 style={{
-                  backgroundColor:  "#ffffff",
+                  backgroundColor: "#ffffff",
                   // backgroundColor: index % 2 ? "#e1effc" : "#ffffff",
 
-                  borderBottom:  "1px solid #e1effc" ,
+                  borderBottom: "1px solid #e1effc",
                   // borderRadius: "1px",
                   margin: "3px",
                 }}
@@ -110,7 +111,14 @@ const EmployeeDetails = ({ employeeFlights }) => {
 };
 
 const EmployeeList = ({ ...props }) => {
-  const { employees } = useContext(EmployeesContext);
+  const { employees, getProjectFromProjectName, allResearchProjectsArray } =
+    useContext(EmployeesContext);
+    const [employeesArr, setEmployeesArr] = useState(employees)
+    
+    useEffect(() => {
+      setEmployeesArr(employees)
+    }, [allResearchProjectsArray])
+    
   const { getEmployeeFlights } = useContext(FlightsContext);
   const [focusedIndex, setFocused] = useState();
   // console.log(getEmployeeFlights("p1"));
@@ -127,21 +135,23 @@ const EmployeeList = ({ ...props }) => {
       {/* <Container className="addEmployee-container"> */}
       <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
         <h5 className="component-title">Employees ({employees.length})</h5>
-
-        {/* <div className="page-header2">Employees ({employees.length})</div> */}
       </Row>
       <Col>
         <Row>
-          <Col className="list-column-header" xs={5}>
+          <Col className="list-column-header" xs={4}>
             Name
           </Col>
           <Col className="list-column-header" xs={3}>
             ID
           </Col>
+          <Col className="list-column-header" xs={3}>
+            Project
+          </Col>
         </Row>
         <div className="list-table">
-          {employees.length > 0 &&
-            employees.map((employee, index) => {
+          {employeesArr.length > 0 &&
+            allResearchProjectsArray.length > 0 &&
+            employeesArr.map((employee, index) => {
               const ref = React.createRef();
 
               const handleClick = (e) => {
@@ -164,9 +174,41 @@ const EmployeeList = ({ ...props }) => {
                   }}
                   onClick={handleClick}
                 >
-                  <Col xs={5}>{employee.name}</Col>
+                  <Col xs={4}>{employee.name}</Col>
                   <Col xs={3}>{employee.ID}</Col>
-                  <Col xs={{ span: 1, offset: 3 }}>
+                  <Col xs={3}>
+                    {employee.projects.length > 0 &&
+                      employee.projects.map((p, index) => {
+                        // console.log("emplist project",p)
+                        // console.log("emplist employee", employee)
+                        // console.log("getProjectFromProjectName(p).projectColor",getProjectFromProjectName(p).projectColor)
+                        return (
+                          <div
+                            key={`p-${index}`}
+                            style={{
+                              borderRadius: "4px",
+                              paddingLeft: "2px",
+                              paddingRight: "2px",
+                              margin: "2px",
+                              display: "inline-block",
+                              // width: "50%",
+                              // backgroundColor: `#cf58c6`
+                              //   ,
+                              backgroundColor: `${getProjectFromProjectName(p).projectColor}`
+                                ,
+                              // color: "#fff",
+                              color: getCorrectTextColor(
+                                getProjectFromProjectName(p).projectColor
+                              ),
+                            }}
+                          >
+                            {" "}
+                            {p}{" "}
+                          </div>
+                        );
+                      })}
+                  </Col>
+                  <Col xs={{ span: 1, offset: 1 }}>
                     {focusedIndex === index ? (
                       <KeyboardArrowUpIcon />
                     ) : (

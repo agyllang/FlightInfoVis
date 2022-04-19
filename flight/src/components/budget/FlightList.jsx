@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { FlightsContext } from "../contexts/FlightsContext";
+import { EmployeesContext } from "../contexts/EmployeesContext";
 import { sortBy, returnMonthYear } from "../utility/functions";
 import { Row, Col, Container } from "react-bootstrap";
 
@@ -8,15 +9,22 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import FlightLandIcon from "@mui/icons-material/FlightLand";
 
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+
+
 const FlightList = ({ ...props }) => {
-  const { sortValue, reverseSorting } = props;
+  const { sortValue,setSortValue, reverseSorting, setReverseSorting} = props;
   // console.log("FlightList flights", flights);
   const { flights } = useContext(FlightsContext);
+  const { getNameFromID } = useContext(EmployeesContext);
 
-  useEffect(() => {
-    console.log("useEffect flightList");
-  }, [sortValue, flights]);
   var sortedFlights = flights.sort(sortBy(sortValue, reverseSorting));
+  console.log(" flightList sortedFlights:", sortedFlights);
+  useEffect(() => {
+    //add new flight on top
+    console.log("flights", flights);
+  }, [flights]);
 
   const [focusedIndex, setFocused] = useState();
   // console.log("focused", focusedIndex);
@@ -35,21 +43,110 @@ const FlightList = ({ ...props }) => {
 
       <Col>
         <Row>
-          <Col className="list-column-header" xs={2}>
-            FlightID
+          <Col className="list-column-header">FlightID</Col>
+          <Col onClick={()=>{setSortValue("ID")}}
+            className={
+              sortValue === "ID"
+                ? "list-column-header-sortFocus"
+                : "list-column-header"
+            }
+          >
+            Employee {sortValue==="ID" && <>
+              {reverseSorting ? (
+                <ArrowDownwardIcon
+                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                  onClick={() => setReverseSorting((prev) => !prev)}
+                />
+              ) : (
+                <ArrowUpwardIcon
+                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                  onClick={() => setReverseSorting((prev) => !prev)}
+                />
+              )}</> }
           </Col>
-          <Col className="list-column-header" xs={2}>
-            Date
+          <Col onClick={()=>{setSortValue("totalco2e")}}
+            className={
+              sortValue === "totalco2e"
+                ? "list-column-header-sortFocus"
+                : "list-column-header"
+            }
+          >
+            CO2e(kg) {sortValue==="totalco2e" && <>
+              {reverseSorting ? (
+                <ArrowDownwardIcon
+                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                  onClick={() => setReverseSorting((prev) => !prev)}
+                />
+              ) : (
+                <ArrowUpwardIcon
+                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                  onClick={() => setReverseSorting((prev) => !prev)}
+                />
+              )}</> }
           </Col>
-          <Col className="list-column-header" xs={2}>
-            CO2e(kg)
+
+          <Col onClick={()=>{setSortValue("co2ePerDay")}}
+            className={
+              sortValue === "co2ePerDay"
+                ? "list-column-header-sortFocus"
+                : "list-column-header"
+            }
+          >
+            CO2e(kg)/day {sortValue==="co2ePerDay" && <>
+              {reverseSorting ? (
+                <ArrowDownwardIcon
+                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                  onClick={() => setReverseSorting((prev) => !prev)}
+                />
+              ) : (
+                <ArrowUpwardIcon
+                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                  onClick={() => setReverseSorting((prev) => !prev)}
+                />
+              )}</> }
           </Col>
-          <Col className="list-column-header" xs={2}>
-            EmployeeID
+          <Col onClick={()=>{setSortValue("priority")}}
+            className={
+              sortValue === "priority"
+                ? "list-column-header-sortFocus"
+                : "list-column-header"
+            }
+          >
+            Priority {sortValue==="priority" && <>
+              {reverseSorting ? (
+                <ArrowDownwardIcon
+                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                  onClick={() => setReverseSorting((prev) => !prev)}
+                />
+              ) : (
+                <ArrowUpwardIcon
+                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                  onClick={() => setReverseSorting((prev) => !prev)}
+                />
+              )}</> }
           </Col>
-          <Col className="list-column-header" xs={2}>
-            Priority
+          <Col onClick={()=>{setSortValue("echoTimeDate")}}
+            className={
+              sortValue === "echoTimeDate"
+                ? "list-column-header-sortFocus"
+                : "list-column-header"
+            }
+          >
+            Date {sortValue==="echoTimeDate" && <>
+              {reverseSorting ? (
+                <ArrowDownwardIcon
+                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                  onClick={() => setReverseSorting((prev) => !prev)}
+                />
+              ) : (
+                <ArrowUpwardIcon
+                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                  onClick={() => setReverseSorting((prev) => !prev)}
+                />
+              )}</> }
           </Col>
+          <Col xs={{ span: 1 }} />
+
           {/* <Col xs={3}> {"a "}</Col> */}
           {/* <Col xs={3}>PRIO</Col> */}
         </Row>
@@ -82,12 +179,15 @@ const FlightList = ({ ...props }) => {
                   }}
                   onClick={handleClick}
                 >
-                  <Col xs={2}>{flight.flightID}</Col>
-                  <Col xs={2}> {returnMonthYear(flight.echoTimeDate)}</Col>
-                  <Col xs={2}>{flight.totalco2e}</Col>
-                  <Col xs={2}>{flight.ID}</Col>
-                  <Col xs={2}>{flight.priority}</Col>
-                  <Col xs={{ span: 1, offset: 1 }}>
+                  <Col>{flight.flightID}</Col>
+                  <Col>{getNameFromID(flight.ID)}</Col>
+                  <Col>{flight.totalco2e}</Col>
+                  <Col>{flight.co2ePerDay}</Col>
+                  <Col>{flight.priority}</Col>
+                  <Col> {returnMonthYear(flight.echoTimeDate)}</Col>
+
+                  {/* <Col> */}
+                  <Col xs={{ span: 1 }}>
                     {focusedIndex === index ? (
                       <KeyboardArrowUpIcon />
                     ) : (
@@ -154,7 +254,7 @@ const FlightList = ({ ...props }) => {
                               {/* </Col> */}
                             </Row>
                             <Row>
-                              Purpose:{" "}
+                              Purpose of flight:{" "}
                               <Col className="flightListDetails-item">
                                 {flight.purpose}
                               </Col>
@@ -176,6 +276,12 @@ const FlightList = ({ ...props }) => {
                           <Col>
                             <Row className="flightListDetails-header">
                               Employee details
+                            </Row>
+                            <Row>
+                              Employee :{" "}
+                              <Col className="flightListDetails-item">
+                                {getNameFromID(flight.ID)}
+                              </Col>
                             </Row>
                             <Row>
                               Employee ID:{" "}

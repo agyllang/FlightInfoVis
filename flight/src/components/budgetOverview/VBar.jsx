@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   VictoryBar,
   VictoryChart,
@@ -10,10 +10,10 @@ import {
   VictoryVoronoiContainer,
 } from "victory";
 import chroma from "chroma-js";
-import { Row, Col, Container, Stack } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 
 import Sort from "./Sort";
-
+import { EmployeesContext } from "../contexts/EmployeesContext";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { Button } from "@mui/material";
@@ -34,21 +34,25 @@ import ColorScale from "../progress/ColorScale";
 
 const VBar = ({ ...props }) => {
   const { flights } = props;
+const {getNameFromID} = useContext(EmployeesContext)
+
   const [xAxis, setX] = useState("flightID");
   const [yAxis, setY] = useState("totalco2e");
-  const [max, setMax] = useState(2500);
+  const [max, setMax] = useState(0);
   const [min, setMin] = useState(0);
   const [sortValue, setSortValue] = useState("totalco2e");
   const [reverseSorting, setReverseSorting] = useState(false);
 
   useEffect(() => {
-    var maxco2e = Math.max.apply(
-      Math,
-      flights.map(function (o) {
-        return o.totalco2e;
-      })
-    );
-    setMax(maxco2e);
+    if (flights.length > 0) {
+      var maxco2e = Math.max.apply(
+        Math,
+        flights.map(function (o) {
+          return o.totalco2e;
+        })
+      );
+      setMax(maxco2e);
+    }
   }, [flights]);
 
   var colorScale = chroma
@@ -110,10 +114,10 @@ const VBar = ({ ...props }) => {
           <Sort
             placeholder={"Sorting on"}
             array={[
+              { value: "ID", label: "Employee" },
               { value: "totalco2e", label: "CO2e" },
+              { value: "co2ePerDay", label: "CO2e/day" },
               { value: "priority", label: "Priority" },
-              { value: "ID", label: "ID" },
-              { value: "workDays", label: "Work days" },
               { value: "echoTimeDate", label: "Date" },
             ]}
             callback={(sort) => {
@@ -149,13 +153,15 @@ const VBar = ({ ...props }) => {
             mouseFollowTooltips
             voronoiDimension="x"
             labels={({ datum }) =>
-              `Emp.ID: ${datum.ID} \n Project: ${datum.project} \n  CO2e: ${datum.totalco2e} \n Date: ${new Date(datum.echoTimeDate).getMonth()+1}/${new Date(datum.echoTimeDate).getFullYear()} \n Prio: ${datum.priority} `
+              ` Emp.: ${getNameFromID(datum.ID)}\n Project: ${datum.project}\n CO2e: ${datum.totalco2e}\n CO2e/day: ${datum.co2ePerDay}\n Project: ${datum.project}\n Prio: ${datum.priority}\n Date: ${new Date(datum.echoTimeDate).getMonth() + 1}/${new Date(
+                datum.echoTimeDate
+              ).getFullYear()}`
             }
             labelComponent={
               <VictoryTooltip
                 constrainToVisibleArea
                 flyoutWidth={95}
-                flyoutHeight={55}
+                flyoutHeight={75}
                 cornerRadius={2}
                 pointerLength={15}
                 pointerWidth={0.1}

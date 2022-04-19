@@ -10,19 +10,23 @@ import ColorScale from "../progress/ColorScale";
 
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import { Button } from "@mui/material";
 
 const PlanBudget = ({ ...props }) => {
   const { flights, CO2eTotal } = useContext(FlightsContext);
   const [sortValue, setSortValue] = useState("totalco2e");
   const [reverseSorting, setReverseSorting] = useState(false);
-
-  var max = Math.max.apply(
-    Math,
-    flights.map(function (o) {
-      return o.totalco2e;
-    })
-  );
+  const [max, setMax] = useState(0);
+  useEffect(() => {
+    if (flights.length > 0) {
+      var maxCo2e = Math.max.apply(
+        Math,
+        flights.map(function (o) {
+          return o.totalco2e;
+        })
+      );
+      setMax(maxCo2e);
+    }
+  }, [flights]);
 
   const DataCard = ({ ...props }) => {
     const { title, value, unit } = props;
@@ -67,10 +71,10 @@ const PlanBudget = ({ ...props }) => {
               <Sort
                 placeholder={"Sorting on"}
                 array={[
+                  { value: "ID", label: "Employee" },
                   { value: "totalco2e", label: "CO2e" },
+                  { value: "co2ePerDay", label: "CO2e/day" },
                   { value: "priority", label: "Priority" },
-                  { value: "ID", label: "ID" },
-                  { value: "workDays", label: "Work days" },
                   { value: "echoTimeDate", label: "Date" },
                 ]}
                 callback={(sort) => {
@@ -92,7 +96,7 @@ const PlanBudget = ({ ...props }) => {
             </Col>
           </Row>
 
-          <FlightList sortValue={sortValue} reverseSorting={reverseSorting} />
+          <FlightList sortValue={sortValue} reverseSorting={reverseSorting} setSortValue={(value)=>setSortValue(value)} setReverseSorting={()=> setReverseSorting((prev) => !prev)}/>
         </Col>
 
         <Col md={"auto"}>

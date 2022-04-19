@@ -15,7 +15,7 @@ import { sortBy, returnMonthYear } from "../utility/functions";
 
 const BudgetProgressBar = ({ ...props }) => {
   const { max, sortValue, reverseSorting } = props;
-  console.log("BudgetProgressBar, sortValue", sortValue);
+  // console.log("BudgetProgressBar, sortValue", sortValue);
   // const {  CO2eTotal } = useContext(FlightsContext);
   const { flights, CO2eTotal } = useContext(FlightsContext);
   //   console.log("budgetProgressBar flights", flights);

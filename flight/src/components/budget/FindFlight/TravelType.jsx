@@ -31,7 +31,7 @@ const TravelType = ({ ...props }) => {
       setMultiCity(true);
     }
   }, [selectedIndex]);
-  console.log(selectedIndex);
+  // console.log(selectedIndex);
 
   const handleClick = () => {
     //console.info(`You clicked ${options[selectedIndex]}`);

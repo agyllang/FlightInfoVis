@@ -2,40 +2,70 @@ import React, { useState, useEffect, useContext } from "react";
 import Chart from "react-apexcharts";
 import { Row, Col, Container, Stack } from "react-bootstrap";
 import { FlightsContext } from "../contexts/FlightsContext";
-import { sortBy } from "../utility/functions";
+import { sortBy, getRandom } from "../utility/functions";
 import Slider from "@mui/material/Slider";
 
 const ProgressChart = ({ ...props }) => {
   const { flights, CO2eTotal } = useContext(FlightsContext);
+  var sortedFlights = flights.sort(sortBy("echoTimeDate", false));
+  var monthArray = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
   const [quarter, setQuarter] = useState(1);
 
   const [plannedMonthly, setPlannedMonthly] = useState([]);
+  console.log("plannedMonthly", plannedMonthly);
 
   const [plannedTrend, setPlannedTrend] = useState([]);
+  console.log("plannedTrend", plannedTrend);
 
   var actualData = [
     1520, 1602, 1604, 500, 4048, 1344, 2374, 1444, 508, 442, 723, 854,
   ];
-  const [actualMonthly, setActual] = useState(actualData);
+
+  const [actualMonthly, setActual] = useState([]);
+  console.log("actualMonthly", actualMonthly);
 
   const [actualTrend, setActualTrend] = useState(
     actualMonthly.map((elem, index) =>
       actualMonthly.slice(0, index + 1).reduce((a, b) => Math.floor(a + b))
     )
   );
-  useEffect(() => {
-    setActual(actualData.slice(0, quarter * 3));
-  }, [quarter]);
+  console.log("actualTrend", actualTrend);
 
   useEffect(() => {
-    setActualTrend(
-      actualMonthly.map((elem, index) =>
-        actualMonthly.slice(0, index + 1).reduce((a, b) => Math.floor(a + b))
-      )
+    var randomizedData = plannedMonthly.map((each, index) => {
+      return index % 2 === 0 ? Math.floor(each * 1.5) : Math.floor(each * 0.5);
+    });
+    setActual(randomizedData.slice(0, quarter * 3));
+  }, [plannedMonthly, quarter]);
+
+  // useEffect(() => {
+  //   var randomizedData = plannedMonthly.map((each) => {
+  //     return Math.floor(getRandom(0.7, 1.3) * each);
+  //   });
+  //   setActual(randomizedData.slice(0, quarter * 3));
+  // }, [quarter, plannedMonthly]);
+
+  useEffect(() => {
+    var trendbyQuarter = actualMonthly.map((elem, index) =>
+      actualMonthly.slice(0, index + 1).reduce((a, b) => Math.floor(a + b))
     );
-  }, [actualMonthly]);
 
-  var sortedFlights = flights.sort(sortBy("echoTimeDate", false));
+    setActualTrend(trendbyQuarter.slice(0, quarter * 3));
+  }, [actualMonthly, quarter]);
 
   useEffect(() => {
     var monthData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -132,20 +162,7 @@ const ProgressChart = ({ ...props }) => {
     },
     xaxis: {
       //   type: "category",
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
+      categories: monthArray,
     },
     yaxis: [
       {
@@ -244,15 +261,17 @@ const ProgressChart = ({ ...props }) => {
       yaxis: [
         {
           y: CO2eTotal,
-          borderColor: "#00E396",
+          borderColor: "#85AFFF",
           borderWidth: 2,
           label: {
-            offsetY: -10,
+            offsetY: 20,
+            offsetX: -270,
+
             borderColor: "#c0c0c0",
             style: {
               fontSize: "14px",
               color: "#fff",
-              background: "#00E396",
+              background: "#85AFFF",
               padding: {
                 left: 5,
                 right: 5,
@@ -263,8 +282,34 @@ const ProgressChart = ({ ...props }) => {
             text: `Planned carbon budget: ${CO2eTotal}`,
           },
         },
+         { 
+          y: actualTrend[quarter * 3 - 1],
+          borderColor: "#E08FB8",
+          borderWidth: 2,
+          label: {
+            offsetY:  quarter===4 ? 70: 20,
+            offsetX: quarter===1 ? -130 : quarter===2 ? 0 : quarter===3 ?-230 : 0,
+            // offsetX: (100+ (quarter*-100)),
+            borderColor: "##E08FB8",
+            style: {
+              fontSize: "14px",
+              color: "#fff",
+              background: "#E08FB8",
+              padding: {
+                left: 5,
+                right: 5,
+                top: 5,
+                bottom: 5,
+              },
+            },
+            
+            text: `Actual progress by Q${quarter}:  ${
+              actualTrend[quarter * 3 - 1]
+            } `,
+          },
+        },
       ],
-    },
+    }
   };
 
   const handleChange = (event, newValue) => {
@@ -281,7 +326,7 @@ const ProgressChart = ({ ...props }) => {
       <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
         <h5 className="component-title">Progress of budget 2022 </h5>
       </Row>
-      <Row>
+      <Row style={{ justifyContent: "center" }}>
         {" "}
         Display actual emissions by quarters
         <Col md={6}>
@@ -299,13 +344,55 @@ const ProgressChart = ({ ...props }) => {
           />
         </Col>
       </Row>
-      <Chart
-        options={options}
-        series={series}
-        type="bar"
-        height={400}
-        width={550}
-      />
+      {flights.length > 0 ? (
+        <Chart
+          options={options}
+          series={series}
+          type="bar"
+          height={400}
+          width={550}
+        />
+      ) : (
+        <Chart
+          options={{
+            chart: {
+              height: 350,
+              type: "line",
+            },
+            stroke: {
+              width: [0],
+            },
+            // title: {
+            //   text: "No flights added",
+            // },
+            dataLabels: {
+              enabled: true,
+              enabledOnSeries: [0],
+            },
+            labels: ["No flights"],
+            xaxis: {
+              type: "category",
+            },
+            yaxis: [
+              {
+                title: {
+                  text: "No flights",
+                },
+              },
+            ],
+          }}
+          series={[
+            {
+              name: "No flights added",
+              type: "column",
+              data: [0],
+            },
+          ]}
+          type="bar"
+          height={400}
+          width={550}
+        />
+      )}
     </Container>
   );
 };

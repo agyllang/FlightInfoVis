@@ -9,8 +9,10 @@ import PlanBudget from "./components/budget/PlanBudget";
 import BudgetOverview from "./components/budgetOverview/BudgetOverview";
 import FlightsContextProvider from "./components/contexts/FlightsContext";
 import Division from "./components/budgetDivision/Division";
+import { Button } from "@mui/material";
 
 function App() {
+  const [fakeData, setFakeData] = useState(false);
   return (
     <div className="App">
       <div className="sidebar-v">
@@ -40,9 +42,17 @@ function App() {
         >
           Budget Overview
         </NavLink>
+
+        <Button
+          onClick={() => {
+            setFakeData(!fakeData);
+          }}
+        >
+          Fake data{" "}
+        </Button>
       </div>
-      <EmployeesContextProvider>
-        <FlightsContextProvider>
+      <EmployeesContextProvider fakeData={fakeData}>
+        <FlightsContextProvider fakeData={fakeData}>
           <Routes>
             <Route path="/division" element={<Division />} />
             <Route path="/budget" element={<PlanBudget />} />

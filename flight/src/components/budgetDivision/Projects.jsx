@@ -2,11 +2,13 @@ import React, { useContext, useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import { EmployeesContext } from "../contexts/EmployeesContext";
 import { FlightsContext } from "../contexts/FlightsContext";
+import { getCorrectTextColor } from "../utility/functions";
 
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import chroma from "chroma-js";
+// import chroma from "chroma-js";
 import { Button } from "@mui/material";
+
 const DataCard = ({ ...props }) => {
   const { title, value, unit } = props;
   return (
@@ -44,6 +46,7 @@ const ProjectComponent = ({ projectDetails, goBack, projectFlights }) => {
             style={{
               backgroundColor: `${projectDetails.projectColor}`,
               textAlign: "center",
+              color: `${getCorrectTextColor(projectDetails.projectColor)}`,
             }}
             className="component-title"
           >
@@ -136,7 +139,9 @@ const Projects = ({ ...props }) => {
               Research Projects ({allResearchProjectsArray.length})
             </h5>
           </Row>
-          <div className="list-table">
+          <div 
+          // className="list-table"
+          >
             {allResearchProjectsArray.length > 0 &&
               allResearchProjectsArray.map((project, index) => {
                 const ref = React.createRef();
@@ -158,7 +163,14 @@ const Projects = ({ ...props }) => {
                       setFocused(project);
                     }}
                   >
-                    <Col xs={5}>{project.project}</Col>
+                    <Col
+                      style={{
+                        color: getCorrectTextColor(project.projectColor),
+                      }}
+                      xs={5}
+                    >
+                      {project.project}
+                    </Col>
                     {/* <Col xs={3}>{employee.ID}</Col> */}
                     <Col
                       style={{ color: "rgb(25, 118, 210)" }}

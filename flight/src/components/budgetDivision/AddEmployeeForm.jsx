@@ -71,7 +71,7 @@ const AddEmployeeForm = ({ ...props }) => {
     return false;
   }
   function employeeAdded() {
-   return "Employee is added"
+    return "Employee is added";
   }
   // `p${employees.length + 1}`
   // Use the useForm hook to create a form instance
@@ -91,14 +91,18 @@ const AddEmployeeForm = ({ ...props }) => {
       // console.log("instance", instance);
       // onSubmit (and everything else in React Form)
       // has async support out-of-the-box
-       await sendToFakeServer(values);
+      await sendToFakeServer(values);
       values.ID = `p${employees.length + 1}`;
+
+      values.projects = values.projects.map((p) => {
+        return p.toUpperCase();
+      });
       addNewEmployee(values);
       // addToEmployeesID(values.ID)
       // console.log("employee added!", values);
-      
-        // setAddEmployee(!addEmployee);
-      
+
+      // setAddEmployee(!addEmployee);
+
       instance.reset();
     },
     debugForm: false,
@@ -167,7 +171,11 @@ const AddEmployeeForm = ({ ...props }) => {
               {values.projects.map((p, i) => (
                 <div key={i}>
                   <label>
-                    Project: <InputField field={`projects.${i}`} />{" "}
+                    Project:{" "}
+                    <InputField
+                      style={{ textTransform: "uppercase" }}
+                      field={`projects.${i}`}
+                    />{" "}
                     <CloseIcon
                       id="clearBtn"
                       onClick={() => removeFieldValue("projects", i)}

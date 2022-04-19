@@ -4,8 +4,17 @@ import { EmployeesContext } from "./EmployeesContext";
 export const FlightsContext = createContext();
 
 const FlightsContextProvider = ({ ...props }) => {
+  const {fakeData} =props
   const { allResearchProjects } = useContext(EmployeesContext);
-  const [flights, setFlights] = useState(fakeFlights);
+  const [flights, setFlights] = useState([]);
+  // const [fakeData, setFakeData] = useState(false);
+  useEffect(() => {
+    if (fakeData) {
+      setFlights(fakeFlights);
+    }
+  }, [fakeData]);
+
+  // const [flights, setFlights] = useState(fakeFlights);
   const [CO2eTotal, setCO2e] = useState(0);
   const [projectFlights, setProjectFlights] = useState([]);
   console.log("FlightsContextProvider flights", flights);
@@ -47,6 +56,7 @@ const FlightsContextProvider = ({ ...props }) => {
   }, [flights, allResearchProjects]);
 
   const addNewFlight = (flight) => {
+    flight.flightCreated = Date.now();
     setFlights((prevState) => [...prevState, flight]);
   };
   const getProjectFlights = (projectName) => {

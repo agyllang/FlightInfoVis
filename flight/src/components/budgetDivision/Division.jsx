@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import AddEmployeeForm from "./AddEmployeeForm";
-import AddEmployeeForm2 from "./AddEmployeeForm2"
+
 import EmployeeList from "./EmployeeList";
 import Projects from "./Projects";
+import ProjectsPieChart from "./ProjectsPieChart";
 
 const Division = () => {
   return (
@@ -14,11 +15,12 @@ const Division = () => {
           <AddEmployeeForm />
           {/* <AddEmployeeForm2/> */}
         </Col>
-        <Col>
+        <Col xs={5}>
           <EmployeeList />
         </Col>
-        <Col>
+        <Col xs={4}>
           <Projects />
+          <ProjectsPieChart style={{marginTop:"1rem"}} />
         </Col>
       </Row>
     </Container>

@@ -41,20 +41,20 @@ const StepByStep = () => {
   const { addNewFlight } = useContext(FlightsContext);
 
   const [flight, setFlight] = useState();
-  console.log("StepByStep building flight obj.:", flight);
+  // console.log("StepByStep building flight obj.:", flight);
 
   //   const [openContainer, setToggle] = useState(false);
   // Primary flight data fetch options
   const [airport1, setAirport1] = useState("");
   const [airport2, setAirport2] = useState("");
-  console.log("airport1:", airport1);
-  console.log("airport2:", airport2);
+  // console.log("airport1:", airport1);
+  // console.log("airport2:", airport2);
 
   // Used for multi city trips
   const [airport3, setAirport3] = useState("");
   const [airport4, setAirport4] = useState("");
-  console.log("airport3:", airport3);
-  console.log("airport4:", airport4);
+  // console.log("airport3:", airport3);
+  // console.log("airport4:", airport4);
   // Secondary flight data fetch  options
   const [oneWay, setOneWay] = useState(1);
   const [multiCity, setMultiCity] = useState(false);
@@ -275,7 +275,7 @@ const StepByStep = () => {
 
     setActiveStep(0);
   };
-  console.log("activeStep", activeStep);
+  // console.log("activeStep", activeStep);
 
   return (
     <Container className="component-container">

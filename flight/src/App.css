@@ -362,11 +362,11 @@
 .dataResult::-webkit-scrollbar {
   display: none;
 }
-.searchResult-item{
-  cursor:pointer;
+.searchResult-item {
+  cursor: pointer;
   margin: 3px;
 }
-.searchResult-item:hover{
+.searchResult-item:hover {
   background-color: rgb(121, 121, 121) !important;
 }
 .searchResult-itemName {
@@ -384,7 +384,7 @@
 }
 .searchResult-itemShort {
   font-size: 13px;
-  display:inline-block;
+  display: inline-block;
   align-items: center;
   color: black;
 }
@@ -397,7 +397,7 @@
   border-bottom: 2px solid rgba(173, 174, 173, 0.35);
 }
 .suggested:hover {
-  color:"#ffffff" !important;
+  color: "#ffffff" !important;
 }
 
 .suggestedText {
@@ -460,7 +460,7 @@
 /* FlightList */
 .list-table {
   overflow-y: auto;
-  height: 50vh;
+  height: 45vh;
   /* border: 1px solid; */
 }
 .flightListDetails-item {
@@ -471,7 +471,17 @@
   font-weight: 700;
 }
 .list-column-header {
+  font-weight: 450;
+  cursor: pointer !important;
+
+}
+.list-column-header:hover {
+  background-color: rgba(194, 194, 194, 0.9);
+  cursor: pointer;
+}
+.list-column-header-sortFocus {
   font-weight: 650;
+  border-bottom: 1px solid black;
 }
 
 /* Budget progress bar */
