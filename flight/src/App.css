@@ -473,7 +473,6 @@
 .list-column-header {
   font-weight: 450;
   cursor: pointer !important;
-
 }
 .list-column-header:hover {
   background-color: rgba(194, 194, 194, 0.9);
@@ -498,3 +497,8 @@
   color:#ecebf4;
   background-color:rgb(234, 234, 234);
 } */
+.warning {
+  border: 2px solid rgb(255, 4, 0);
+  background-color: rgb(232, 191, 67);
+  /* color:#fff; */
+}

@@ -8,6 +8,8 @@ import {
   OverlayTrigger,
   Tooltip,
 } from "react-bootstrap";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 import { FlightsContext } from "../contexts/FlightsContext";
 import ColorScale from "./ColorScale";
 import chroma from "chroma-js";
@@ -43,7 +45,15 @@ const BudgetProgressBar = ({ ...props }) => {
   return (
     <Container className="component-container">
       <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
-        <h5 className="component-title">Carbon budget estimate </h5>
+        <h5 className="component-title">Carbon Budget Proposal </h5>
+      </Row>
+      <Row style={{marginBottom:"1rem"}}>
+        <Col md={"auto"}>
+          <Alert severity="info" >
+            <AlertTitle>CO2e body of Budget Proposal</AlertTitle>
+            Each section is a planned flight
+          </Alert>
+        </Col>
       </Row>
       <Row>
         <ProgressBar
@@ -107,6 +117,11 @@ const BudgetProgressBar = ({ ...props }) => {
           <ColorScale max={max} steps={10} />
         </Col>
       </Row> */}
+      <Row>
+        <div>
+          <b> {CO2eTotal}</b> CO2e(kg)
+        </div>
+      </Row>
     </Container>
   );
 };

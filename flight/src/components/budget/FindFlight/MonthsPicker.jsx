@@ -14,7 +14,7 @@ const MonthsPicker = ({ ...props }) => {
   // console.log(" Monthspicker value", value);
 
   const whatMonth = (t) => {
-    console.log("t", t);
+    // console.log("t", t);
     // console.log("t typeof",typeof t)
     setValue(t);
 

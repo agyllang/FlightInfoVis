@@ -10,6 +10,20 @@ import ColorScale from "../progress/ColorScale";
 
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+const DataCard = ({ ...props }) => {
+  const { title, value, unit } = props;
+  return (
+    // <Col xs lg="5" className="component-container">
+    <Container className="component-container">
+      <div style={{ color: "rgb(180,180,180)" }}>{title}</div>
+
+      <div className="component-title" style={{ fontWeight: "700" }}>
+        {value}
+      </div>
+      {unit && <div style={{ color: "rgb(180,180,180)" }}>{unit}</div>}
+    </Container>
+  );
+};
 
 const PlanBudget = ({ ...props }) => {
   const { flights, CO2eTotal } = useContext(FlightsContext);
@@ -28,23 +42,10 @@ const PlanBudget = ({ ...props }) => {
     }
   }, [flights]);
 
-  const DataCard = ({ ...props }) => {
-    const { title, value, unit } = props;
-    return (
-      // <Col xs lg="5" className="component-container">
-      <Container className="component-container">
-        <div style={{ color: "rgb(180,180,180)" }}>{title}</div>
-
-        <div className="component-title" style={{ fontWeight: "700" }}>
-          {value}
-        </div>
-        {unit && <div style={{ color: "rgb(180,180,180)" }}>{unit}</div>}
-      </Container>
-    );
-  };
+  
   return (
     <Container fluid>
-      <Row className="page-title">Plan Carbon budget</Row>
+      <Row className="page-title">Plan Carbon budget proposal</Row>
       <Row>
         <Col md={4}>
           <StepByStep />

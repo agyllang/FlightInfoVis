@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import Chart from "react-apexcharts";
 import { Row, Col, Container, Stack } from "react-bootstrap";
 import { FlightsContext } from "../contexts/FlightsContext";
@@ -6,7 +6,8 @@ import { sortBy, getRandom } from "../utility/functions";
 import Slider from "@mui/material/Slider";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-const ProgressChart = ({ ...props }) => {
+
+const ProgressChart2 = ({ ...props }) => {
   const { flights, CO2eTotal } = useContext(FlightsContext);
   var sortedFlights = flights.sort(sortBy("echoTimeDate", false));
 
@@ -29,17 +30,17 @@ const ProgressChart = ({ ...props }) => {
 
   const [plannedMonthly, setPlannedMonthly] = useState([]);
   //accumulated co2e from planned flights by month
-  console.log("plannedMonthly", plannedMonthly);
+  // console.log("plannedMonthly", plannedMonthly);
   useEffect(() => {
     //accumulating the planned flights by month
-    var monthData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var array12 = new Array(12).fill(0);
 
     sortedFlights.map((flight) => {
       var month = new Date(flight.echoTimeDate).getMonth();
-      monthData[month] += flight.totalco2e;
+      array12[month] += flight.totalco2e;
     });
 
-    setPlannedMonthly(monthData);
+    setPlannedMonthly(array12);
   }, [flights]);
 
   const [plannedTrend, setPlannedTrend] = useState([]);
@@ -58,51 +59,70 @@ const ProgressChart = ({ ...props }) => {
 
   const [dottedProgress, setDottedProgress] = useState([]);
   //a continuation from the actual progress with the planned flights
-  console.log("dottedProgress", dottedProgress);
+  //console.log("dottedProgress", dottedProgress);
 
   const [actualMonthly, setActual] = useState([]);
   // the actual emissions (generated) by months
   // console.log("actualMonthly", actualMonthly);
-  useEffect(() => {
+
+  const generateRandomData = (plannedMonthly) => {
     var randomFactor = [
       1.433373321767236, 1.2746459307550344, 0.7430802272803592,
       0.8276842023709565, 1.0359546054446984, 0.7057509503497508,
       1.5736249845755048, 0.8016678534716615, 1.4133420050357888,
       1.04862386697987, 1.1571902280020052, 1.2668687591296221,
     ];
-
     var randomizedData = plannedMonthly.map((each, index) => {
       return Math.floor(each * randomFactor[index]);
     });
-    setActual(randomizedData.slice(0, quarter * 3));
-  }, [plannedMonthly, quarter]);
+    return randomizedData;
+  };
 
-  const [actualTrend, setActualTrend] = useState(
-    actualMonthly.map((elem, index) =>
-      actualMonthly.slice(0, index + 1).reduce((a, b) => Math.floor(a + b))
-    )
+  const actualDataRandomized = useMemo(
+    () => generateRandomData(plannedMonthly),
+    [plannedMonthly]
   );
+  useEffect(() => {
+    setActual(actualDataRandomized.slice(0, quarter * 3));
+  }, [quarter, plannedMonthly]);
+
+  const [actualTrend, setActualTrend] = useState([]);
   // the actual accumulated progress line
   // console.log("actualTrend", actualTrend);
 
-  useEffect(() => {
-    // displaying the actual trend based on what quarter is chosen
+  const generateActualTrend = (actualMonthly) => {
     var trendbyQuarter = actualMonthly.map((elem, index) =>
       actualMonthly.slice(0, index + 1).reduce((a, b) => Math.floor(a + b))
     );
+    return trendbyQuarter;
+  };
+  const actualTrendByQuarter = useMemo(
+    () => generateActualTrend(actualMonthly),
+    [actualMonthly]
+  );
 
-    setActualTrend(trendbyQuarter.slice(0, quarter * 3));
-  }, [actualMonthly, quarter]);
+  //   var trendbyQuarter = actualMonthly.map((elem, index) =>
+  //     actualMonthly.slice(0, index + 1).reduce((a, b) => Math.floor(a + b))
+  //   );
+  //   setActualTrend(trendbyQuarter.slice(0, quarter * 3));
 
   useEffect(() => {
-    //used to set a dotted line with the planned trips progression from the actual progress
-    let remainingPlanned = [];
+    // displaying the actual trend based on what quarter is chosen
+
+    setActualTrend(actualTrendByQuarter.slice(0, quarter * 3));
+  }, [actualMonthly, quarter]);
+
+  const changeDottedTrend = () => {
+    var remainingPlanned = [];
     var startFrom = 0;
     var arr;
-    console.log("actualTrend", actualTrend);
+    //console.log("actualTrend", actualTrend);
 
     if (quarter === 1) {
       startFrom = actualTrend[2];
+      if (startFrom === undefined) {
+        return;
+      }
 
       remainingPlanned = plannedMonthly.slice(-9);
 
@@ -120,6 +140,9 @@ const ProgressChart = ({ ...props }) => {
     if (quarter === 2) {
       startFrom = actualTrend[5];
 
+      if (startFrom === undefined) {
+        return;
+      }
       remainingPlanned = plannedMonthly.slice(-6);
       remainingPlanned = remainingPlanned.map((elem, index) =>
         remainingPlanned
@@ -133,8 +156,12 @@ const ProgressChart = ({ ...props }) => {
       remainingPlanned = arr.concat(remainingPlanned);
     }
     if (quarter === 3) {
-      remainingPlanned = plannedMonthly.slice(-3);
       startFrom = actualTrend[8];
+
+      if (startFrom === undefined) {
+        return;
+      }
+      remainingPlanned = plannedMonthly.slice(-3);
 
       remainingPlanned = remainingPlanned.map((elem, index) =>
         remainingPlanned
@@ -154,31 +181,12 @@ const ProgressChart = ({ ...props }) => {
     console.log("remainingPlanned", remainingPlanned);
 
     setDottedProgress(remainingPlanned);
+  };
+  useEffect(() => {
+    //used to set a dotted line with the planned trips progression from the actual progress
+    changeDottedTrend();
   }, [plannedMonthly, quarter, actualTrend]);
 
-  // useEffect(() => {
-  //   var randomizedData = plannedMonthly.map((each) => {
-  //     return Math.floor(getRandom(0.7, 1.3) * each);
-  //   });
-  //   setActual(randomizedData.slice(0, quarter * 3));
-  // }, [quarter, plannedMonthly]);
-
-  //   console.log("ProgressChart flights", flights);
-  //   console.log("ProgressChart sortedFlights", sortedFlights);
-
-  //   console.log("plannedMonthly", plannedMonthly);
-
-  //   plannedMonthly.length>0 && var estimateLine = plannedMonthly.map((elem, index) =>
-  //     plannedMonthly.slice(0, index + 1).reduce((a, b) => Math.floor(a + b))
-  //   );
-  //console.log("estimateLine", estimateLine);
-
-  //   var actualLine = actualData.map((elem, index) =>
-  //     actualData.slice(0, index + 1).reduce((a, b) => Math.floor(a + b))
-  //   );
-  //   var straightLine = monthData.map((each, index) => {
-  //     return (17163 / 12) * (index + 1);
-  //   });
   var series = [
     {
       name: "Planned emissions",
@@ -221,10 +229,10 @@ const ProgressChart = ({ ...props }) => {
       toolbar: {
         show: false,
       },
-    },
-    animations: {
-      speed: 1800,
-      enabled: false,
+      animations: {
+        speed: 1000,
+        enabled: true,
+      },
     },
 
     dataLabels: {
@@ -377,12 +385,21 @@ const ProgressChart = ({ ...props }) => {
 
   const [overShoot, setOverShoot] = useState(0);
   useEffect(() => {
+    // console.log("over SHOOOT ___dottedProgress", dottedProgress);
     if (quarter !== 4) {
-      setOverShoot(CO2eTotal - dottedProgress[11]);
-    } else {
+      if (dottedProgress[11] !== isNaN) {
+        // console.log("overShoot _______",CO2eTotal - dottedProgress[11])
+        setOverShoot(CO2eTotal - dottedProgress[11]);
+      }
+    }
+    if (quarter === 4) {
       setOverShoot(CO2eTotal - actualTrend[11]);
     }
   }, [plannedTrend, dottedProgress]);
+
+
+
+ 
   return (
     <Container className="component-container">
       <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
@@ -416,32 +433,35 @@ const ProgressChart = ({ ...props }) => {
               <b>
                 {" "}
                 {<br />} {CO2eTotal} - {dottedProgress[11]} ={" "}
-                {CO2eTotal - dottedProgress[11]}
+                {CO2eTotal - dottedProgress[11]} CO2e kg
               </b>
             </Alert>
           )}
           {overShoot > 0 && quarter !== 4 && (
             <Alert severity="info" icon={false}>
               <AlertTitle>Q{quarter} follow-up</AlertTitle>
-              Actual emissions are within budget limits
+              Actual emissions and planned trips forecast are within budget
+              limits
             </Alert>
           )}
-          {quarter === 4 && overShoot > 0 ? (
+          {quarter === 4 && overShoot > 0 && (
             <Alert severity="success" icon={false}>
               <AlertTitle>Q{quarter} follow-up (Success)</AlertTitle>
               Budget was made, good job!
             </Alert>
-          ) : (
+          )}
+          {quarter === 4 && overShoot < 0 && (
             <Alert severity="error">
               <AlertTitle> Q{quarter} follow-up (Overshoot)</AlertTitle>
               Budget was not made!
               <b>
                 {" "}
                 {<br />} {CO2eTotal} - {actualTrend[11]} ={" "}
-                {CO2eTotal - actualTrend[11]}
+                {CO2eTotal - actualTrend[11]} CO2e kg
               </b>
             </Alert>
           )}
+         
         </Col>
       </Row>
       {flights.length > 0 ? (
@@ -497,4 +517,4 @@ const ProgressChart = ({ ...props }) => {
   );
 };
 
-export default ProgressChart;
+export default ProgressChart2;

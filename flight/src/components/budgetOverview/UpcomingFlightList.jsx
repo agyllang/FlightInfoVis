@@ -12,9 +12,11 @@ import FlightLandIcon from "@mui/icons-material/FlightLand";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
+const UpcomingFlightList = ({ ...props }) => {
+  // const {} = props;
 
-const FlightList = ({ ...props }) => {
-  const { sortValue,setSortValue, reverseSorting, setReverseSorting} = props;
+  const [sortValue, setSortValue] = useState("echoTimeDate");
+  const [reverseSorting, setReverseSorting] = useState(false);
   // console.log("FlightList flights", flights);
   const { flights } = useContext(FlightsContext);
   const { getNameFromID } = useContext(EmployeesContext);
@@ -39,111 +41,150 @@ const FlightList = ({ ...props }) => {
   };
   return (
     <Container className="component-container">
-      <h5 className="component-title"> Planned Flights ({flights.length}) </h5>
-
+      <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
+        <h5 className="component-title">
+          {" "}
+          Planned Flights ({flights.length}){" "}
+        </h5>
+      </Row>
       <Col>
         <Row>
-          <Col className="list-column-header">FlightID</Col>
-          <Col onClick={()=>{setSortValue("ID")}}
+          {/* <Col className="list-column-header">FlightID</Col> */}
+          <Col
+            onClick={() => {
+              setSortValue("ID");
+            }}
             className={
               sortValue === "ID"
                 ? "list-column-header-sortFocus"
                 : "list-column-header"
             }
           >
-            Employee {sortValue==="ID" && <>
-              {reverseSorting ? (
-                <ArrowDownwardIcon
-                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
-                  onClick={() => setReverseSorting((prev) => !prev)}
-                />
-              ) : (
-                <ArrowUpwardIcon
-                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
-                  onClick={() => setReverseSorting((prev) => !prev)}
-                />
-              )}</> }
+            Employee{" "}
+            {sortValue === "ID" && (
+              <>
+                {reverseSorting ? (
+                  <ArrowDownwardIcon
+                    style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                    onClick={() => setReverseSorting((prev) => !prev)}
+                  />
+                ) : (
+                  <ArrowUpwardIcon
+                    style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                    onClick={() => setReverseSorting((prev) => !prev)}
+                  />
+                )}
+              </>
+            )}
           </Col>
-          <Col onClick={()=>{setSortValue("totalco2e")}}
+          <Col
+            onClick={() => {
+              setSortValue("totalco2e");
+            }}
             className={
               sortValue === "totalco2e"
                 ? "list-column-header-sortFocus"
                 : "list-column-header"
             }
           >
-            CO2e(kg) {sortValue==="totalco2e" && <>
-              {reverseSorting ? (
-                <ArrowDownwardIcon
-                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
-                  onClick={() => setReverseSorting((prev) => !prev)}
-                />
-              ) : (
-                <ArrowUpwardIcon
-                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
-                  onClick={() => setReverseSorting((prev) => !prev)}
-                />
-              )}</> }
+            CO2e(kg){" "}
+            {sortValue === "totalco2e" && (
+              <>
+                {reverseSorting ? (
+                  <ArrowDownwardIcon
+                    style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                    onClick={() => setReverseSorting((prev) => !prev)}
+                  />
+                ) : (
+                  <ArrowUpwardIcon
+                    style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                    onClick={() => setReverseSorting((prev) => !prev)}
+                  />
+                )}
+              </>
+            )}
           </Col>
 
-          <Col onClick={()=>{setSortValue("co2ePerDay")}}
+          <Col
+            onClick={() => {
+              setSortValue("co2ePerDay");
+            }}
             className={
               sortValue === "co2ePerDay"
                 ? "list-column-header-sortFocus"
                 : "list-column-header"
             }
           >
-            CO2e(kg)/day {sortValue==="co2ePerDay" && <>
-              {reverseSorting ? (
-                <ArrowDownwardIcon
-                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
-                  onClick={() => setReverseSorting((prev) => !prev)}
-                />
-              ) : (
-                <ArrowUpwardIcon
-                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
-                  onClick={() => setReverseSorting((prev) => !prev)}
-                />
-              )}</> }
+            CO2e(kg)/day{" "}
+            {sortValue === "co2ePerDay" && (
+              <>
+                {reverseSorting ? (
+                  <ArrowDownwardIcon
+                    style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                    onClick={() => setReverseSorting((prev) => !prev)}
+                  />
+                ) : (
+                  <ArrowUpwardIcon
+                    style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                    onClick={() => setReverseSorting((prev) => !prev)}
+                  />
+                )}
+              </>
+            )}
           </Col>
-          <Col onClick={()=>{setSortValue("priority")}}
+          <Col
+            onClick={() => {
+              setSortValue("priority");
+            }}
             className={
               sortValue === "priority"
                 ? "list-column-header-sortFocus"
                 : "list-column-header"
             }
           >
-            Priority {sortValue==="priority" && <>
-              {reverseSorting ? (
-                <ArrowDownwardIcon
-                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
-                  onClick={() => setReverseSorting((prev) => !prev)}
-                />
-              ) : (
-                <ArrowUpwardIcon
-                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
-                  onClick={() => setReverseSorting((prev) => !prev)}
-                />
-              )}</> }
+            Priority{" "}
+            {sortValue === "priority" && (
+              <>
+                {reverseSorting ? (
+                  <ArrowDownwardIcon
+                    style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                    onClick={() => setReverseSorting((prev) => !prev)}
+                  />
+                ) : (
+                  <ArrowUpwardIcon
+                    style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                    onClick={() => setReverseSorting((prev) => !prev)}
+                  />
+                )}
+              </>
+            )}
           </Col>
-          <Col onClick={()=>{setSortValue("echoTimeDate")}}
+          <Col
+            onClick={() => {
+              setSortValue("echoTimeDate");
+            }}
             className={
               sortValue === "echoTimeDate"
                 ? "list-column-header-sortFocus"
                 : "list-column-header"
             }
           >
-            Date {sortValue==="echoTimeDate" && <>
-              {reverseSorting ? (
-                <ArrowDownwardIcon
-                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
-                  onClick={() => setReverseSorting((prev) => !prev)}
-                />
-              ) : (
-                <ArrowUpwardIcon
-                  style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
-                  onClick={() => setReverseSorting((prev) => !prev)}
-                />
-              )}</> }
+            Date{" "}
+            {sortValue === "echoTimeDate" && (
+              <>
+                {reverseSorting ? (
+                  <ArrowDownwardIcon
+                    style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                    onClick={() => setReverseSorting((prev) => !prev)}
+                  />
+                ) : (
+                  <ArrowUpwardIcon
+                    style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
+                    onClick={() => setReverseSorting((prev) => !prev)}
+                  />
+                )}
+              </>
+            )}
           </Col>
           <Col xs={{ span: 1 }} />
 
@@ -179,7 +220,7 @@ const FlightList = ({ ...props }) => {
                   }}
                   onClick={handleClick}
                 >
-                  <Col>{flight.flightID}</Col>
+                  {/* <Col>{flight.flightID}</Col> */}
                   <Col>{getNameFromID(flight.ID)}</Col>
                   <Col>{flight.totalco2e}</Col>
                   <Col>{flight.co2ePerDay}</Col>
@@ -309,4 +350,4 @@ const FlightList = ({ ...props }) => {
   );
 };
 
-export default FlightList;
+export default UpcomingFlightList;
