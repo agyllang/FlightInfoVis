@@ -42,16 +42,30 @@ const BudgetProgressBar = ({ ...props }) => {
     .domain([0, max])
     .classes(steps)
     .padding([0.2, 0]);
+
+  const [open, setOpen] = useState(true);
   return (
     <Container className="component-container">
       <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
         <h5 className="component-title">Carbon Budget Proposal </h5>
       </Row>
-      <Row style={{marginBottom:"1rem"}}>
+      <Row style={{ marginBottom: "1rem" }}>
         <Col md={"auto"}>
-          <Alert severity="info" >
-            <AlertTitle>CO2e body of Budget Proposal</AlertTitle>
-            Each section is a planned flight
+          <Alert
+            style={{
+              cursor: "pointer",
+              boxShadow: "rgba(0, 0, 0, 0.2) 0px 5px 15px",
+            }}
+            severity="info"
+            onClick={() => {
+              setOpen(!open);
+            }}
+          >
+            {" "}
+            <AlertTitle>
+              {open ? "CO2e body of Budget Proposal" : "More info"}
+            </AlertTitle>
+            {open && <>Each section in the bar is a planned flight</>}
           </Alert>
         </Col>
       </Row>
@@ -59,7 +73,7 @@ const BudgetProgressBar = ({ ...props }) => {
         <ProgressBar
           style={{
             padding: 0,
-            height: "50px",
+            height: "30px",
             //    border: "3px solid grey"
           }}
         >
@@ -117,10 +131,10 @@ const BudgetProgressBar = ({ ...props }) => {
           <ColorScale max={max} steps={10} />
         </Col>
       </Row> */}
-      <Row>
-        <div>
+      <Row style={{ justifyContent: "flex-end" }}>
+        <Col md={"auto"}>
           <b> {CO2eTotal}</b> CO2e(kg)
-        </div>
+        </Col>
       </Row>
     </Container>
   );

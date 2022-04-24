@@ -5,7 +5,7 @@ import { Row, Col, Container } from "react-bootstrap";
 import chroma from "chroma-js";
 
 const ColorScale = ({ ...props }) => {
-  const { max, steps } = props;
+  const { max, steps, } = props;
   // const { max, steps } = props;
   var colsteps = steps ? steps : 10;
   var chromaScale = chroma
@@ -23,7 +23,7 @@ const ColorScale = ({ ...props }) => {
           fontSize: "14px",
         }}
       >
-        (CO2e kg) per trip
+        (CO2e kg)
       </Row>
       <Row>
         {chromaScale.colors(colsteps).map((color, index) => {

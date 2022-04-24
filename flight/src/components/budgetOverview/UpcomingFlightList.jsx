@@ -11,7 +11,12 @@ import FlightLandIcon from "@mui/icons-material/FlightLand";
 
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-
+import Slider from "@mui/material/Slider";
+import ChooseQuarter from "./ChooseQuarter";
+function getQuarter(echo) {
+  var date = new Date(echo);
+  return Math.floor(date.getMonth() / 3 + 1);
+}
 const UpcomingFlightList = ({ ...props }) => {
   // const {} = props;
 
@@ -20,14 +25,28 @@ const UpcomingFlightList = ({ ...props }) => {
   // console.log("FlightList flights", flights);
   const { flights } = useContext(FlightsContext);
   const { getNameFromID } = useContext(EmployeesContext);
+  const [quarter, setQuarter] = useState(1);
 
-  var sortedFlights = flights.sort(sortBy(sortValue, reverseSorting));
+  var sortedFlights = flights
+    .sort(sortBy(sortValue, reverseSorting))
+    .filter((flight) => {
+      if (quarter === 0) {
+        return flight;
+      } else {
+        return getQuarter(flight.echoTimeDate) === quarter;
+      }
+    });
   // console.log(" flightList sortedFlights:", sortedFlights);
   useEffect(() => {
     //add new flight on top
     console.log("flights", flights);
   }, [flights]);
-
+  // useEffect(() => {
+  //   if (quarter === 0) {
+  //     return (sortedFlights = flights.sort(sortBy(sortValue, reverseSorting)));
+  //   } else {
+  //   }
+  // }, [quarter]);
   const [focusedIndex, setFocused] = useState();
   // console.log("focused", focusedIndex);
 
@@ -39,15 +58,34 @@ const UpcomingFlightList = ({ ...props }) => {
       setFocused(index);
     }
   };
+  // const handleChange = (event, newValue) => {
+  //   setQuarter(parseInt(newValue));
+  // };
+  // const quarterScale = [
+  //   { label: "Q1", value: 1 },
+  //   { label: "Q2", value: 2 },
+  //   { label: "Q3", value: 3 },
+  //   { label: "Q4", value: 4 },
+  // ];
   return (
     <Container className="component-container">
       <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
         <h5 className="component-title">
           {" "}
-          Planned Flights ({flights.length}){" "}
+          Planned Flights ({sortedFlights.length}) for {quarter===0 ? "year 2022":`Q${quarter}` } {" "}
         </h5>
       </Row>
-      <Col>
+      <Row style={{ justifyContent: "flex-start",marginBottom:"1rem" }}>
+        <Col md={"auto"}>
+          Choose quarter
+          <ChooseQuarter
+            setQuarter={(q) => {
+              setQuarter(q);
+            }}
+          />
+        </Col>
+      </Row>
+      <Col style={{ fontSize: "13px" }}>
         <Row>
           {/* <Col className="list-column-header">FlightID</Col> */}
           <Col

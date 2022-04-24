@@ -7,9 +7,16 @@ import FlightList from "./FlightList";
 import BudgetProgressBar from "../progress/BudgetProgressBar";
 import StepByStep from "./FindFlight/StepByStep";
 import ColorScale from "../progress/ColorScale";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import { Button } from "@mui/material";
 
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { fontStyle } from "@mui/system";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+
 const DataCard = ({ ...props }) => {
   const { title, value, unit } = props;
   return (
@@ -26,6 +33,8 @@ const DataCard = ({ ...props }) => {
 };
 
 const PlanBudget = ({ ...props }) => {
+  console.log("props",props)
+  const { setBudgetApproved, budgetApproved } = props;
   const { flights, CO2eTotal } = useContext(FlightsContext);
   const [sortValue, setSortValue] = useState("totalco2e");
   const [reverseSorting, setReverseSorting] = useState(false);
@@ -41,17 +50,130 @@ const PlanBudget = ({ ...props }) => {
       setMax(maxCo2e);
     }
   }, [flights]);
+  async function sendToFakeServer(values) {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    return values;
+  }
 
-  
+  const SendBudget = ({ ...props }) => {
+    // const {budgetApproved} = props
+    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+      let timer1 = setTimeout(() => {
+        setOpen(false);
+        open && setBudgetApproved();
+      }, 4 * 1000);
+
+      //  open && setBudgetApproved()
+      // this will clear Timeout
+      // when component unmount like in willComponentUnmount
+      // and show will not change to true
+      return () => {
+        clearTimeout(timer1);
+      };
+
+      // useEffect will run only one time with empty []
+      // if you pass a value to array,
+      // like this - [data]
+      // than clearTimeout will run every time
+      // this value changes (useEffect re-run)
+    }, [open]);
+
+    const handleClose = () => {
+      setOpen(false);
+    };
+    const handleToggle = () => {
+      setOpen(true);
+    };
+
+    return (
+      <div>
+        {/* <Button onClick={handleToggle}>Show backdrop</Button> */}
+        {!budgetApproved ? (
+          <Button
+            variant={"contained"}
+            onClick={handleToggle}
+            sx={{ mt: 1, mr: 1 }}
+            disabled={flights.length > 0 ? false : true}
+          >
+            Send budget proposal
+          </Button>
+        ) : (
+          <Alert sx={{ width: "100%" }} severity={"success"}>
+            {" "}
+            <AlertTitle sx={{ fontWeight: "bolder" }}>
+              Budget has been sent
+            </AlertTitle>
+            Follow up budget on "Budget Overview"
+          </Alert>
+        )}
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={open}
+          // onClick={handleClose}
+        >
+          <>
+            <div
+              style={{
+                padding:"1rem",
+                color: "#0058ff",
+                backgroundColor: "rgba(250,250,250,0.5)",
+                borderRadius:"5px"
+              }}
+            >
+              Budget proposal is being forwarded.. <br />
+              {/* Checkout "Budget Overview"-tab to follow up on your budget. */}
+              <CircularProgress size={100} color={"primary"} />
+            </div>
+          </>
+        </Backdrop>
+      </div>
+    );
+  };
   return (
     <Container fluid>
-      <Row className="page-title">Plan Carbon budget proposal</Row>
+      <Row className="page-title" style={{ justifyContent: "space-between" }}>
+        <Col md={"auto"}> Plan Carbon budget proposal </Col>
+        <Col md={"auto"}>
+          <SendBudget />
+        </Col>
+      </Row>
       <Row>
         <Col md={4}>
           <StepByStep />
         </Col>
-        <Col lg={6} style={{ paddingTop: 0 }} className="component-container">
-          <BudgetProgressBar
+        <Col>
+          <Container style={{}} className="component-container">
+            {/* <Col lg={6} style={{ paddingTop: 0 }} className="component-container"> */}
+            <Row
+              style={{
+                borderBottom: "2px solid #c6c6c6",
+                marginBottom: "1rem",
+              }}
+            >
+              <h5 className="component-title">Carbon Budget Proposal </h5>
+            </Row>
+            <Row>
+              <Col>
+                <Alert
+                  style={{
+                    cursor: "pointer",
+                    boxShadow: "rgba(0, 0, 0, 0.2) 0px 5px 15px",
+                  }}
+                  severity="info"
+                >
+                  {" "}
+                  <AlertTitle sx={{ fontWeight: "bolder" }}>
+                    Carbon Budget Proposal
+                  </AlertTitle>
+                  Your Carbon Budget Proposal consists of ({flights.length})
+                  planned flights, and accumulatively calculated to{" "}
+                  <b>{CO2eTotal}</b> CO2e (kg).
+                </Alert>{" "}
+              </Col>
+            </Row>
+            {/* <BudgetProgressBar
             max={max}
             sortValue={sortValue}
             reverseSorting={reverseSorting}
@@ -95,11 +217,16 @@ const PlanBudget = ({ ...props }) => {
                 />
               )}
             </Col>
-          </Row>
+          </Row> */}
 
-          <FlightList sortValue={sortValue} reverseSorting={reverseSorting} setSortValue={(value)=>setSortValue(value)} setReverseSorting={()=> setReverseSorting((prev) => !prev)}/>
+            <FlightList
+              sortValue={sortValue}
+              reverseSorting={reverseSorting}
+              setSortValue={(value) => setSortValue(value)}
+              setReverseSorting={() => setReverseSorting((prev) => !prev)}
+            />
+          </Container>
         </Col>
-
         <Col md={"auto"}>
           <Stack gap={2}>
             <Col>

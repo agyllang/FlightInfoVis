@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState, useContext } from "react";
-import fakeFlights from "../../fakeData";
+import {fakeFlights,fakeFlights2} from "../../fakeData";
 import { EmployeesContext } from "./EmployeesContext";
 export const FlightsContext = createContext();
 
@@ -7,10 +7,12 @@ const FlightsContextProvider = ({ ...props }) => {
   const {fakeData} =props
   const { allResearchProjects } = useContext(EmployeesContext);
   const [flights, setFlights] = useState([]);
+  const [actualFlights, setActualFlights] = useState([]);
   // const [fakeData, setFakeData] = useState(false);
   useEffect(() => {
     if (fakeData) {
       setFlights(fakeFlights);
+      setActualFlights(fakeFlights2);
     }
   }, [fakeData]);
 
@@ -83,6 +85,7 @@ const FlightsContextProvider = ({ ...props }) => {
     <FlightsContext.Provider
       value={{
         flights,
+        actualFlights,
         addNewFlight,
         CO2eTotal,
         projectFlights,

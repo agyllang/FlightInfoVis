@@ -6,6 +6,7 @@ import ProgressChart2 from "./ProgressChart2";
 import { FlightsContext } from "../contexts/FlightsContext";
 import VBarEmployees from "./VBarEmployees";
 import UpcomingFlightList from "./UpcomingFlightList";
+import OverviewFlightTable from "../progress/OverviewFlightTable";
 
 const BudgetOverview = ({ ...props }) => {
   // const {} = props;
@@ -20,7 +21,8 @@ const BudgetOverview = ({ ...props }) => {
           <VBar flights={flights} />
         </Col> */}
         <Col md={4}>
-          <UpcomingFlightList />
+          {/* <UpcomingFlightList /> */}
+          <OverviewFlightTable/>
         </Col>
         <Col md={4}>
           <ProgressChart2 />

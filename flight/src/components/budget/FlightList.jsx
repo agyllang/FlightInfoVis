@@ -39,9 +39,10 @@ const FlightList = ({ ...props }) => {
   };
   return (
     <Container className="component-container">
+      
       <h5 className="component-title"> Planned Flights ({flights.length}) </h5>
 
-      <Col>
+      <Col style={{fontSize:"13px"}}>
         <Row>
           <Col className="list-column-header">FlightID</Col>
           <Col onClick={()=>{setSortValue("ID")}}

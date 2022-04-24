@@ -105,7 +105,7 @@ const VBarEmployees = ({ ...props }) => {
   return (
     <Container className="component-container">
       <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
-        <h5 className="component-title">Employees' emission </h5>
+        <h5 className="component-title">Employees' aggregated emissions </h5>
 
         {/* <div className="page-header2">Employees ({employees.length})</div> */}
       </Row>

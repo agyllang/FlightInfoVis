@@ -460,7 +460,7 @@
 /* FlightList */
 .list-table {
   overflow-y: auto;
-  height: 45vh;
+  height: 40vh;
   /* border: 1px solid; */
 }
 .flightListDetails-item {
@@ -501,4 +501,60 @@
   border: 2px solid rgb(255, 4, 0);
   background-color: rgb(232, 191, 67);
   /* color:#fff; */
+}
+
+.spanBox1{
+  background: rgb(0, 86, 245);
+  color: rgb(0, 86, 245);
+  height: 12px;
+  width: 12px;
+  /* left: 0px;
+  top: 0px; */
+  border-width: 0px;
+  border-color: rgb(255, 255, 255);
+  border-radius: 2px;
+}
+.spanBox2{
+  background: rgb(133, 175, 255);
+  color: rgb(133, 175, 255);
+  height: 12px;
+  width: 12px;
+  /* left: 0px;
+  top: 0px; */
+  border-width: 0px;
+  border-color: rgb(255, 255, 255);
+  border-radius: 2px;
+}
+.spanBox3{
+  background: rgb(192, 53, 122);
+  color: rgb(192, 53, 122);
+  height: 12px;
+  width: 12px;
+  /* left: 0px;
+  top: 0px; */
+  border-width: 0px;
+  border-color: rgb(255, 255, 255);
+  border-radius: 2px;
+}
+.spanBox4{
+  background: rgb(224, 143, 184);
+  color: rgb(224, 143, 184);
+  height: 12px;
+  width: 12px;
+  /* left: 0px;
+  top: 0px; */
+  border-width: 0px;
+  border-color: rgb(255, 255, 255);
+  border-radius: 2px;
+}
+.spanBox5{
+  background: rgb(135, 188, 94);
+  color: rgb(135, 188, 94);
+  height: 12px;
+  width: 12px;
+  /* left: 0px;
+  top: 0px; */
+  border-width: 0px;
+  border-color: rgb(255, 255, 255);
+  border-radius: 2px;
 }
