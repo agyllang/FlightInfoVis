@@ -1,18 +1,22 @@
 import { createContext, useEffect, useState, useContext } from "react";
-import {fakeFlights,fakeFlights2} from "../../fakeData";
+import { fakeFlights, fakeFlights2 } from "../../fakeData";
 import { EmployeesContext } from "./EmployeesContext";
 export const FlightsContext = createContext();
 
 const FlightsContextProvider = ({ ...props }) => {
-  const {fakeData} =props
+  const { fakeData } = props;
   const { allResearchProjects } = useContext(EmployeesContext);
   const [flights, setFlights] = useState([]);
   const [actualFlights, setActualFlights] = useState([]);
+  const [actualCO2eTotal, setActualTotal] = useState(0);
+
+  const [bufferProcent, setBufferProcent] = useState(0);
   // const [fakeData, setFakeData] = useState(false);
   useEffect(() => {
     if (fakeData) {
       setFlights(fakeFlights);
       setActualFlights(fakeFlights2);
+      setBufferProcent(25)
     }
   }, [fakeData]);
 
@@ -29,6 +33,14 @@ const FlightsContextProvider = ({ ...props }) => {
       });
     setCO2e(sumCO2e);
   }, [flights]);
+  useEffect(() => {
+    var sumCO2e = 0;
+    actualFlights.length > 0 &&
+      actualFlights.forEach((flight) => {
+        sumCO2e += parseInt(flight.totalco2e);
+      });
+    setActualTotal(sumCO2e);
+  }, [actualFlights]);
 
   useEffect(() => {
     //mapping flights to research projects
@@ -79,7 +91,9 @@ const FlightsContextProvider = ({ ...props }) => {
     });
     return empFlights;
   };
-
+  const setBuffer = (val) => {
+    setBufferProcent(val);
+  };
   return (
     // <FlightsContext.Provider value={{flights}}>
     <FlightsContext.Provider
@@ -88,9 +102,12 @@ const FlightsContextProvider = ({ ...props }) => {
         actualFlights,
         addNewFlight,
         CO2eTotal,
+        actualCO2eTotal,
         projectFlights,
         getProjectFlights,
         getEmployeeFlights,
+        setBuffer,
+        bufferProcent,
       }}
     >
       {props.children}

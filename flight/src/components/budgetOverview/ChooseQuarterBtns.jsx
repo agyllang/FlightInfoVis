@@ -1,23 +1,25 @@
-import React , {useState} from "react"
+import React, { useState } from "react";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
-export default function ToggleButtons({...props}) {
-    const {setQuarter}=props
-  const [alignment, setAlignment] = useState(0);
+const ChooseQuarterBtns = ({ ...props }) => {
+  const { setQuarter } = props;
+  const [q, setQ] = useState(0);
 
-  const handleAlignment = (event, newAlignment) => {
-      console.log("newAlignment",newAlignment)
-    setAlignment(newAlignment);
-    setQuarter(newAlignment)
+  const handleChange = (event, val) => {
+    console.log("handleChange",val)
+    if (val !==null) {
+      setQ(val);
+      setQuarter(val);
+    }
   };
 
   return (
     <ToggleButtonGroup
-      value={alignment}
+      value={q}
       exclusive
-      onChange={handleAlignment}
-      aria-label="text alignment"
+      onChange={handleChange}
+      aria-label="quarter"
     >
       <ToggleButton value={0} aria-label="centered">
         Start
@@ -34,9 +36,7 @@ export default function ToggleButtons({...props}) {
       <ToggleButton value={4} aria-label="centered">
         Q4
       </ToggleButton>
-      <ToggleButton value={5} aria-label="centered">
-        All
-      </ToggleButton>
     </ToggleButtonGroup>
   );
-}
+};
+export default ChooseQuarterBtns;

@@ -15,7 +15,7 @@ const PopUpAlert = ({ ...props }) => {
   // };
   useEffect(() => {
     if (quarter !== 0) {
-      if (overShoot < 0 && quarter !== 4) {
+      if (overShoot < 0 && quarter !== 4  && quarter !== 5) {
         setSeverity("warning");
         setAlertTitle(`Q${quarter} follow-up`);
         setAlertContent(
@@ -37,12 +37,12 @@ const PopUpAlert = ({ ...props }) => {
         setAlertTitle(`Q${quarter} follow-up`);
         setAlertContent(`Budget was made, good job!`);
       }
-      if (quarter === 4 && overShoot < 0) {
+      if (quarter ===4 && overShoot < 0) {
         setSeverity("error");
         setAlertTitle(`Q${quarter} follow-up`);
         setAlertContent(
           `Budget was not made, overshoot = ${Math.abs(
-            CO2eTotal - actualTrend
+            overShoot
           )} CO2e kg`
         );
       }
@@ -62,9 +62,9 @@ const PopUpAlert = ({ ...props }) => {
   return (
     <Snackbar
       open={open}
-      //   autoHideDuration={6000}
+        autoHideDuration={6000}
       onClose={handleClose}
-      anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
     >
       <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
         <AlertTitle>{alertTitle}</AlertTitle>

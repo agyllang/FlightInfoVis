@@ -3,15 +3,22 @@ import Chart from "react-apexcharts";
 import { Row, Col, Container, Stack } from "react-bootstrap";
 import { FlightsContext } from "../contexts/FlightsContext";
 import { sortBy, getRandom } from "../utility/functions";
-import Slider from "@mui/material/Slider";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
+// import Slider from "@mui/material/Slider";
+// import Alert from "@mui/material/Alert";
+// import AlertTitle from "@mui/material/AlertTitle";
 import InformationTooltip from "./InformationTooltip";
-import Snackbar from "@mui/material/Snackbar";
+// import Snackbar from "@mui/material/Snackbar";
 import PopUpAlert from "./PopUpAlert";
 
 const ProgressChart2 = ({ ...props }) => {
-  const { flights, actualFlights, CO2eTotal } = useContext(FlightsContext);
+  const { quarter } = props;
+
+  const { flights, actualFlights, CO2eTotal, bufferProcent, actualCO2eTotal } =
+    useContext(FlightsContext);
+
+  var CO2eTotalBuffer =
+    CO2eTotal + Math.floor((CO2eTotal * bufferProcent) / 100);
+
   var sortedFlights = flights.sort(sortBy("echoTimeDate", false));
   var sortedActualFlights = actualFlights.sort(sortBy("echoTimeDate", false));
 
@@ -30,7 +37,7 @@ const ProgressChart2 = ({ ...props }) => {
     "Dec",
   ];
 
-  const [quarter, setQuarter] = useState(0);
+  // const [quarter, setQuarter] = useState(0);
 
   const [plannedMonthly, setPlannedMonthly] = useState([]);
 
@@ -56,11 +63,11 @@ const ProgressChart2 = ({ ...props }) => {
     var array12 = new Array(12).fill(0);
 
     var straightLine = array12.map((each, index) => {
-      return Math.floor(CO2eTotal / 12) * (index + 1);
+      return Math.floor(CO2eTotalBuffer / 12) * (index + 1);
     });
 
     setPlannedTrend(straightLine);
-  }, [CO2eTotal]);
+  }, [CO2eTotalBuffer]);
 
   const [dottedProgress, setDottedProgress] = useState([]);
   //a continuation from the actual progress with the planned flights
@@ -77,7 +84,9 @@ const ProgressChart2 = ({ ...props }) => {
       array12[month] += flight.totalco2e;
     });
 
-    setActual(array12.slice(0, quarter * 3));
+    if (quarter !== 5) {
+      setActual(array12.slice(0, quarter * 3));
+    }
   }, [actualFlights, quarter]);
 
   // console.log("actualMonthly", actualMonthly);
@@ -125,8 +134,9 @@ const ProgressChart2 = ({ ...props }) => {
 
   useEffect(() => {
     // displaying the actual trend based on what quarter is chosen
-
-    setActualTrend(actualTrendByQuarter.slice(0, quarter * 3));
+    if (quarter !== 5) {
+      setActualTrend(actualTrendByQuarter.slice(0, quarter * 3));
+    }
   }, [actualMonthly, quarter]);
 
   const changeDottedTrend = () => {
@@ -199,6 +209,10 @@ const ProgressChart2 = ({ ...props }) => {
       // remainingPlanned = plannedMonthly.slice();
       // startFrom = actualTrend[11];
     }
+    if (quarter === 5) {
+      // remainingPlanned = plannedMonthly.slice();
+      // startFrom = actualTrend[11];
+    }
     console.log("remainingPlanned", remainingPlanned);
 
     setDottedProgress(remainingPlanned);
@@ -208,6 +222,19 @@ const ProgressChart2 = ({ ...props }) => {
     changeDottedTrend();
   }, [plannedMonthly, quarter, actualTrend]);
 
+  const [overShoot, setOverShoot] = useState(0);
+  useEffect(() => {
+    // console.log("over SHOOOT ___dottedProgress", dottedProgress);
+    if (quarter !== 4) {
+      if (dottedProgress[11] !== isNaN) {
+        // console.log("overShoot _______",CO2eTotal - dottedProgress[11])
+        setOverShoot(plannedTrend[11] - dottedProgress[11]);
+      }
+    }
+    if (quarter === 4) {
+      setOverShoot(plannedTrend[11] - actualTrend[11]);
+    }
+  }, [plannedTrend, actualTrend, dottedProgress]);
   var series = [
     {
       name: "Planned emissions",
@@ -216,7 +243,7 @@ const ProgressChart2 = ({ ...props }) => {
       color: "#0056F5",
     },
     {
-      name: "Estimated budget trend",
+      name: "Budget trend",
       type: "line",
       data: plannedTrend,
       color: "#85AFFF",
@@ -235,7 +262,7 @@ const ProgressChart2 = ({ ...props }) => {
       color: "#E08FB8",
     },
     {
-      name: "Actual progress + planned trips forecast",
+      name: "Actual progress + Planned emissions forecast",
       type: "line",
 
       data: dottedProgress,
@@ -286,7 +313,7 @@ const ProgressChart2 = ({ ...props }) => {
         },
         tickAmount: 10,
         min: 0,
-        max: Math.round(CO2eTotal / 1000) * 1000 + 5000,
+        max: Math.round(actualCO2eTotal / 1000) * 1000 + 2000,
         axisBorder: {
           show: true,
         },
@@ -312,59 +339,65 @@ const ProgressChart2 = ({ ...props }) => {
     annotations: {
       yaxis: [
         {
-          y: CO2eTotal,
+          y: CO2eTotalBuffer,
           borderColor: "#85AFFF",
           borderWidth: 2,
           label: {
             offsetY: 20,
             offsetX: -270,
-            opacity: 0.2,
+            // opacity: 0.2,
+            borderColor: "#85AFFF",
 
             // borderColor: "#c0c0c0",
             style: {
               fontSize: "14px",
               color: "#000",
-              background: "rgba(133, 175, 255, 0.23)",
+              background: "rgba(133, 175, 255, 0.15)",
               padding: {
-                left: 5,
-                right: 5,
-                top: 5,
-                bottom: 5,
+                // left: 5,
+                // right: 5,
+                // top: 5,
+                // bottom: 5,
               },
             },
-            text: `Planned carbon budget: ${CO2eTotal}`,
+            text: `Planned Carbon Budget: ${CO2eTotalBuffer}`,
           },
         },
         quarter !== 0 && {
-          y: actualTrend[quarter * 3 - 1],
+          y: quarter !== 5 ? actualTrend[quarter * 3 - 1] : actualTrend[11],
           borderColor: "#E08FB8",
           borderWidth: 2,
 
           label: {
-            offsetY: quarter === 4 ? 70 : 20,
+            offsetY: quarter < 4 ? 20 : -0,
             offsetX:
               quarter === 1 ? 0 : quarter === 2 ? 0 : quarter === 3 ? 0 : 0,
-            // offsetX: (100+ (quarter*-100)),
-            // borderColor: "#E08FB8",
+            borderColor: "#E08FB8",
+
             style: {
               fontSize: "14px",
               color: "#000",
-              background: "rgba(224, 143, 184, 0.23)",
+              background: "rgba(224, 143, 184, 0.15)",
               opacity: 0.2,
 
               padding: {
-                left: 5,
-                right: 5,
-                top: 5,
-                bottom: 5,
+                // left: 5,
+                // right: 5,
+                // top: 5,
+                // bottom: 5,
               },
             },
 
             text: `Actual progress by Q${quarter}:  ${
               actualTrend[quarter * 3 - 1]
-            } `,
+            }`,
+
+            // text: `Actual progress by Q${quarter}:  ${
+            //   actualTrend[quarter * 3 - 1]
+            // } `,
           },
         },
+
         quarter !== 4 &&
           quarter !== 0 && {
             y: dottedProgress[11],
@@ -374,50 +407,72 @@ const ProgressChart2 = ({ ...props }) => {
               offsetY: 20,
               offsetX: 0,
 
-              // borderColor: "#c0c0c0",
+              borderColor: "#87BC5E",
               style: {
                 fontSize: "14px",
                 color: "#000",
-                background: "rgba(135, 188, 94, 0.23)",
+                background: "rgba(135, 188, 94, 0.15)",
                 padding: {
-                  left: 5,
-                  right: 5,
-                  top: 5,
-                  bottom: 5,
+                  // left: 5,
+                  // right: 5,
+                  // top: 5,
+                  // bottom: 5,
                 },
               },
               text: `Actual + Planned Forecast: ${dottedProgress[11]}`,
+            },
+          },
+        quarter === 4 &&
+          overShoot < 0 && {
+            y: plannedTrend[11],
+            y2: actualTrend[11],
+            // borderColor: "rgba(242, 85, 85)",
+            fillColor: "rgba(242, 85, 85)",
+            opacity: 0.2,
+            borderWidth: 2,
+
+            label: {
+              offsetY: 20,
+              offsetX: -200,
+              border: 0,
+              style: {
+                fontSize: "14px",
+                color: "#000",
+                background: "rgba(242, 85, 85,0.05)",
+                border: 0,
+                opacity: 0.2,
+
+                padding: {
+                  // left: 5,
+                  // right: 5,
+                  // top: 5,
+                  // bottom: 5,
+                },
+              },
+
+              text: `Budget overshoot: ${Math.abs(
+                plannedTrend[11] - actualTrend[11]
+              )} `,
+
+              // text: `Actual progress by Q${quarter}:  ${
+              //   actualTrend[quarter * 3 - 1]
+              // } `,
             },
           },
       ],
     },
   };
 
-  const handleChange = (event, newValue) => {
-    setQuarter(parseInt(newValue));
-  };
-  const quarterScale = [
-    { label: "Start", value: 0 },
-    { label: "Q1", value: 1 },
-    { label: "Q2", value: 2 },
-    { label: "Q3", value: 3 },
-    { label: "Q4", value: 4 },
-  ];
-
-  const [overShoot, setOverShoot] = useState(0);
-  useEffect(() => {
-    // console.log("over SHOOOT ___dottedProgress", dottedProgress);
-    if (quarter !== 4) {
-      if (dottedProgress[11] !== isNaN) {
-        // console.log("overShoot _______",CO2eTotal - dottedProgress[11])
-        setOverShoot(CO2eTotal - dottedProgress[11]);
-      }
-    }
-    if (quarter === 4) {
-      setOverShoot(CO2eTotal - actualTrend[11]);
-    }
-  }, [plannedTrend, dottedProgress]);
-
+  // const handleChange = (event, newValue) => {
+  //   setQuarter(parseInt(newValue));
+  // };
+  // const quarterScale = [
+  //   { label: "Start", value: 0 },
+  //   { label: "Q1", value: 1 },
+  //   { label: "Q2", value: 2 },
+  //   { label: "Q3", value: 3 },
+  //   { label: "Q4", value: 4 },
+  // ];
 
   return (
     <Container className="component-container">
@@ -432,7 +487,7 @@ const ProgressChart2 = ({ ...props }) => {
           <h5 className="component-title">Progress of 2022 budget</h5>
         </Col>
         <Col md={"auto"}>
-          <InformationTooltip buttonText={"Information"}>
+          <InformationTooltip buttonText={"More info"}>
             <Container style={{ padding: "1rem", borderRadius: "4px" }}>
               <Row
                 style={
@@ -447,49 +502,55 @@ const ProgressChart2 = ({ ...props }) => {
                   <h5 className="component-title">Chart information</h5>
                 </Col>
               </Row>
-              <Stack>
+              <Stack style={{ fontSize: "14px" }}>
+                <span style={{ borderBottom: "1px solid #c6c6c6" }}>Bars</span>
                 <Col style={{ marginBottom: "10px" }}>
                   <span className="spanBox1"> """</span>{" "}
                   <span style={{ fontWeight: "bolder" }}>
                     Planned emissions
                   </span>
                   <span>
-                    - Monthly emissions based on flights from the planned budget{" "}
-                  </span>
-                </Col>
-
-                <Col style={{ marginBottom: "10px" }}>
-                  <span className="spanBox2"> """</span>{" "}
-                  <span style={{ fontWeight: "bolder" }}>
-                    Estimated budget trend
-                  </span>
-                  <span>
-                    - The planned budget as a trend line over the full year
+                    {" "}
+                    - Monthly emissions based on planned flights from budget{" "}
                   </span>
                 </Col>
                 <Col style={{ marginBottom: "10px" }}>
                   <span className="spanBox3"> """</span>{" "}
                   <span style={{ fontWeight: "bolder" }}>Actual emissions</span>
                   <span>
-                    - Emissions from conducted planned and unplanned flights
+                    {" "}
+                    - Monthly emissions from completed planned and unplanned
+                    flights
+                  </span>
+                </Col>
+
+                <span style={{ borderBottom: "1px solid #c6c6c6" }}>Lines</span>
+                <Col style={{ marginBottom: "10px" }}>
+                  <span className="spanBox2"> """</span>{" "}
+                  <span style={{ fontWeight: "bolder" }}>Budget trend</span>
+                  <span>
+                    {" "}
+                    - The planned budget as a trend line over the full year
                   </span>
                 </Col>
                 <Col style={{ marginBottom: "10px" }}>
                   <span className="spanBox4"> """</span>{" "}
                   <span style={{ fontWeight: "bolder" }}>Actual progress</span>
                   <span>
-                    - Accumulated emissions from planned and unplanned flights
+                    {" "}
+                    - Aggregated emissions from planned and unplanned flights
                   </span>
                 </Col>
                 <Col style={{ marginBottom: "10px" }}>
                   <span className="spanBox5"> """</span>{" "}
                   <span style={{ fontWeight: "bolder" }}>
-                    Actual progress + planned trips forecast
+                    Actual progress + Planned emissions forecast
                   </span>
                   <span>
-                    - Forecast total emissions by end of year, this is based on
-                    the current actual progress and the planned trips for the
-                    upcomming months
+                    {" "}
+                    - Forecast of total emissions by end of year, this is based
+                    on the current actual progress and the planned trips for the
+                    remaining months
                   </span>
                 </Col>
               </Stack>
@@ -497,7 +558,7 @@ const ProgressChart2 = ({ ...props }) => {
           </InformationTooltip>
         </Col>
       </Row>
-      <Row style={{ justifyContent: "center" }}>
+      {/* <Row style={{ justifyContent: "center" }}>
         <Col md={"auto"}>
           Display actual emissions by quarters
           <Slider
@@ -513,10 +574,16 @@ const ProgressChart2 = ({ ...props }) => {
             value={quarter}
           />
         </Col>
-      </Row>
+      </Row> */}
       <Row style={{ justifyContent: "center" }}>
         <Col md={"auto"}>
-          <PopUpAlert quarter={quarter} overShoot={overShoot} CO2eTotal={CO2eTotal} forecast={dottedProgress[11]} actualTrend={actualTrend[11]}  />
+          <PopUpAlert
+            quarter={quarter}
+            overShoot={overShoot}
+            CO2eTotal={CO2eTotalBuffer}
+            forecast={dottedProgress[11]}
+            actualTrend={actualTrend[11]}
+          />
           {/* <Snackbar
             open={open}
             autoHideDuration={6000}
@@ -534,7 +601,7 @@ const ProgressChart2 = ({ ...props }) => {
               <b> </b>
             </Alert> */}
 
-            {/* 
+          {/* 
           {overShoot < 0 && quarter !== 4 && (
             <Alert severity="warning">
               <AlertTitle>Q{quarter} follow-up (Warning)</AlertTitle>
@@ -580,7 +647,7 @@ const ProgressChart2 = ({ ...props }) => {
           series={series}
           type="bar"
           height={500}
-          width={550}
+          width={"100%"}
         />
       ) : (
         <Chart

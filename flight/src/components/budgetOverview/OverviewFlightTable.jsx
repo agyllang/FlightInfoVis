@@ -29,37 +29,18 @@ import { returnMonthYear } from "../utility/functions";
 
 import { FlightsContext } from "../contexts/FlightsContext";
 import { EmployeesContext } from "../contexts/EmployeesContext";
-import ChooseQuarter from "./ChooseQuarter";
+// import ChooseQuarterBtns from "../budgetOverview/ChooseQuarterBtns";
+import PlannedToggle from "./PlannedToggle";
 
-function getQuarter(echo) {
+function getQuarter(echo, q = 0) {
   var date = new Date(echo);
-  return Math.floor(date.getMonth() / 3 + 1);
+  var quarter = Math.floor(date.getMonth() / 3 + 1);
+  // if (quarter === q) {
+  //   // console.log()
+  //   // console.log("same month:", quarter);
+  // }
+  return parseInt(quarter);
 }
-// function createData(ID, co2e, co2ePerDay, carbs, protein) {
-//   return {
-//     name,
-//     calories,
-//     fat,
-//     carbs,
-//     protein,
-//   };
-// }
-
-// const rows = [
-//   createData("Cupcake", 305, 3.7, 67, 4.3),
-//   createData("Donut", 452, 25.0, 51, 4.9),
-//   createData("Eclair", 262, 16.0, 24, 6.0),
-//   createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-//   createData("Gingerbread", 356, 16.0, 49, 3.9),
-//   createData("Honeycomb", 408, 3.2, 87, 6.5),
-//   createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-//   createData("Jelly Bean", 375, 0.0, 94, 0.0),
-//   createData("KitKat", 518, 26.0, 65, 7.0),
-//   createData("Lollipop", 392, 0.2, 98, 0.0),
-//   createData("Marshmallow", 318, 0, 81, 2.0),
-//   createData("Nougat", 360, 19.0, 9, 37.0),
-//   createData("Oreo", 437, 18.0, 63, 4.0),
-// ];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -132,13 +113,13 @@ const headCells = [
     id: "status",
     numeric: true,
     disablePadding: false,
-    label: "Planned?",
+    label: "Status",
   },
 ];
 
 function EnhancedTableHead(props) {
   const {
-    onSelectAllClick,
+    // onSelectAllClick,
     order,
     orderBy,
     numSelected,
@@ -152,17 +133,18 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox" width="5%">
-          <Checkbox
+        {/* <TableCell padding="checkbox" width="5%">
+          {/* <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
+            // onChange={onSelectAllClick}
             inputProps={{
               "aria-label": "select all flights",
             }}
-          />
-        </TableCell>
+          /> 
+        </TableCell> 
+        */}
         {headCells.map((headCell) => (
           <TableCell
             width="10%"
@@ -196,7 +178,7 @@ function EnhancedTableHead(props) {
 EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
+  //   onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
@@ -260,8 +242,9 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-const OverviewFlightTable = () => {
-  const { actualFlights } = useContext(FlightsContext);
+const OverviewFlightTable = ({ ...props }) => {
+  const { quarter } = props;
+  const { actualFlights, flights, CO2eTotal } = useContext(FlightsContext);
   const { getNameFromID } = useContext(EmployeesContext);
 
   var rows = actualFlights;
@@ -271,8 +254,11 @@ const OverviewFlightTable = () => {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(15);
-  const [quarter, setQuarter] = useState(0);
-  console.log("selected:", selected);
+
+  const [plannedFilter, setPlannedFilter] = useState("");
+  // console.log("quarter:", quarter);
+  // console.log("selected:", selected);
+  const [showCompleted, setCompleted] = useState(false);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -289,7 +275,7 @@ const OverviewFlightTable = () => {
     setSelected([]);
   };
 
-  const handleClick = (event, flightID) => {
+  const handleClick = (event, flightID, flight) => {
     const selectedIndex = selected.indexOf(flightID);
     let newSelected = [];
 
@@ -332,15 +318,23 @@ const OverviewFlightTable = () => {
     <Container className="component-container">
       <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
         <h5 className="component-title">
-          All conducted flights (including unplanned flights){" "}
+          All flights {`${quarter!==0 ? ` - Displaying Q${quarter}` : ""}`}
         </h5>
       </Row>
-      <Row>
-        {" "}
-        <ChooseQuarter setQuarter={(q) => setQuarter(q)} />{" "}
+      <Row style={{ justifyContent: "flex-end" }}>
+        <Col md={"auto"}>
+          Filter: {""}
+          <PlannedToggle
+          quarter = {quarter}
+            setPlannedFilter={(p) => setPlannedFilter(p)}
+            setCompleted={(c) => {
+              setCompleted(c);
+            }}
+          />
+        </Col>
       </Row>
       {/* <Box sx={{ width: "100%" }}> */}
-      <Paper sx={{ width: "100%",  boxShadow: "0" }}>
+      <Paper sx={{ width: "100%", boxShadow: "0" }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
@@ -352,7 +346,7 @@ const OverviewFlightTable = () => {
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
+              //   onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
@@ -364,14 +358,52 @@ const OverviewFlightTable = () => {
                   if (quarter === 0 && f.status !== "unplanned") {
                     return f;
                   }
-                  if (quarter === getQuarter(f.echoTimeDate)) {
-                    return f;
+                  if (quarter !== 0) {
+                    if (plannedFilter === "") {
+                      if(showCompleted){
+                        return f;
+                      } 
+                      if (!showCompleted && getQuarter(f.echoTimeDate, quarter) > quarter ) {
+                        
+                        return f
+                      }
+                     
+                    }
+                    if (plannedFilter === f.status) {
+                      if(showCompleted){
+                        return f;
+                      } 
+                      if (!showCompleted && getQuarter(f.echoTimeDate, quarter) > quarter ) {
+                        
+                        return f
+                      }
+                     
+                    }
                   }
-                  if (quarter === 5) {
-                    return f;
-                  }
+                  // if (quarter !== 0 && f.status === plannedFilter) {
+                  //   return f;
+                  // }
                 })
               )
+                .filter((f) => {
+                  console.log("isCompleted:", showCompleted);
+                  console.log(
+                    "(getQuarter(f.echoTimeDate, quarter):",
+                    getQuarter(f.echoTimeDate, quarter)
+                  );
+                  if (!showCompleted) {
+                    return f;
+                  } else {
+                    if (getQuarter(f.echoTimeDate, quarter) <= quarter) {
+                      console.log("made it here", f);
+                      console.log(
+                        "q for here",
+                        getQuarter(f.echoTimeDate, quarter)
+                      );
+                      return f;
+                    }
+                  }
+                })
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.flightID);
@@ -380,22 +412,40 @@ const OverviewFlightTable = () => {
                   return (
                     <TableRow
                       //   hover
-                      onClick={(event) => handleClick(event, row.flightID)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
+                      //   sx={
+                      //     getQuarter(row.echoTimeDate, quarter) <= quarter
+                      //       ? { color: "#5a5a5a" }
+                      //       : { color: "#c49" }
+                      //   }
+                      // onClick={(event) =>
+                      //   getQuarter(row.echoTimeDate, quarter) > quarter &&
+                      //   handleClick(event, row.flightID, row)
+                      // }
+                      // role="checkbox"
+                      // aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row.flightID}
-                      selected={isItemSelected}
+                      // selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox">
+                      {/* <TableCell
+                        padding="checkbox"
+                        sx={
+                          getQuarter(row.echoTimeDate, quarter) <= quarter
+                            ? { color: "#bfbfbf" }
+                            : { color: "#000" }
+                        }
+                      >
                         <Checkbox
                           color="primary"
+                          disabled={
+                            getQuarter(row.echoTimeDate, quarter) <= quarter
+                          }
                           checked={isItemSelected}
                           inputProps={{
                             "aria-labelledby": labelId,
                           }}
                         />
-                      </TableCell>
+                      </TableCell> */}
 
                       <TableCell
                         align="left"
@@ -403,29 +453,97 @@ const OverviewFlightTable = () => {
                         id={labelId}
                         scope="row"
                         padding="none"
+                        sx={
+                          getQuarter(row.echoTimeDate, quarter) <= quarter
+                            ? { color: "#bfbfbf" }
+                            : { color: "#000" }
+                        }
                       >
                         {getNameFromID(row.ID)}
                       </TableCell>
-                      <TableCell padding="none" align="center">
+                      <TableCell
+                        padding="none"
+                        align="center"
+                        sx={
+                          getQuarter(row.echoTimeDate, quarter) <= quarter
+                            ? { color: "#bfbfbf" }
+                            : { color: "#000" }
+                        }
+                      >
                         {row.totalco2e}
                       </TableCell>
-                      <TableCell padding="none" align="center">
+                      <TableCell
+                        padding="none"
+                        align="center"
+                        sx={
+                          getQuarter(row.echoTimeDate, quarter) <= quarter
+                            ? { color: "#bfbfbf" }
+                            : { color: "#000" }
+                        }
+                      >
                         {row.co2ePerDay}
                       </TableCell>
-                      <TableCell padding="none" align="left">
+                      <TableCell
+                        padding="none"
+                        align="left"
+                        sx={
+                          getQuarter(row.echoTimeDate, quarter) <= quarter
+                            ? { color: "#bfbfbf" }
+                            : { color: "#000" }
+                        }
+                      >
                         {row.priority}
                       </TableCell>
-                      <TableCell padding="none" align="left">
+                      <TableCell
+                        padding="none"
+                        align="left"
+                        sx={
+                          getQuarter(row.echoTimeDate, quarter) <= quarter
+                            ? { color: "#bfbfbf" }
+                            : { color: "#000" }
+                        }
+                      >
                         {returnMonthYear(row.echoTimeDate)}
                       </TableCell>
-                      <TableCell padding="none" align="right">
+                      <TableCell
+                        padding="none"
+                        align="right"
+                        sx={
+                          getQuarter(row.echoTimeDate, quarter) <= quarter
+                            ? { color: "#bfbfbf" }
+                            : { color: "#000" }
+                        }
+                      >
+                        {getQuarter(row.echoTimeDate, quarter) <= quarter}
                         {row.status === "planned" ? (
-                          <Chip label="Planned" color="primary" size="small" />
+                          <Chip
+                            label={
+                              getQuarter(row.echoTimeDate, quarter) <= quarter
+                                ? "Completed"
+                                : "Planned"
+                            }
+                            color="primary"
+                            size="small"
+                            variant={
+                              getQuarter(row.echoTimeDate, quarter) <= quarter
+                                ? "outlined"
+                                : ""
+                            }
+                          />
                         ) : (
                           <Chip
-                            label="Unplanned"
+                            label={
+                              getQuarter(row.echoTimeDate, quarter) <= quarter
+                                ? "Completed"
+                                : "Unplanned"
+                            }
                             color="warning"
                             size="small"
+                            variant={
+                              getQuarter(row.echoTimeDate, quarter) <= quarter
+                                ? "outlined"
+                                : ""
+                            }
                           />
                         )}
                       </TableCell>

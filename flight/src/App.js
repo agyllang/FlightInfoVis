@@ -25,7 +25,7 @@ function App() {
           key={"division"}
           // end={true}
         >
-          Division
+          DIVISION
         </NavLink>
         <NavLink
           activeClassName="navlink-active"
@@ -34,7 +34,7 @@ function App() {
           key={"budget"}
           // end={true}
         >
-          Plan budget
+          PLAN BUDGET
         </NavLink>
         {budgetApproved && (
           <NavLink
@@ -43,7 +43,7 @@ function App() {
             to="/budgetoverview"
             key={"budgetoverview"}
           >
-            Budget Overview
+            BUDGET OVERVIEW
           </NavLink>
         )}
 

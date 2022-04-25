@@ -16,6 +16,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { fontStyle } from "@mui/system";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import AddBuffer from "./AddBuffer";
 
 const DataCard = ({ ...props }) => {
   const { title, value, unit } = props;
@@ -33,9 +34,13 @@ const DataCard = ({ ...props }) => {
 };
 
 const PlanBudget = ({ ...props }) => {
-  console.log("props",props)
+  console.log("props", props);
+
   const { setBudgetApproved, budgetApproved } = props;
-  const { flights, CO2eTotal } = useContext(FlightsContext);
+
+  const { flights, CO2eTotal, } = useContext(FlightsContext);
+
+  const [bufferProcent, setProcent] = useState(0);
   const [sortValue, setSortValue] = useState("totalco2e");
   const [reverseSorting, setReverseSorting] = useState(false);
   const [max, setMax] = useState(0);
@@ -116,10 +121,10 @@ const PlanBudget = ({ ...props }) => {
           <>
             <div
               style={{
-                padding:"1rem",
+                padding: "1rem",
                 color: "#0058ff",
                 backgroundColor: "rgba(250,250,250,0.5)",
-                borderRadius:"5px"
+                borderRadius: "5px",
               }}
             >
               Budget proposal is being forwarded.. <br />
@@ -131,6 +136,7 @@ const PlanBudget = ({ ...props }) => {
       </div>
     );
   };
+
   return (
     <Container fluid>
       <Row className="page-title" style={{ justifyContent: "space-between" }}>
@@ -150,9 +156,17 @@ const PlanBudget = ({ ...props }) => {
               style={{
                 borderBottom: "2px solid #c6c6c6",
                 marginBottom: "1rem",
+                justifyContent: "space-between",
               }}
             >
-              <h5 className="component-title">Carbon Budget Proposal </h5>
+              <Col md={"auto"}>
+                <h5 className="component-title">Carbon Budget Proposal </h5>
+              </Col>
+              <Col md={"auto"}>
+                Add buffer for unplanned trips{" "}
+                <AddBuffer setProcent={(p) => setProcent(p)} /> of planned
+                budget
+              </Col>
             </Row>
             <Row>
               <Col>
@@ -167,10 +181,22 @@ const PlanBudget = ({ ...props }) => {
                   <AlertTitle sx={{ fontWeight: "bolder" }}>
                     Carbon Budget Proposal
                   </AlertTitle>
-                  Your Carbon Budget Proposal consists of ({flights.length})
-                  planned flights, and accumulatively calculated to{" "}
-                  <b>{CO2eTotal}</b> CO2e (kg).
-                </Alert>{" "}
+                  <>
+                    Your Carbon Budget Proposal consists of ({flights.length})
+                    planned flights
+                    <br /> Accumulatively calculated to <b>{CO2eTotal}</b> CO2e
+                    (kg), with a buffer of <b>{bufferProcent}</b>% = <b>
+                    {Math.floor((CO2eTotal * bufferProcent) / 100)} </b> CO2e (kg)
+                    <br />
+                    Total Carbon Budget Proposal = <b>{CO2eTotal}</b> +{" "}
+                    <b>{Math.floor((CO2eTotal * bufferProcent) / 100)}</b> ={" "}
+                    <b>
+                      {CO2eTotal +
+                        Math.floor((CO2eTotal * bufferProcent) / 100)}
+                    </b>{" "}
+                    CO2e (kg)
+                  </>
+                </Alert>
               </Col>
             </Row>
             {/* <BudgetProgressBar
@@ -232,7 +258,9 @@ const PlanBudget = ({ ...props }) => {
             <Col>
               <DataCard
                 title="Budget Total"
-                value={CO2eTotal}
+                value={
+                  CO2eTotal + Math.floor((CO2eTotal * bufferProcent) / 100)
+                }
                 unit={"CO2e kg"}
               />
             </Col>
