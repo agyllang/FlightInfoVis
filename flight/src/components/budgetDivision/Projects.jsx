@@ -60,8 +60,10 @@ const ProjectComponent = ({ projectDetails, goBack, projectFlights }) => {
       </Row>
       <Row>
         <Row>
-          <Col xs={6}>
-            Employees ({projectDetails.employeesInProj.length}):
+          <Col xs={4}>
+            <h5 className="component-title-sm">
+              Employees ({projectDetails.employeesInProj.length}):
+            </h5>
             {projectDetails.employeesInProj.length > 0 &&
               projectDetails.employeesInProj.map((employee, index) => {
                 return (
@@ -80,24 +82,37 @@ const ProjectComponent = ({ projectDetails, goBack, projectFlights }) => {
               })}
           </Col>
 
-          <Col>
+          <Col xs={4}>
             <DataCard
-              title={"Emissions"}
+              title={"Total emissions"}
               value={projectFlights.projectCO2e}
-              unit={"CO2e kg"}
+              unit={"CO2e (kg)"}
             />
           </Col>
-          <Col>
+          <Col xs={4}>
             <DataCard
-              title={"Flights"}
-              value={projectFlights.projFlights.length}
-              // unit={"CO2e kg"}
+              title={"Avg. emission/trip"}
+              value={Math.floor(
+                projectFlights.projectCO2e / projectFlights.projFlights.length
+              )}
+              unit={"CO2e (kg)"}
             />
           </Col>
         </Row>
       </Row>
-      
+
       <Row>
+        <Row
+          style={{
+            // borderTop: "1px solid #c6c6c6",
+            // marginBottom: "5px",
+            marginTop: "10px",
+          }}
+        >
+          <h5 className="component-title-sm">
+            Flights ({projectFlights.projFlights.length})
+          </h5>
+        </Row>
         <Row>
           <Col className="list-project-column-header" xs={3}>
             Name

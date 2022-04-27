@@ -17,10 +17,12 @@ const BudgetOverview = ({ ...props }) => {
   // console.log("BudgetOverview, addFlight in FlightContext", addFlight);
   return (
     <Container fluid>
-      <Row className="page-title">
-        Budget Overview
-        <Col>
-          <span style={{fontSize:"16px"}}>You are in:</span> <ChooseQuarterBtns setQuarter={(q) => setQuarter(q)} />
+      <Row className="page-title" style={{ justifyContent: "flex-start" }}>
+        <Col md={"auto"}>Budget Overview</Col>
+        <Col md={"auto"}>
+          {" "}
+          <span style={{ fontSize: "16px" }}>You are in:</span>{" "}
+          <ChooseQuarterBtns setQuarter={(q) => setQuarter(q)} />
         </Col>
       </Row>
       <Row>

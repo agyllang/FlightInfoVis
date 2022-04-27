@@ -335,7 +335,7 @@ const OverviewFlightTable = ({ ...props }) => {
       </Row>
       {/* <Box sx={{ width: "100%" }}> */}
       <Paper sx={{ width: "100%", boxShadow: "0" }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
         <TableContainer>
           <Table
             sx={{ minWidth: 550 }}
@@ -564,7 +564,7 @@ const OverviewFlightTable = ({ ...props }) => {
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 15]}
-          component="div"
+          component={"div"}
           count={flightCount}
           rowsPerPage={rowsPerPage}
           page={page}

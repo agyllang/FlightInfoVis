@@ -22,7 +22,7 @@ const Division = () => {
         <Col md={6}>
           <EmployeeList />
         </Col>
-        <Col md={6}>
+        <Col md={5}>
           <Projects />
           <ProjectsPieChart style={{ marginTop: "1rem" }} />
         </Col>

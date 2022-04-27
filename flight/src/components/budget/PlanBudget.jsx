@@ -145,7 +145,7 @@ const PlanBudget = ({ ...props }) => {
   return (
     <Container fluid>
       <Row className="page-title" style={{ justifyContent: "space-between" }}>
-        <Col md={"auto"}> Plan Carbon budget proposal </Col>
+        <Col md={"auto"}> Plan Carbon Budget Proposal </Col>
         <Col md={"auto"}>
           <SendBudget />
         </Col>
