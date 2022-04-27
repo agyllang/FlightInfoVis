@@ -3,6 +3,7 @@ import { Row, Col, Container } from "react-bootstrap";
 import { EmployeesContext } from "../contexts/EmployeesContext";
 import { FlightsContext } from "../contexts/FlightsContext";
 import { getCorrectTextColor } from "../utility/functions";
+import { returnMonthYear } from "../utility/functions";
 
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -31,6 +32,9 @@ const DataCard = ({ ...props }) => {
 };
 const ProjectComponent = ({ projectDetails, goBack, projectFlights }) => {
   // console.log("ProjectComponent projectFlights", projectFlights);
+  const { getNameFromID } = useContext(EmployeesContext);
+  console.log("projectDetails", projectDetails);
+  console.log("projectFlights", projectFlights);
   return (
     <Container>
       <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
@@ -92,6 +96,53 @@ const ProjectComponent = ({ projectDetails, goBack, projectFlights }) => {
           </Col>
         </Row>
       </Row>
+      
+      <Row>
+        <Row>
+          <Col className="list-project-column-header" xs={3}>
+            Name
+          </Col>
+          <Col className="list-project-column-header" xs={2}>
+            CO2e(kg)
+          </Col>
+          <Col className="list-project-column-header" xs={1}>
+            Days
+          </Col>
+          <Col className="list-project-column-header" xs={2}>
+            CO2e(kg)/day
+          </Col>
+          <Col className="list-project-column-header" xs={1}>
+            Priority
+          </Col>
+          <Col className="list-project-column-header" xs={2}>
+            Date
+          </Col>
+        </Row>
+        <div className="list-table-project">
+          {projectFlights.projFlights.length > 0 &&
+            projectFlights.projFlights.map((flight, index) => {
+              return (
+                <Row
+                  key={`projflights-${index}`}
+                  className=""
+                  style={{
+                    // border: index === focusedIndex ? "1px solid black" : "",
+                    borderRadius: "1px",
+                    margin: "3px",
+                    backgroundColor: index % 2 ? "#eaeaea" : "#e4eaee",
+                  }}
+                >
+                  <Col xs={3}>{getNameFromID(flight.ID)}</Col>
+                  <Col xs={2}>{flight.totalco2e}</Col>
+                  <Col xs={1}>{flight.workDays}</Col>
+                  <Col xs={2}>{flight.co2ePerDay}</Col>
+                  <Col xs={1}>{flight.priority}</Col>
+                  <Col xs={2}>{returnMonthYear(flight.echoTimeDate)}</Col>
+                </Row>
+              );
+            })}
+        </div>
+      </Row>
     </Container>
   );
 };
@@ -139,7 +190,7 @@ const Projects = ({ ...props }) => {
               Research Projects ({allResearchProjectsArray.length})
             </h5>
           </Row>
-          <div 
+          <div
           // className="list-table"
           >
             {allResearchProjectsArray.length > 0 &&

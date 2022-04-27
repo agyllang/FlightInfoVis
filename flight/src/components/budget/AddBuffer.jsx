@@ -23,7 +23,7 @@ const AddBuffer = ({ ...props }) => {
 
     setBuffer(Math.abs(e.target.value));
     
-    console.log("e.target.value", e.target.value);
+    // console.log("e.target.value", e.target.value);
   };
   return (
     <FilledInput

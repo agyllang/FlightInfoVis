@@ -52,7 +52,7 @@ const InputField = React.forwardRef((props, ref) => {
 const AddEmployeeForm = ({ ...props }) => {
   
   const { handleClose } = props;
-  const { employeesID, addNewEmployee, employees } =
+  const { employeesID, addNewEmployee, employees, allResearchProjects } =
     useContext(EmployeesContext);
   // console.log("props",props)
   const [addEmployee, setAddEmployee] = useState(false);
@@ -176,12 +176,12 @@ const AddEmployeeForm = ({ ...props }) => {
               // border: "1px solid black",
               marginTop: "1rem",
               marginBottom: "2rem",
-              padding: "1rem",
+              padding: "0.5rem",
               boxShadow: "rgba(0, 0, 0, 0.15) 0px 5px 15px",
               backgroundColor: "rgba(177, 195, 240, 0.32)",
             }}
           >
-            <h5>Research Projects</h5>
+            <h6>Research Projects</h6>
             Research projects employee is working with
             <div>
               {values.projects.map((p, i) => (

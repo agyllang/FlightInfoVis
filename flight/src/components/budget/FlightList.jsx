@@ -23,7 +23,7 @@ const FlightList = ({ ...props }) => {
   // console.log(" flightList sortedFlights:", sortedFlights);
   useEffect(() => {
     //add new flight on top
-    console.log("flights", flights);
+    // console.log("flights", flights);
   }, [flights]);
 
   const [focusedIndex, setFocused] = useState();

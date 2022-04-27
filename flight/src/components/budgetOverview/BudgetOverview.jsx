@@ -13,8 +13,8 @@ const BudgetOverview = ({ ...props }) => {
   // const {} = props;
   const { flights, addFlight } = useContext(FlightsContext);
   const [quarter, setQuarter] = useState(0);
-  console.log("BudgetOverview, flights in FlightContext", flights);
-  console.log("BudgetOverview, addFlight in FlightContext", addFlight);
+  // console.log("BudgetOverview, flights in FlightContext", flights);
+  // console.log("BudgetOverview, addFlight in FlightContext", addFlight);
   return (
     <Container fluid>
       <Row className="page-title">

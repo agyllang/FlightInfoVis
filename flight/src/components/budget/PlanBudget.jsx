@@ -34,7 +34,7 @@ const DataCard = ({ ...props }) => {
 };
 
 const PlanBudget = ({ ...props }) => {
-  console.log("props", props);
+  // console.log("props", props);
 
   const { setBudgetApproved, budgetApproved } = props;
 

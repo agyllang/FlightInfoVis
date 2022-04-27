@@ -6,34 +6,41 @@ import { Row, Col, Container, Stack } from "react-bootstrap";
 import Chart from "react-apexcharts";
 
 const ProjectsPieChart = ({ ...props }) => {
-  const { employees, allResearchProjects,allResearchProjectsArray, getProjectFromProjectName } =
-    useContext(EmployeesContext);
+  const {
+    employees,
+    allResearchProjects,
+    allResearchProjectsArray,
+    getProjectFromProjectName,
+  } = useContext(EmployeesContext);
 
-  const { getProjectFlights } = useContext(FlightsContext);
+  const { getProjectFlights,flights } = useContext(FlightsContext);
   // console.log("allResearchProjects",allResearchProjects)
   const [series, setSeries] = useState([]);
   const [labels, setLabels] = useState([]);
   const [colors, setColors] = useState([]);
 
   useEffect(() => {
-    console.log("useEffect trigger allResearchProjects", allResearchProjectsArray);
+    // console.log(
+    //   // "useEffect trigger allResearchProjectsArray",
+    //   allResearchProjectsArray
+    // );
     var labelsArr = [];
     var seriesArr = [];
     var colorsArr = [];
     allResearchProjects.length > 0 &&
-    allResearchProjectsArray.length > 0 &&
-      allResearchProjects.forEach((p) => {
+      allResearchProjectsArray.length > 0 &&
+      allResearchProjectsArray.forEach((p) => {
         // console.log()
-        var currentP = getProjectFlights(p);
+        var currentP = getProjectFlights(p.project);
         //   console.log("currentP", currentP);
         labelsArr.push(currentP.project);
         seriesArr.push(currentP.projectCO2e);
-        colorsArr.push(getProjectFromProjectName(p).projectColor);
+        colorsArr.push(p.projectColor);
       });
     setLabels(labelsArr);
     setSeries(seriesArr);
     setColors(colorsArr);
-  }, [allResearchProjects,allResearchProjectsArray]);
+  }, [allResearchProjects, allResearchProjectsArray]);
 
   //   var series = [44, 55, 13, 43, 22];
 
@@ -89,13 +96,17 @@ const ProjectsPieChart = ({ ...props }) => {
         </h5>
       </Row>
       <Row>
-        <Chart
-          options={options}
-          series={series}
-          type="pie"
-          height={200}
-          //   width={550}
-        />
+        {flights.length > 0 ? (
+          <Chart
+            options={options}
+            series={series}
+            type="pie"
+            height={200}
+            //   width={550}
+          />
+        ) : (
+          <div style={{ height: "200px" }}> No flights have been assigned to any Research Project yet</div>
+        )}
       </Row>
     </Container>
   );

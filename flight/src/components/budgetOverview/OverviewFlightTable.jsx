@@ -386,20 +386,20 @@ const OverviewFlightTable = ({ ...props }) => {
                 })
               )
                 .filter((f) => {
-                  console.log("isCompleted:", showCompleted);
-                  console.log(
-                    "(getQuarter(f.echoTimeDate, quarter):",
-                    getQuarter(f.echoTimeDate, quarter)
-                  );
+                  // console.log("isCompleted:", showCompleted);
+                  // console.log(
+                  //   "(getQuarter(f.echoTimeDate, quarter):",
+                  //   getQuarter(f.echoTimeDate, quarter)
+                  // );
                   if (!showCompleted) {
                     return f;
                   } else {
                     if (getQuarter(f.echoTimeDate, quarter) <= quarter) {
-                      console.log("made it here", f);
-                      console.log(
-                        "q for here",
-                        getQuarter(f.echoTimeDate, quarter)
-                      );
+                      // console.log("made it here", f);
+                      // console.log(
+                      //   "q for here",
+                      //   getQuarter(f.echoTimeDate, quarter)
+                      // );
                       return f;
                     }
                   }
