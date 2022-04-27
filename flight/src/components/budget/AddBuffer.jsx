@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState,useEffect, useContext } from "react";
 import FormControl from "@mui/material/FormControl";
 import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -7,9 +7,14 @@ import { FlightsContext } from "../contexts/FlightsContext";
 
 const AddBuffer = ({ ...props }) => {
   const { setProcent } = props;
-  const { setBuffer } = useContext(FlightsContext);
+  const { setBuffer,bufferProcent } = useContext(FlightsContext);
 
   const [val, setVal] = useState(0);
+
+  useEffect(() => {
+    setVal(bufferProcent)
+  }, [bufferProcent])
+  
   const handleChange = (e) => {
 
     setProcent(Math.abs(e.target.value));

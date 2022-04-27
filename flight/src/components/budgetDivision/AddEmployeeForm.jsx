@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import { EmployeesContext } from "../contexts/EmployeesContext";
-import { Button, Stack } from "react-bootstrap";
+import { Stack, Button, Row, Col } from "react-bootstrap";
+// import Button from "@mui/material/Button";
+
 import CloseIcon from "@mui/icons-material/Close";
 
 import { useForm, useField, splitFormProps } from "react-form";
@@ -48,11 +50,13 @@ const InputField = React.forwardRef((props, ref) => {
 });
 
 const AddEmployeeForm = ({ ...props }) => {
-  // const { addNew, addToEmployeesID, employeesID } = props;
+  
+  const { handleClose } = props;
   const { employeesID, addNewEmployee, employees } =
     useContext(EmployeesContext);
   // console.log("props",props)
   const [addEmployee, setAddEmployee] = useState(false);
+  const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
   const defaultValues = React.useMemo(
     () => ({
       ID: "",
@@ -61,19 +65,19 @@ const AddEmployeeForm = ({ ...props }) => {
     }),
     []
   );
-  function validateID(value) {
-    if (!value) {
-      return "ID is required";
-    }
-    if (employeesID.includes(value)) {
-      return "ID is already in use";
-    }
-    return false;
-  }
-  function employeeAdded() {
-    return "Employee is added";
-  }
-  // `p${employees.length + 1}`
+  // function validateID(value) {
+
+  //   if (!value) {
+  //     return "ID is required";
+  //   }
+  //   if (employeesID.includes(value)) {
+  //     return "ID is already in use";
+  //   }
+  //   return false;
+  // }
+  // function employeeAdded() {
+  //   return "Employee is added";
+  // }
   // Use the useForm hook to create a form instance
   const {
     Form,
@@ -102,8 +106,10 @@ const AddEmployeeForm = ({ ...props }) => {
       // console.log("employee added!", values);
 
       // setAddEmployee(!addEmployee);
-
+      setIsReadyToSubmit(false);
       instance.reset();
+      handleClose()
+
     },
     debugForm: false,
   });
@@ -114,10 +120,17 @@ const AddEmployeeForm = ({ ...props }) => {
 
   //   alert(JSON.stringify(data));
   // };
+  const handleChange = (e) => {
+    if (e.target.value !== "") {
+      setIsReadyToSubmit(true);
+    } else {
+      setIsReadyToSubmit(false);
+    }
+  };
   return (
     <Form className="component-container">
-      <h5 className="component-title">Add new employee</h5>
-      {addEmployee && (
+      {/* <h5 className="component-title">Add new employee</h5> */}
+      {!addEmployee && (
         <div>
           <Stack>
             <label>Name</label>
@@ -125,7 +138,10 @@ const AddEmployeeForm = ({ ...props }) => {
               className="addNewInput"
               placeholder="Name"
               field="name"
-              validate={fakeCheckValidName}
+              validate={(value) => (!value ? "Required" : false)}
+              onChange={handleChange}
+
+              // validate={fakeCheckValidName}
             />
             {/* <label
               style={{
@@ -161,7 +177,7 @@ const AddEmployeeForm = ({ ...props }) => {
               marginTop: "1rem",
               marginBottom: "2rem",
               padding: "1rem",
-              boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+              boxShadow: "rgba(0, 0, 0, 0.15) 0px 5px 15px",
               backgroundColor: "rgba(177, 195, 240, 0.32)",
             }}
           >
@@ -196,22 +212,24 @@ const AddEmployeeForm = ({ ...props }) => {
           </div>
         </div>
       )}
-      <div>
-        <Button
-          type="submit"
-          // style={{ backgroundColor: canSubmit ? "#357BF3" : "#8D9198" }}
-          disabled={!canSubmit}
-          // style={{
-          //   marginTop: "1rem ",
-          // }}
-          variant="success"
-          onClick={() => {
-            setAddEmployee(!addEmployee);
-          }}
-        >
-          Add employee{" "}
-        </Button>
-      </div>
+      <Row style={{ justifyContent: "flex-end" }}>
+        <Col md={"auto"}>
+          <Button
+            type="submit"
+            // style={{ backgroundColor: canSubmit ? "#357BF3" : "#8D9198" }}
+            disabled={!isReadyToSubmit}
+            // style={{
+            //   marginTop: "1rem ",
+            // }}
+            variant={"success"}
+            onClick={() => {
+              setAddEmployee(!addEmployee);
+            }}
+          >
+            Add{" "}
+          </Button>
+        </Col>
+      </Row>
 
       <div>
         <em>{isSubmitting ? "Employee is being added..." : null}</em>

@@ -38,12 +38,17 @@ const PlanBudget = ({ ...props }) => {
 
   const { setBudgetApproved, budgetApproved } = props;
 
-  const { flights, CO2eTotal, } = useContext(FlightsContext);
+  const { flights, CO2eTotal, bufferProcent } = useContext(FlightsContext);
 
-  const [bufferProcent, setProcent] = useState(0);
+  const [bufferState, setProcent] = useState(0);
   const [sortValue, setSortValue] = useState("totalco2e");
   const [reverseSorting, setReverseSorting] = useState(false);
   const [max, setMax] = useState(0);
+ useEffect(()=>{
+  setProcent(bufferProcent)
+ },[bufferProcent])
+ 
+ 
   useEffect(() => {
     if (flights.length > 0) {
       var maxCo2e = Math.max.apply(
@@ -185,14 +190,14 @@ const PlanBudget = ({ ...props }) => {
                     Your Carbon Budget Proposal consists of ({flights.length})
                     planned flights
                     <br /> Accumulatively calculated to <b>{CO2eTotal}</b> CO2e
-                    (kg), with a buffer of <b>{bufferProcent}</b>% = <b>
-                    {Math.floor((CO2eTotal * bufferProcent) / 100)} </b> CO2e (kg)
+                    (kg), with a buffer of <b>{bufferState}</b>% = <b>
+                    {Math.floor((CO2eTotal * bufferState) / 100)} </b> CO2e (kg)
                     <br />
                     Total Carbon Budget Proposal = <b>{CO2eTotal}</b> +{" "}
-                    <b>{Math.floor((CO2eTotal * bufferProcent) / 100)}</b> ={" "}
+                    <b>{Math.floor((CO2eTotal * bufferState) / 100)}</b> ={" "}
                     <b>
                       {CO2eTotal +
-                        Math.floor((CO2eTotal * bufferProcent) / 100)}
+                        Math.floor((CO2eTotal * bufferState) / 100)}
                     </b>{" "}
                     CO2e (kg)
                   </>
@@ -259,7 +264,7 @@ const PlanBudget = ({ ...props }) => {
               <DataCard
                 title="Budget Total"
                 value={
-                  CO2eTotal + Math.floor((CO2eTotal * bufferProcent) / 100)
+                  CO2eTotal + Math.floor((CO2eTotal * bufferState) / 100)
                 }
                 unit={"CO2e kg"}
               />

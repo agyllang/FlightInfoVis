@@ -174,6 +174,7 @@ const EmployeesContextProvider = ({ ...props }) => {
     });
     return getProject;
   };
+
   // console.log("getProjectFromProjectName", getProjectFromProjectName("AI"));
   return (
     <EmployeesContext.Provider

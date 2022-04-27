@@ -16,7 +16,7 @@ const FlightsContextProvider = ({ ...props }) => {
     if (fakeData) {
       setFlights(fakeFlights);
       setActualFlights(fakeFlights2);
-      setBufferProcent(25)
+      setBufferProcent(25);
     }
   }, [fakeData]);
 
@@ -86,10 +86,23 @@ const FlightsContextProvider = ({ ...props }) => {
 
   const getEmployeeFlights = (ID) => {
     var empFlights = [];
+
     flights.map((f) => {
-      f.ID === ID && empFlights.push(f);
+      if (f.ID === ID) {
+        empFlights.push(f);
+      }
     });
     return empFlights;
+  };
+
+  const getEmployeeTotalCO2e = (ID) => {
+    var CO2etotal = 0;
+    flights.map((f) => {
+      if (f.ID === ID) {
+        CO2etotal += f.totalco2e;
+      }
+    });
+    return CO2etotal;
   };
   const setBuffer = (val) => {
     setBufferProcent(val);
@@ -106,6 +119,7 @@ const FlightsContextProvider = ({ ...props }) => {
         projectFlights,
         getProjectFlights,
         getEmployeeFlights,
+        getEmployeeTotalCO2e,
         setBuffer,
         bufferProcent,
       }}

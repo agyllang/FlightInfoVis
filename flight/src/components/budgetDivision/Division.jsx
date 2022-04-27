@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import AddEmployeeForm from "./AddEmployeeForm";
-
+import AddEmployeePopup from "./AddEmpPopup";
 import EmployeeList from "./EmployeeList";
 import Projects from "./Projects";
 import ProjectsPieChart from "./ProjectsPieChart";
@@ -9,18 +9,22 @@ import ProjectsPieChart from "./ProjectsPieChart";
 const Division = () => {
   return (
     <Container fluid>
-      <Row className="page-title">Division and Employees</Row>
-      <Row>
-        <Col xs={3}>
-          <AddEmployeeForm />
-          {/* <AddEmployeeForm2/> */}
+      <Row className="page-title" style={{ justifyContent: "flex-start" }}>
+        <Col md={"auto"}> Division and Employees</Col>
+        <Col md={"auto"}>
+          <AddEmployeePopup />
         </Col>
-        <Col xs={5}>
+      </Row>
+      <Row>
+        {/* <Col xs={3}>
+          <AddEmployeeForm />
+        </Col> */}
+        <Col md={6}>
           <EmployeeList />
         </Col>
-        <Col xs={4}>
+        <Col md={6}>
           <Projects />
-          <ProjectsPieChart style={{marginTop:"1rem"}} />
+          <ProjectsPieChart style={{ marginTop: "1rem" }} />
         </Col>
       </Row>
     </Container>

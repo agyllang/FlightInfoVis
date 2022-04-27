@@ -119,7 +119,7 @@ const EmployeeList = ({ ...props }) => {
       setEmployeesArr(employees)
     }, [allResearchProjectsArray])
     
-  const { getEmployeeFlights } = useContext(FlightsContext);
+  const { getEmployeeFlights,getEmployeeTotalCO2e } = useContext(FlightsContext);
   const [focusedIndex, setFocused] = useState();
   // console.log(getEmployeeFlights("p1"));
   const handleFocus = (index) => {
@@ -141,8 +141,11 @@ const EmployeeList = ({ ...props }) => {
           <Col className="list-column-header" xs={4}>
             Name
           </Col>
-          <Col className="list-column-header" xs={3}>
+          <Col className="list-column-header" xs={2}>
             ID
+          </Col>
+          <Col className="list-column-header" xs={2}>
+            Total CO2e (kg) 
           </Col>
           <Col className="list-column-header" xs={3}>
             Project
@@ -175,7 +178,8 @@ const EmployeeList = ({ ...props }) => {
                   onClick={handleClick}
                 >
                   <Col xs={4}>{employee.name}</Col>
-                  <Col xs={3}>{employee.ID}</Col>
+                  <Col xs={2}>{employee.ID}</Col>
+                  <Col xs={2}>{getEmployeeTotalCO2e(employee.ID)}</Col>
                   <Col xs={3}>
                     {employee.projects.length > 0 &&
                       employee.projects.map((p, index) => {
@@ -208,7 +212,7 @@ const EmployeeList = ({ ...props }) => {
                         );
                       })}
                   </Col>
-                  <Col xs={{ span: 1, offset: 1 }}>
+                  <Col xs={1}>
                     {focusedIndex === index ? (
                       <KeyboardArrowUpIcon />
                     ) : (
