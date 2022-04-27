@@ -318,14 +318,20 @@ const OverviewFlightTable = ({ ...props }) => {
     <Container className="component-container">
       <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
         <h5 className="component-title">
-          All flights {`${quarter!==0 ? ` - Displaying Q${quarter}` : ""}`}
+          All flights{" "}
+          {quarter !== 0 && (
+            <div style={{ color: "#c9c9c9" }}>
+              : displaying <Chip label={`Q${quarter}`} color="primary" />
+            </div>
+          )}
+          {/* All flights {`${quarter!==0 ? ` - Displaying Q${quarter}` : ""}`} */}
         </h5>
       </Row>
       <Row style={{ justifyContent: "flex-end" }}>
         <Col md={"auto"}>
           Filter: {""}
           <PlannedToggle
-          quarter = {quarter}
+            quarter={quarter}
             setPlannedFilter={(p) => setPlannedFilter(p)}
             setCompleted={(c) => {
               setCompleted(c);
@@ -360,24 +366,26 @@ const OverviewFlightTable = ({ ...props }) => {
                   }
                   if (quarter !== 0) {
                     if (plannedFilter === "") {
-                      if(showCompleted){
+                      if (showCompleted) {
                         return f;
-                      } 
-                      if (!showCompleted && getQuarter(f.echoTimeDate, quarter) > quarter ) {
-                        
-                        return f
                       }
-                     
+                      if (
+                        !showCompleted &&
+                        getQuarter(f.echoTimeDate, quarter) > quarter
+                      ) {
+                        return f;
+                      }
                     }
                     if (plannedFilter === f.status) {
-                      if(showCompleted){
+                      if (showCompleted) {
                         return f;
-                      } 
-                      if (!showCompleted && getQuarter(f.echoTimeDate, quarter) > quarter ) {
-                        
-                        return f
                       }
-                     
+                      if (
+                        !showCompleted &&
+                        getQuarter(f.echoTimeDate, quarter) > quarter
+                      ) {
+                        return f;
+                      }
                     }
                   }
                   // if (quarter !== 0 && f.status === plannedFilter) {
@@ -514,7 +522,7 @@ const OverviewFlightTable = ({ ...props }) => {
                             : { color: "#000" }
                         }
                       >
-                        {getQuarter(row.echoTimeDate, quarter) <= quarter}
+                        {/* {getQuarter(row.echoTimeDate, quarter) <= quarter} */}
                         {row.status === "planned" ? (
                           <Chip
                             label={
@@ -564,7 +572,7 @@ const OverviewFlightTable = ({ ...props }) => {
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 15]}
-          component={"div"}
+          component="div"
           count={flightCount}
           rowsPerPage={rowsPerPage}
           page={page}

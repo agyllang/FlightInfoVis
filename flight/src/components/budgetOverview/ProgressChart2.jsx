@@ -3,6 +3,8 @@ import Chart from "react-apexcharts";
 import { Row, Col, Container, Stack } from "react-bootstrap";
 import { FlightsContext } from "../contexts/FlightsContext";
 import { sortBy, getRandom } from "../utility/functions";
+import Chip from "@mui/material/Chip";
+
 // import Slider from "@mui/material/Slider";
 // import Alert from "@mui/material/Alert";
 // import AlertTitle from "@mui/material/AlertTitle";
@@ -483,11 +485,18 @@ const ProgressChart2 = ({ ...props }) => {
           justifyContent: "space-between",
         }}
       >
-        <Col md={"auto"}>
-          <h5 className="component-title">Progress of 2022 budget</h5>
+        <Col md={10}>
+          <h5 className="component-title">
+            Progress 2022 budget{" "}
+            {quarter !== 0 && (
+              <div style={{ color: "#c9c9c9" }}>
+                : displaying <Chip label={`Q${quarter}`} color="primary" />
+              </div>
+            )}
+          </h5>
         </Col>
         <Col md={"auto"}>
-          <InformationTooltip buttonText={"More info"}>
+          <InformationTooltip buttonText={"Info"}>
             <Container style={{ padding: "1rem", borderRadius: "4px" }}>
               <Row
                 style={

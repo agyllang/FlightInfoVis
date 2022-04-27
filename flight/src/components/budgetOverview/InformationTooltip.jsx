@@ -36,7 +36,7 @@ const InformationTooltip = ({ ...props }) => {
           children
         }
       >
-        <Button>{buttonText}</Button>
+        <Button size="small">{buttonText}</Button>
       </HtmlTooltip>
     </div>
   );

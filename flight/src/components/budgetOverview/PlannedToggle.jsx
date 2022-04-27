@@ -28,9 +28,8 @@ const PlannedToggle = ({ ...props }) => {
     if (quarter === 0) {
       setChecked(true);
       setPlannedFilter("planned");
-      setCompleted(false)
-      setChecked3(false)
-
+      setCompleted(false);
+      setChecked3(false);
     }
   }, [checked, checked2, quarter]);
   const handleChange = (event) => {
@@ -49,15 +48,15 @@ const PlannedToggle = ({ ...props }) => {
       <FormControlLabel
         checked={checked}
         onChange={handleChange}
-        inputProps={{ "aria-label": "controlled" }}
-        control={<Checkbox defaultChecked />}
+        inputprops={{ "aria-label": "controlled" }}
+        control={<Checkbox  />}
         label="Planned"
       />
 
       <FormControlLabel
         checked={checked2}
         onChange={handleChange2}
-        inputProps={{ "aria-label": "controlled" }}
+        inputprops={{ "aria-label": "controlled" }}
         control={<Checkbox color="warning" />}
         label="Unplanned"
       />
@@ -65,7 +64,7 @@ const PlannedToggle = ({ ...props }) => {
         checked={checked3}
         disabled={quarter === 0}
         onChange={handleChange3}
-        inputProps={{ "aria-label": "controlled" }}
+        inputprops={{ "aria-label": "controlled" }}
         control={<Checkbox color="default" />}
         label="Show completed"
       />
