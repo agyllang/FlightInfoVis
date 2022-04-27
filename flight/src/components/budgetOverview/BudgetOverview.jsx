@@ -19,9 +19,19 @@ const BudgetOverview = ({ ...props }) => {
     <Container fluid>
       <Row className="page-title" style={{ justifyContent: "flex-start" }}>
         <Col md={"auto"}>Budget Overview</Col>
-        <Col md={"auto"}>
-          {" "}
-          <span style={{ fontSize: "16px" }}>You are in:</span>{" "}
+        <Col
+          md={"auto"}
+          className="component-container"
+          style={{
+            padding: "10px",
+            display: "flex",
+            alignItems: "center",
+            // boxShadow: "0 0 0 1px rgba(0,0,0,0.15)",
+          }}
+        >
+          <div style={{ fontSize: "16px", marginRight: "10px" }}>
+             Point in time {"  "}
+          </div>
           <ChooseQuarterBtns setQuarter={(q) => setQuarter(q)} />
         </Col>
       </Row>
