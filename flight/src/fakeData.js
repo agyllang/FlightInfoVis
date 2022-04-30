@@ -544,7 +544,7 @@ var fakeFlights2 = [
     project: "HCI",
     flightID: "fID-5808",
     flightCreated: 1650360556709,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 162,
@@ -568,7 +568,7 @@ var fakeFlights2 = [
     project: "HCI",
     flightID: "fID-0226",
     flightCreated: 1650707860700,
-    status:"unplanned",
+    status: "unplanned",
   },
   {
     totalco2e: 242,
@@ -592,7 +592,7 @@ var fakeFlights2 = [
     project: "HCI",
     flightID: "fID-2261",
     flightCreated: 1650360452885,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 248,
@@ -616,7 +616,7 @@ var fakeFlights2 = [
     project: "HCI",
     flightID: "fID-0194",
     flightCreated: 1650707830652,
-    status:"unplanned",
+    status: "unplanned",
   },
   {
     totalco2e: 312,
@@ -640,7 +640,7 @@ var fakeFlights2 = [
     project: "HCI",
     flightID: "fID-0220",
     flightCreated: 1650361010732,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 340,
@@ -664,7 +664,7 @@ var fakeFlights2 = [
     project: "HCI",
     flightID: "fID-8543",
     flightCreated: 1650707749156,
-    status:"unplanned",
+    status: "unplanned",
   },
   {
     totalco2e: 357,
@@ -693,7 +693,7 @@ var fakeFlights2 = [
     project: "ROBOTICS",
     flightID: "fID-0236",
     flightCreated: 1650361140832,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 362,
@@ -717,7 +717,7 @@ var fakeFlights2 = [
     project: "AI",
     flightID: "fID-1048",
     flightCreated: 1650360591811,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 366,
@@ -746,7 +746,7 @@ var fakeFlights2 = [
     project: "AI",
     flightID: "fID-5509",
     flightCreated: 1650707586095,
-    status:"unplanned",
+    status: "unplanned",
   },
   {
     totalco2e: 574,
@@ -770,7 +770,7 @@ var fakeFlights2 = [
     project: "AI",
     flightID: "fID-9077",
     flightCreated: 1650360033490,
-    status:"planned",
+    status: "planned",
   },
   {
     totalco2e: 574,
@@ -794,7 +794,7 @@ var fakeFlights2 = [
     project: "HCI",
     flightID: "fID-0679",
     flightCreated: 1650361221318,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 625,
@@ -818,7 +818,7 @@ var fakeFlights2 = [
     project: "ROBOTICS",
     flightID: "fID-2673",
     flightCreated: 1650707910872,
-    status:"unplanned",
+    status: "unplanned",
   },
   {
     totalco2e: 650,
@@ -842,7 +842,7 @@ var fakeFlights2 = [
     project: "ROBOTICS",
     flightID: "fID-0828",
     flightCreated: 1650360881254,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 672,
@@ -866,7 +866,7 @@ var fakeFlights2 = [
     project: "AI",
     flightID: "fID-5307",
     flightCreated: 1650360083755,
-    status:"planned",
+    status: "planned",
   },
   {
     totalco2e: 680,
@@ -890,7 +890,7 @@ var fakeFlights2 = [
     project: "ROBOTICS",
     flightID: "fID-1018",
     flightCreated: 1650360911652,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 696,
@@ -914,7 +914,7 @@ var fakeFlights2 = [
     project: "ROBOTICS",
     flightID: "fID-2221",
     flightCreated: 1650707647694,
-    status:"unplanned",
+    status: "unplanned",
   },
   {
     totalco2e: 730,
@@ -938,7 +938,7 @@ var fakeFlights2 = [
     project: "HCI",
     flightID: "fID-7779",
     flightCreated: 1650360390450,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 746,
@@ -962,7 +962,7 @@ var fakeFlights2 = [
     project: "ROBOTICS",
     flightID: "fID-3142",
     flightCreated: 1650360316034,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 842,
@@ -986,7 +986,7 @@ var fakeFlights2 = [
     project: "ROBOTICS",
     flightID: "fID-3171",
     flightCreated: 1650361474096,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 846,
@@ -1015,7 +1015,7 @@ var fakeFlights2 = [
     project: "ROBOTICS",
     flightID: "fID-8615",
     flightCreated: 1650360206092,
-    status:"planned",
+    status: "planned",
   },
   {
     totalco2e: 922,
@@ -1039,7 +1039,7 @@ var fakeFlights2 = [
     project: "AI",
     flightID: "fID-1517",
     flightCreated: 1650360681912,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 1019,
@@ -1063,7 +1063,7 @@ var fakeFlights2 = [
     project: "HCI",
     flightID: "fID-3210",
     flightCreated: 1650360504265,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 1296,
@@ -1087,7 +1087,7 @@ var fakeFlights2 = [
     project: "ROBOTICS",
     flightID: "fID-8341",
     flightCreated: 1650360249140,
-    status:"planned",
+    status: "planned",
   },
   {
     totalco2e: 1494,
@@ -1111,7 +1111,7 @@ var fakeFlights2 = [
     project: "ROBOTICS",
     flightID: "fID-9284",
     flightCreated: 1650361332026,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 1578,
@@ -1135,7 +1135,7 @@ var fakeFlights2 = [
     project: "AI",
     flightID: "fID-3392",
     flightCreated: 1650360633977,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 1631,
@@ -1164,7 +1164,7 @@ var fakeFlights2 = [
     project: "ROBOTICS",
     flightID: "fID-0081",
     flightCreated: 1650360750652,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 1756,
@@ -1188,7 +1188,7 @@ var fakeFlights2 = [
     project: "AI",
     flightID: "fID-2865",
     flightCreated: 1650707534247,
-    status:"unplanned",
+    status: "unplanned",
   },
   {
     totalco2e: 1764,
@@ -1212,7 +1212,7 @@ var fakeFlights2 = [
     project: "ROBOTICS",
     flightID: "fID-7316",
     flightCreated: 1650360138115,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 889,
@@ -1236,7 +1236,7 @@ var fakeFlights2 = [
     project: "ROBOTICS",
     flightID: "fID-1016",
     flightCreated: 1650707691702,
-    status:"unplanned",
+    status: "unplanned",
   },
   {
     totalco2e: 900,
@@ -1260,7 +1260,7 @@ var fakeFlights2 = [
     project: "HCI",
     flightID: "fID-3548",
     flightCreated: 1650361075562,
-    status:"planned"
+    status: "planned",
   },
   {
     totalco2e: 1000,
@@ -1284,8 +1284,230 @@ var fakeFlights2 = [
     project: "HCI",
     flightID: "fID-1821",
     flightCreated: 1650707792482,
-    status:"unplanned",
+    status: "unplanned",
   },
 ];
-
-export  { fakeFlights, fakeFlights2 };
+var unplannedFlights = [
+  {
+    totalco2e: 1756,
+    co2e: 878,
+    co2e_unit: "kg",
+    seatClass: "business",
+    oneWay: 2,
+    echoTimeDate: 1640991600000,
+    co2ePerDay: 351,
+    workDays: "5",
+    legs: [
+      {
+        from: "ARN",
+        to: "IFJ",
+        co2e: 878.83506608794,
+      },
+    ],
+    priority: 2,
+    purpose: "Conference",
+    ID: "p1",
+    project: "AI",
+    flightID: "fID-3865",
+    flightCreated: 1650707534247,
+    status: "unplanned",
+  },
+  {
+    totalco2e: 366,
+    co2e: 366,
+    co2e_unit: "kg",
+    seatClass: "economy",
+    oneWay: 1,
+    echoTimeDate: 1643670000000,
+    workDays: "7",
+    co2ePerDay: 52,
+    legs: [
+      {
+        from: "ARN",
+        to: "CPH",
+        co2e: 76.88730754687501,
+      },
+      {
+        from: "CPH",
+        to: "MAD",
+        co2e: 289.72276396875003,
+      },
+    ],
+    priority: 2,
+    purpose: "Meetings",
+    ID: "p2",
+    project: "AI",
+    flightID: "fID-5109",
+    flightCreated: 1650707586095,
+    status: "unplanned",
+  },
+  {
+    totalco2e: 696,
+    co2e: 348,
+    co2e_unit: "kg",
+    seatClass: "economy",
+    oneWay: 2,
+    echoTimeDate: 1646089200000,
+    co2ePerDay: 139,
+    workDays: "5",
+    legs: [
+      {
+        from: "ARN",
+        to: "CTA",
+        co2e: 348.080476359375,
+      },
+    ],
+    priority: 4,
+    purpose: "Data gathering",
+    ID: "p3",
+    project: "ROBOTICS",
+    flightID: "fID-0214",
+    flightCreated: 1650707647694,
+    status: "unplanned",
+  },
+  {
+    totalco2e: 889,
+    co2e: 889,
+    co2e_unit: "kg",
+    seatClass: "economy",
+    oneWay: 1,
+    echoTimeDate: 1648764000000,
+    co2ePerDay: 889,
+    workDays: "1",
+    legs: [
+      {
+        from: "MDQ",
+        to: "TOS",
+        co2e: 889.448194390625,
+      },
+    ],
+    priority: 2,
+    purpose: "-",
+    ID: "p5",
+    project: "ROBOTICS",
+    flightID: "fID-0016",
+    flightCreated: 1650707691702,
+    status: "unplanned",
+  },
+  {
+    totalco2e: 340,
+    co2e: 340,
+    co2e_unit: "kg",
+    seatClass: "business",
+    oneWay: 1,
+    echoTimeDate: 1651356000000,
+    co2ePerDay: 340,
+    workDays: "1",
+    legs: [
+      {
+        from: "ARN",
+        to: "LHR",
+        co2e: 340.38771918537907,
+      },
+    ],
+    priority: 4,
+    purpose: "Conference",
+    ID: "p6",
+    project: "HCI",
+    flightID: "fID-3243",
+    flightCreated: 1650707749156,
+    status: "unplanned",
+  },
+  {
+    totalco2e: 1000,
+    co2e: 500,
+    co2e_unit: "kg",
+    seatClass: "economy",
+    oneWay: 2,
+    echoTimeDate: 1654034400000,
+    co2ePerDay: 250,
+    workDays: "4",
+    legs: [
+      {
+        from: "ARN",
+        to: "SFD",
+        co2e: 500,
+      },
+    ],
+    priority: 4,
+    purpose: "Laboration",
+    ID: "p6",
+    project: "HCI",
+    flightID: "fID-1221",
+    flightCreated: 1650707792482,
+    status: "unplanned",
+  },
+  {
+    totalco2e: 248,
+    co2e: 124,
+    co2e_unit: "kg",
+    seatClass: "economy",
+    oneWay: 2,
+    echoTimeDate: 1656626400000,
+    co2ePerDay: 20,
+    workDays: "12",
+    legs: [
+      {
+        from: "ARN",
+        to: "LCJ",
+        co2e: 124.675490953125,
+      },
+    ],
+    priority: 4,
+    purpose: "Meetings",
+    ID: "p7",
+    project: "HCI",
+    flightID: "fID-1194",
+    flightCreated: 1650707830652,
+    status: "unplanned",
+  },
+  {
+    totalco2e: 625,
+    co2e: 625,
+    co2e_unit: "kg",
+    seatClass: "first",
+    oneWay: 1,
+    echoTimeDate: 1659304800000,
+    co2ePerDay: 312,
+    workDays: "2",
+    legs: [
+      {
+        from: "OSL",
+        to: "BRU",
+        co2e: 625.86287606583,
+      },
+    ],
+    priority: 1,
+    purpose: "Collaboration lab.",
+    ID: "p4",
+    project: "ROBOTICS",
+    flightID: "fID-2375",
+    flightCreated: 1650707910872,
+    status: "unplanned",
+  },
+  {
+    totalco2e: 162,
+    co2e: 162,
+    co2e_unit: "kg",
+    seatClass: "business",
+    oneWay: 1,
+    echoTimeDate: 1661983200000,
+    co2ePerDay: 54,
+    workDays: "3",
+    legs: [
+      {
+        from: "ARN",
+        to: "HEL",
+        co2e: 162.54039656673,
+      },
+    ],
+    priority: 1,
+    purpose: "Conf",
+    ID: "p8",
+    project: "HCI",
+    flightID: "fID-1236",
+    flightCreated: 1650707860700,
+    status: "unplanned",
+  },
+];
+export { fakeFlights, fakeFlights2, unplannedFlights };

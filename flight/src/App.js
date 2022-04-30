@@ -13,6 +13,7 @@ import { Button } from "@mui/material";
 
 function App() {
   const [fakeData, setFakeData] = useState(false);
+  const [generateFlights,setGenerateFlights] = useState(false)
   const [budgetApproved, setBudgetApproved] = useState(false);
 
   return (
@@ -54,9 +55,17 @@ function App() {
         >
           Simulate data{" "}
         </Button>
+
+        <Button
+          onClick={() => {
+            setGenerateFlights(!generateFlights);
+          }}
+        >
+          Generate flights{" "}
+        </Button>
       </div>
       <EmployeesContextProvider fakeData={fakeData}>
-        <FlightsContextProvider fakeData={fakeData}>
+        <FlightsContextProvider fakeData={fakeData} generateFlights={generateFlights}>
           <Routes>
             <Route path="/division" element={<Division />} />
 

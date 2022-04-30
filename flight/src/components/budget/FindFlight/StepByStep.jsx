@@ -231,6 +231,7 @@ const StepByStep = () => {
                 },
                 { from: airport3, to: airport4, co2e: data.legs[1].co2e },
               ],
+              status:"planned",
             });
           } else {
             setFlight({
@@ -251,6 +252,8 @@ const StepByStep = () => {
                   co2e: data.legs[0].co2e,
                 },
               ],
+              status:"planned",
+
             });
           }
           handleNext();

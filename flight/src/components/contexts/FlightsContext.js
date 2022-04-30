@@ -1,11 +1,11 @@
 import { createContext, useEffect, useState, useContext } from "react";
-import { fakeFlights, fakeFlights2 } from "../../fakeData";
+import { fakeFlights, fakeFlights2, unplannedFlights } from "../../fakeData";
 import { EmployeesContext } from "./EmployeesContext";
 export const FlightsContext = createContext();
 
 const FlightsContextProvider = ({ ...props }) => {
-  const { fakeData } = props;
-  const { allResearchProjects } = useContext(EmployeesContext);
+  const { fakeData, generateFlights } = props;
+  const { allResearchProjects, employees } = useContext(EmployeesContext);
   const [flights, setFlights] = useState([]);
   const [actualFlights, setActualFlights] = useState([]);
   const [actualCO2eTotal, setActualTotal] = useState(0);
@@ -13,12 +13,56 @@ const FlightsContextProvider = ({ ...props }) => {
   const [bufferProcent, setBufferProcent] = useState(0);
   // const [fakeData, setFakeData] = useState(false);
   useEffect(() => {
+    //triggered by fake data button, to populate the app with some data.
     if (fakeData) {
       setFlights(fakeFlights);
       setActualFlights(fakeFlights2);
       setBufferProcent(25);
     }
   }, [fakeData]);
+  
+  const addUnplannedFlights = (current) => {
+    //adding unplannedFlights
+    var alreadyAdded = [...current];
+    // console.log("alreadyAdded", alreadyAdded);
+    var newArray = [];
+    newArray = unplannedFlights.map((f, index) => {
+      var newObj = { ...f };
+      var employee = employees[index % employees.length];
+      newObj.ID = employee.ID;
+      newObj.project = employee.projects[0];
+      newObj.status="unplanned";
+      return newObj;
+    });
+
+    newArray = [...alreadyAdded, ...newArray];
+    setActualFlights(newArray)
+  }
+  
+  
+
+  useEffect(() => {
+    //this is used to generate flight data and assign it to the current employees
+    if (generateFlights && employees.length>0) {
+      // console.log("generate");
+      var alreadyAdded = [...flights];
+      // console.log("alreadyAdded", alreadyAdded);
+      var newArray = [];
+      newArray = fakeFlights.map((f, index) => {
+        var newObj = { ...f };
+        var employee = employees[index % employees.length];
+        newObj.ID = employee.ID;
+        newObj.project = employee.projects[0];
+        newObj.status = "planned";
+        return newObj;
+      });
+
+      newArray = [...alreadyAdded, ...newArray];
+      // console.log("newArray", newArray);
+      setFlights(newArray);
+      addUnplannedFlights(newArray)
+    }
+  }, [generateFlights]);
 
   // const [flights, setFlights] = useState(fakeFlights);
   const [CO2eTotal, setCO2e] = useState(0);
