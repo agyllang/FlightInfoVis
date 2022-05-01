@@ -6,8 +6,8 @@ import { sortBy, getRandom } from "../utility/functions";
 import Chip from "@mui/material/Chip";
 
 // import Slider from "@mui/material/Slider";
-// import Alert from "@mui/material/Alert";
-// import AlertTitle from "@mui/material/AlertTitle";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 import InformationTooltip from "./InformationTooltip";
 // import Snackbar from "@mui/material/Snackbar";
 import PopUpAlert from "./PopUpAlert";
@@ -91,28 +91,6 @@ const ProgressChart2 = ({ ...props }) => {
     }
   }, [actualFlights, quarter]);
 
-  // console.log("actualMonthly", actualMonthly);
-
-  // const generateRandomData = (plannedMonthly) => {
-  //   var randomFactor = [
-  //     1.033373321767236, 1.6746459307550344, 0.7430802272803592,
-  //     0.8276842023709565, 1.0359546054446984, 0.7057509503497508,
-  //     1.5736249845755048, 0.8016678534716615, 1.4133420050357888,
-  //     1.04862386697987, 1.1571902280020052, 1.2668687591296221,
-  //   ];
-  //   var randomizedData = plannedMonthly.map((each, index) => {
-  //     return Math.floor(each * randomFactor[index]);
-  //   });
-  //   return randomizedData;
-  // };
-
-  // const actualDataRandomized = useMemo(
-  //   () => generateRandomData(plannedMonthly),
-  //   [plannedMonthly]
-  // );
-  // useEffect(() => {
-  //   setActual(actualDataRandomized.slice(0, quarter * 3));
-  // }, [quarter, plannedMonthly]);
 
   const [actualTrend, setActualTrend] = useState([]);
   // the actual accumulated progress line
@@ -390,9 +368,8 @@ const ProgressChart2 = ({ ...props }) => {
               },
             },
 
-            text: `Actual progress by Q${quarter}:  ${
-              actualTrend[quarter * 3 - 1]
-            }`,
+            text: `Actual progress by Q${quarter}:  ${actualTrend[quarter * 3 - 1]
+              }`,
 
             // text: `Actual progress by Q${quarter}:  ${
             //   actualTrend[quarter * 3 - 1]
@@ -401,66 +378,66 @@ const ProgressChart2 = ({ ...props }) => {
         },
 
         quarter !== 4 &&
-          quarter !== 0 && {
-            y: dottedProgress[11],
+        quarter !== 0 && {
+          y: dottedProgress[11],
+          borderColor: "#87BC5E",
+          borderWidth: 2,
+          label: {
+            offsetY: 20,
+            offsetX: 0,
+
             borderColor: "#87BC5E",
-            borderWidth: 2,
-            label: {
-              offsetY: 20,
-              offsetX: 0,
-
-              borderColor: "#87BC5E",
-              style: {
-                fontSize: "14px",
-                color: "#000",
-                background: "rgba(135, 188, 94, 0.15)",
-                padding: {
-                  // left: 5,
-                  // right: 5,
-                  // top: 5,
-                  // bottom: 5,
-                },
+            style: {
+              fontSize: "14px",
+              color: "#000",
+              background: "rgba(135, 188, 94, 0.15)",
+              padding: {
+                // left: 5,
+                // right: 5,
+                // top: 5,
+                // bottom: 5,
               },
-              text: `Actual + Planned Forecast: ${dottedProgress[11]}`,
             },
+            text: `Actual + Planned Forecast: ${dottedProgress[11]}`,
           },
+        },
         quarter === 4 &&
-          overShoot < 0 && {
-            y: plannedTrend[11],
-            y2: actualTrend[11],
-            // borderColor: "rgba(242, 85, 85)",
-            fillColor: "rgba(242, 85, 85)",
-            opacity: 0.2,
-            borderWidth: 2,
+        overShoot < 0 && {
+          y: plannedTrend[11],
+          y2: actualTrend[11],
+          // borderColor: "rgba(242, 85, 85)",
+          fillColor: "rgba(242, 85, 85)",
+          opacity: 0.2,
+          borderWidth: 2,
 
-            label: {
-              offsetY: 20,
-              offsetX: -200,
+          label: {
+            offsetY: 20,
+            offsetX: -200,
+            border: 0,
+            style: {
+              fontSize: "14px",
+              color: "#000",
+              background: "rgba(242, 85, 85,0.05)",
               border: 0,
-              style: {
-                fontSize: "14px",
-                color: "#000",
-                background: "rgba(242, 85, 85,0.05)",
-                border: 0,
-                opacity: 0.2,
+              opacity: 0.2,
 
-                padding: {
-                  // left: 5,
-                  // right: 5,
-                  // top: 5,
-                  // bottom: 5,
-                },
+              padding: {
+                // left: 5,
+                // right: 5,
+                // top: 5,
+                // bottom: 5,
               },
-
-              text: `Budget overshoot: ${Math.abs(
-                plannedTrend[11] - actualTrend[11]
-              )} `,
-
-              // text: `Actual progress by Q${quarter}:  ${
-              //   actualTrend[quarter * 3 - 1]
-              // } `,
             },
+
+            text: `Budget overshoot: ${Math.abs(
+              plannedTrend[11] - actualTrend[11]
+            )} `,
+
+            // text: `Actual progress by Q${quarter}:  ${
+            //   actualTrend[quarter * 3 - 1]
+            // } `,
           },
+        },
       ],
     },
   };
@@ -475,9 +452,25 @@ const ProgressChart2 = ({ ...props }) => {
   //   { label: "Q3", value: 3 },
   //   { label: "Q4", value: 4 },
   // ];
-
+  function getQuarter(echo) {
+    var date = new Date(echo);
+    var quarter = Math.floor(date.getMonth() / 3 + 1);
+    // if (quarter === q) {
+    //   // console.log()
+    //   // console.log("same month:", quarter);
+    // }
+    return parseInt(quarter);
+  }
+  const completedFlights = () => {
+    var completed = 0
+    actualFlights.forEach(f => {
+      if (getQuarter(f.echoTimeDate) <= quarter) { completed += 1 }
+    })
+    return completed
+  }
   return (
     <Container className="component-container">
+
       <Row
         style={{
           borderBottom: "2px solid #c6c6c6",
@@ -567,23 +560,7 @@ const ProgressChart2 = ({ ...props }) => {
           </InformationTooltip>
         </Col>
       </Row>
-      {/* <Row style={{ justifyContent: "center" }}>
-        <Col md={"auto"}>
-          Display actual emissions by quarters
-          <Slider
-            aria-label="Display quarters"
-            defaultValue={0}
-            //getAriaValueText={valuetext}
-            valueLabelDisplay="auto"
-            step={1}
-            marks={quarterScale}
-            min={0}
-            max={4}
-            onChange={handleChange}
-            value={quarter}
-          />
-        </Col>
-      </Row> */}
+
       <Row style={{ justifyContent: "center" }}>
         <Col md={"auto"}>
           <PopUpAlert
@@ -593,62 +570,41 @@ const ProgressChart2 = ({ ...props }) => {
             forecast={dottedProgress[11]}
             actualTrend={actualTrend[11]}
           />
-          {/* <Snackbar
-            open={open}
-            autoHideDuration={6000}
-            onClose={handleClose}
-            anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          >
-            <Alert
-              onClose={handleClose}
-              severity="success"
-              sx={{ width: "100%" }}
-            >
-              <AlertTitle>Q{quarter} follow-up</AlertTitle>
-              Actual emissions and planned trips forecast will result in budget
-              overshoot
-              <b> </b>
-            </Alert> */}
-
-          {/* 
-          {overShoot < 0 && quarter !== 4 && (
-            <Alert severity="warning">
-              <AlertTitle>Q{quarter} follow-up (Warning)</AlertTitle>
-              Actual emissions and planned trips forecast will result in budget
-              overshoot
-              <b>
-                {" "}
-                {<br />} {CO2eTotal} - {dottedProgress[11]} ={" "}
-                {CO2eTotal - dottedProgress[11]} CO2e kg
-              </b>
-            </Alert>
-          )}
-          {overShoot > 0 && quarter !== 4 && (
-            <Alert severity="info" icon={false}>
-              <AlertTitle>Q{quarter} follow-up</AlertTitle>
-              Actual emissions and planned trips forecast are within budget
-              limits
-            </Alert>
-          )}
-          {quarter === 4 && overShoot > 0 && (
-            <Alert severity="success" icon={false}>
-              <AlertTitle>Q{quarter} follow-up (Success)</AlertTitle>
-              Budget was made, good job!
-            </Alert>
-          )}
-          {quarter === 4 && overShoot < 0 && (
-            <Alert severity="error">
-              <AlertTitle> Q{quarter} follow-up (Overshoot)</AlertTitle>
-              Budget was not made!
-              <b>
-                {" "}
-                {<br />} {CO2eTotal} - {actualTrend[11]} ={" "}
-                {CO2eTotal - actualTrend[11]} CO2e kg
-              </b>
-            </Alert>
-          )} */}
-          {/* </Snackbar> */}
         </Col>
+
+      </Row>
+      <Row>
+        {quarter > 0 && <Col>
+          <Alert
+            style={{
+              cursor: "pointer",
+              boxShadow: "rgba(0, 0, 0, 0.2) 0px 5px 15px",
+            }}
+            severity="info"
+          >
+            {" "}
+            <AlertTitle sx={{ fontWeight: "bolder" }}>
+              Progress
+            </AlertTitle>
+            <>
+              Completed flights in Q{quarter}: (<b>{completedFlights()}</b>)
+              <br />
+              {/*               
+              <br /> Accumulatively calculated to <b>{CO2eTotal}</b> CO2e
+              (kg), with a buffer of <b>{bufferState}</b>% = <b>
+                {Math.floor((CO2eTotal * bufferState) / 100)} </b> CO2e (kg)
+              <br />
+              Total Carbon Budget Proposal = <b>{CO2eTotal}</b> +{" "}
+              <b>{Math.floor((CO2eTotal * bufferState) / 100)}</b> ={" "}
+              <b>
+                {CO2eTotal +
+                  Math.floor((CO2eTotal * bufferState) / 100)}
+              </b>{" "} */}
+              Budget : <b>{actualTrend[quarter * 3 - 1]}</b> / <b>{CO2eTotalBuffer}</b> CO2e (kg)
+            </>
+          </Alert>
+        </Col>}
+
       </Row>
       {flights.length > 0 ? (
         <Chart

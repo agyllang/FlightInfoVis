@@ -20,7 +20,7 @@ const FlightsContextProvider = ({ ...props }) => {
       setBufferProcent(25);
     }
   }, [fakeData]);
-  
+
   const addUnplannedFlights = (current) => {
     //adding unplannedFlights
     var alreadyAdded = [...current];
@@ -31,19 +31,23 @@ const FlightsContextProvider = ({ ...props }) => {
       var employee = employees[index % employees.length];
       newObj.ID = employee.ID;
       newObj.project = employee.projects[0];
-      newObj.status="unplanned";
+      newObj.status = "unplanned";
       return newObj;
     });
 
     newArray = [...alreadyAdded, ...newArray];
     setActualFlights(newArray)
   }
-  
-  
+// useEffect(()=>{
+
+//   addUnplannedFlights(flights)
+
+// },[flights])
+
 
   useEffect(() => {
     //this is used to generate flight data and assign it to the current employees
-    if (generateFlights && employees.length>0) {
+    if (generateFlights && employees.length > 0) {
       // console.log("generate");
       var alreadyAdded = [...flights];
       // console.log("alreadyAdded", alreadyAdded);
@@ -138,6 +142,16 @@ const FlightsContextProvider = ({ ...props }) => {
     });
     return empFlights;
   };
+  const getEmployeeActualFlights = (ID) => {
+    var empFlights = [];
+
+    actualFlights.map((f) => {
+      if (f.ID === ID) {
+        empFlights.push(f);
+      }
+    });
+    return empFlights;
+  };
 
   const getEmployeeTotalCO2e = (ID) => {
     var CO2etotal = 0;
@@ -151,6 +165,27 @@ const FlightsContextProvider = ({ ...props }) => {
   const setBuffer = (val) => {
     setBufferProcent(val);
   };
+
+
+  const removeFlight = (id) => {
+    var newArr = [];
+    newArr = flights.filter((flight) => {
+      if (flight.flightID !== id) {
+        return flight;
+      }
+    });
+
+    var newActualArr = []
+    newActualArr = actualFlights.filter((flight) => {
+      if (flight.flightID !== id) {
+        return flight;
+      }
+    });
+    setActualFlights(newActualArr)
+    setFlights(newArr)
+  };
+
+
   return (
     // <FlightsContext.Provider value={{flights}}>
     <FlightsContext.Provider
@@ -158,11 +193,13 @@ const FlightsContextProvider = ({ ...props }) => {
         flights,
         actualFlights,
         addNewFlight,
+        removeFlight,
         CO2eTotal,
         actualCO2eTotal,
         projectFlights,
         getProjectFlights,
         getEmployeeFlights,
+        getEmployeeActualFlights,
         getEmployeeTotalCO2e,
         setBuffer,
         bufferProcent,

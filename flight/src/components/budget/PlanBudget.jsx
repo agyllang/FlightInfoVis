@@ -1,19 +1,19 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Row, Col, Container, Stack } from "react-bootstrap";
 import { FlightsContext } from "../contexts/FlightsContext";
-import Sort from "../budgetOverview/Sort";
+// import Sort from "../budgetOverview/Sort";
 // import FindFlight from "./FindFlight/FindFlight";
 import FlightList from "./FlightList";
-import BudgetProgressBar from "../progress/BudgetProgressBar";
+// import BudgetProgressBar from "../progress/BudgetProgressBar";
 import StepByStep from "./FindFlight/StepByStep";
-import ColorScale from "../progress/ColorScale";
+// import ColorScale from "../progress/ColorScale";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { Button } from "@mui/material";
 
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import { fontStyle } from "@mui/system";
+// import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+// import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+// import { fontStyle } from "@mui/system";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import AddBuffer from "./AddBuffer";
@@ -60,10 +60,7 @@ const PlanBudget = ({ ...props }) => {
       setMax(maxCo2e);
     }
   }, [flights]);
-  async function sendToFakeServer(values) {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    return values;
-  }
+
 
   const SendBudget = ({ ...props }) => {
     // const {budgetApproved} = props
@@ -75,19 +72,12 @@ const PlanBudget = ({ ...props }) => {
         open && setBudgetApproved();
       }, 4 * 1000);
 
-      //  open && setBudgetApproved()
-      // this will clear Timeout
-      // when component unmount like in willComponentUnmount
-      // and show will not change to true
+
       return () => {
         clearTimeout(timer1);
       };
 
-      // useEffect will run only one time with empty []
-      // if you pass a value to array,
-      // like this - [data]
-      // than clearTimeout will run every time
-      // this value changes (useEffect re-run)
+
     }, [open]);
 
     const handleClose = () => {

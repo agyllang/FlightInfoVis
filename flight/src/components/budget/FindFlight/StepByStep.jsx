@@ -283,7 +283,7 @@ const StepByStep = () => {
   return (
     <Container className="component-container">
       <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
-        <h5 className="component-title">Add a trip to Budget Proposal </h5>
+        <h5 className="component-title">Plan a trip to Budget Proposal </h5>
       </Row>
       <Stepper activeStep={activeStep} orientation="vertical">
         <Step key={"Plan trip"}>

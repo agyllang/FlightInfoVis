@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import {
   VictoryBar,
   VictoryChart,
+  VictoryStack,
   Bar,
   VictoryLabel,
   VictoryTooltip,
@@ -13,7 +14,7 @@ import chroma from "chroma-js";
 import { Row, Col, Container } from "react-bootstrap";
 import { sortBy } from "../utility/functions";
 
-import Sort from "./Sort";
+// import Sort from "./Sort";
 import { EmployeesContext } from "../contexts/EmployeesContext";
 import { FlightsContext } from "../contexts/FlightsContext";
 // import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
@@ -34,22 +35,25 @@ import ColorScale from "../progress/ColorScale";
 //   });
 // };
 
-const VBarEmployees = ({ ...props }) => {
+const EmployeeFlightsChart = ({ ...props }) => {
   // const { flights } = props;
   const { getNameFromID, employeesID } = useContext(EmployeesContext);
-  const { getEmployeeFlights, flights } = useContext(FlightsContext);
+  const { getEmployeeFlights, getEmployeeActualFlights, flights, actualFlights } = useContext(FlightsContext);
 
   const [xAxis, setX] = useState("name");
   const [yAxis, setY] = useState("totalco2e");
-  const [max, setMax] = useState(0);
+  // const [max, setMax] = useState(0);
   const [min, setMin] = useState(0);
-  const [sortValue, setSortValue] = useState("totalco2e");
-  const [reverseSorting, setReverseSorting] = useState(false);
+  const [sortValue, setSortValue] = useState("name");
+  const [reverseSorting, setReverseSorting] = useState(true);
   const [data, setData] = useState([]);
+  const [data2, setData2] = useState([]);
 
   useEffect(() => {
     var flightsGroupedByEmployee = [];
-    employeesID.length > 0 &&
+
+    flights.length > 0 &&
+      employeesID.length > 0 &&
       employeesID.forEach((ID) => {
         var employee = {};
         employee.name = getNameFromID(ID);
@@ -57,7 +61,7 @@ const VBarEmployees = ({ ...props }) => {
         var employeeFlights = getEmployeeFlights(ID);
         // console.log("employeeFlights", employeeFlights);
         employee.flights = employeeFlights;
-
+        employee.status="planned"
         employee.numberOfFlights = employeeFlights.length;
 
         employee.totalco2e = employeeFlights.reduce(
@@ -68,38 +72,85 @@ const VBarEmployees = ({ ...props }) => {
         flightsGroupedByEmployee.push(employee);
       });
     // console.log("flightsGroupedByEmployee", flightsGroupedByEmployee);
+    // setData(flightsGroupedByEmployee);
     setData(flightsGroupedByEmployee.sort(sortBy(sortValue, reverseSorting)));
   }, [flights, employeesID]);
 
   useEffect(() => {
-    if (data.length > 0) {
-      var maxco2e = Math.max.apply(
-        Math,
-        data.map(function (o) {
-          return o.totalco2e;
+    var flightsGroupedByEmployee = [];
+    actualFlights.length > 0 &&
+      employeesID.length > 0 &&
+      employeesID.forEach((ID) => {
+        var employee = {};
+        employee.name = getNameFromID(ID);
+        // console.log("employee name", employee.name);
+        var employeeFlights = getEmployeeActualFlights(ID);
+        // console.log("employeeFlights", employeeFlights);
+        employeeFlights = employeeFlights.filter((f) => {
+          if (f.status === "unplanned") {
+            return f
+          }
+
         })
-      );
-      setMax(maxco2e);
-    }
-  }, [data]);
+        employee.status="unplanned"
+        employee.flights = employeeFlights;
+
+        employee.numberOfFlights = employeeFlights.length;
+
+
+
+        employee.totalco2e = employeeFlights.reduce(
+          (a, b) => a + b.totalco2e,
+          0
+        );
+
+        flightsGroupedByEmployee.push(employee);
+      });
+    // console.log("flightsGroupedByEmployee", flightsGroupedByEmployee);
+    // setData2(flightsGroupedByEmployee);
+    setData2(flightsGroupedByEmployee.sort(sortBy(sortValue, reverseSorting)));
+  }, [actualFlights, employeesID]);
+  console.log("data2", data2)
+  console.log("data", data)
+
+  // useEffect(() => {
+  //   if (data.length > 0) {
+  //     var maxco2e = Math.max.apply(
+  //       Math,
+  //       data.map(function (o) {
+  //         return o.totalco2e;
+  //       })
+  //     );
+  //     setMax(maxco2e);
+  //   }
+  // }, [data]);
   // console.log("max", max);
 
-  var colorScale = chroma
-    .scale("OrRd")
-    .domain([0, max])
-    .classes(15)
-    .padding([0.2, 0]);
+  // var colorScale = chroma
+  //   .scale("OrRd")
+  //   .domain([0, max])
+  //   .classes(15)
+  //   .padding([0.2, 0]);
 
   // .padding([0.2, 0]);
 
   const ColorBar = ({ ...props }) => {
     const { datum } = props;
+    console.log("ColorBar datum", datum);
 
     // console.log("datum", datum);
     // console.log("datum", datum.flights);
-    console.log("colorBar color:",colorScale(datum._y).hex())
-    return <Bar {...props} style={{ fill: colorScale(datum._y).hex() }}></Bar>;
+    return <Bar {...props} style={{ fill: "#0056f5" }}></Bar>;
   };
+
+  const ColorBarUnplanned = ({ ...props }) => {
+    const { datum } = props;
+
+    console.log("ColorBarUnplanned datum", datum);
+    // console.log("datum", datum.flights);
+    return <Bar {...props} style={{ fill: "#ed6c02" }}></Bar>;
+  };
+
 
   // var sortedFlights = flights.sort(sortBy(sortValue, reverseSorting));
 
@@ -112,46 +163,12 @@ const VBarEmployees = ({ ...props }) => {
       </Row>
       {/* <div style={{ width: "50%" }}> */}
       <Row style={{ justifyContent: "center", marginBottom: "1rem" }}>
-        <Col md={"auto"}>
+        {/* <Col md={"auto"}>
           <ColorScale max={max} step={10} />
-        </Col>
-        {/* <Col
-          style={{
-            display: "flex",
-            alignContent: "center",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
-          <Sort
-            placeholder={"Sorting on"}
-            array={[
-              { value: "ID", label: "Employee" },
-              { value: "totalco2e", label: "CO2e" },
-              { value: "co2ePerDay", label: "CO2e/day" },
-              { value: "priority", label: "Priority" },
-              { value: "echoTimeDate", label: "Date" },
-            ]}
-            callback={(sort) => {
-              setSortValue(sort);
-            }}
-          />
-
-          {reverseSorting ? (
-            <ArrowDownwardIcon
-              style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
-              onClick={() => setReverseSorting((prev) => !prev)}
-            />
-          ) : (
-            <ArrowUpwardIcon
-              style={{ color: "rgb(25, 118, 210)", cursor: "pointer" }}
-              onClick={() => setReverseSorting((prev) => !prev)}
-            />
-          )}
         </Col> */}
-      </Row>
 
-      <VictoryChart
+      </Row>
+      {data.length > 0 && <VictoryChart
         padding={{ left: 90, top: 20, right: 0, bottom: 50 }}
         // theme={VictoryTheme.material}
         // strokeDasharray={"0"}
@@ -159,6 +176,8 @@ const VBarEmployees = ({ ...props }) => {
         width={550}
         domainPadding={{ x: 20, y: [10, 20] }}
         scale={{ x: "linear" }}
+
+
         // tickLabelComponent={<VictoryLabel style={{ fontSize: '12px'}} />}
         containerComponent={
           <VictoryVoronoiContainer
@@ -171,7 +190,7 @@ const VBarEmployees = ({ ...props }) => {
               <VictoryTooltip
                 constrainToVisibleArea
                 flyoutWidth={95}
-                flyoutHeight={75}
+                flyoutHeight={105}
                 cornerRadius={2}
                 pointerLength={15}
                 pointerWidth={0.1}
@@ -188,9 +207,9 @@ const VBarEmployees = ({ ...props }) => {
                 }}
               />
             }
-          // labelComponent={<VictoryTooltip dy={-7} constrainToVisibleArea />}
+
           />
-          // containerComponent={<VictoryZoomContainer/>
+
         }
       >
         <VictoryAxis
@@ -234,23 +253,39 @@ const VBarEmployees = ({ ...props }) => {
           tick
           label={"CO2e kg"}
         />
-        <VictoryBar
-          horizontal
-          dataComponent={
-            <ColorBar
-            //  events={{ onMouseOver: handleMouseOver }}
-            />
-          }
-          data={data}
-          // data accessor for x values
-          x={xAxis}
-          // data accessor for y values
-          y={yAxis}
-        />
-      </VictoryChart>
+        <VictoryStack>
+          {data.length > 0 && <VictoryBar
+            horizontal
+            dataComponent={
+              <ColorBar />
+            }
+            data={data}
+            // data accessor for x values
+            x={xAxis}
+            // data accessor for y values
+            y={yAxis}
+          />}
+
+
+          {data2.length > 0 && <VictoryBar
+            horizontal
+            dataComponent={
+              <ColorBarUnplanned />
+            }
+            data={data2}
+            // data accessor for x values
+            x={xAxis}
+            // data accessor for y values
+            y={yAxis}
+          />}
+        </VictoryStack>
+      </VictoryChart>}
+
+
+
       {/* </div> */}
     </Container>
   );
 };
 
-export default VBarEmployees;
+export default EmployeeFlightsChart;

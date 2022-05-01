@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import { Row, Col, Container, Button } from "react-bootstrap";
 import VBar from "./VBar";
+import EmployeeFlightsChart from "./EmployeeFlightsChart";
 // import ProgressChart from "./ProgressChart";
 import ProgressChart2 from "./ProgressChart2";
 import { FlightsContext } from "../contexts/FlightsContext";
@@ -11,7 +12,7 @@ import OverviewFlightTable from "./OverviewFlightTable";
 
 const BudgetOverview = ({ ...props }) => {
   // const {} = props;
-  const { flights, addFlight } = useContext(FlightsContext);
+  // const { flights, addFlight } = useContext(FlightsContext);
   const [quarter, setQuarter] = useState(0);
   // console.log("BudgetOverview, flights in FlightContext", flights);
   // console.log("BudgetOverview, addFlight in FlightContext", addFlight);
@@ -30,7 +31,7 @@ const BudgetOverview = ({ ...props }) => {
           }}
         >
           <div style={{ fontSize: "16px", marginRight: "10px" }}>
-             Point in time {"  "}
+            Point in time {"  "}
           </div>
           <ChooseQuarterBtns setQuarter={(q) => setQuarter(q)} />
         </Col>
@@ -47,7 +48,8 @@ const BudgetOverview = ({ ...props }) => {
           <ProgressChart2 quarter={quarter} />
         </Col>
         <Col md={4}>
-          <VBarEmployees flights={flights} />
+          {/* <VBarEmployees flights={flights} /> */}
+          <EmployeeFlightsChart  />
         </Col>
       </Row>
     </Container>
