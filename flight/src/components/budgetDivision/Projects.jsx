@@ -92,9 +92,14 @@ const ProjectComponent = ({ projectDetails, goBack, projectFlights }) => {
           <Col xs={4}>
             <DataCard
               title={"Avg. emission/trip"}
-              value={Math.floor(
-                projectFlights.projectCO2e / projectFlights.projFlights.length
-              )}
+              value={
+                projectFlights.projFlights.length > 0
+                  ? Math.floor(
+                      projectFlights.projectCO2e /
+                        projectFlights.projFlights.length
+                    )
+                  : 0
+              }
               unit={"CO2e (kg)"}
             />
           </Col>
@@ -222,7 +227,7 @@ const Projects = ({ ...props }) => {
                       // border: index === focusedIndex ? "2px solid black" : "",
                       borderRadius: "1px",
                       margin: "3px",
-                      backgroundColor: project.projectColor,
+                      backgroundColor: "#fff",
                     }}
                     onClick={() => {
                       setDisplayProject(true);
@@ -231,7 +236,7 @@ const Projects = ({ ...props }) => {
                   >
                     <Col
                       style={{
-                        color: getCorrectTextColor(project.projectColor),
+                        color: "#000",
                       }}
                       xs={5}
                     >

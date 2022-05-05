@@ -23,14 +23,14 @@ const FlightDetails = ({ ...props }) => {
   ];
   return (
     <Container>
-      <h5 className="component-title">Estimated Trip Details</h5>
+      <h5 className="component-title"> Flight Details</h5>
       <Row style={{ marginTop: "1.5rem", marginBottom: "1.5rem" }}>
         <Stack>
           <Col>
             Planned date: <b>{returnMonthYear(details.echoTimeDate)}</b>
           </Col>
           <Col>
-            Efficient workdays: <b>{details.workDays}</b>
+            Workdays: <b>{details.workDays}</b>
           </Col>
           <Col>
             Seat class: <b>{details.seatClass}</b>{" "}

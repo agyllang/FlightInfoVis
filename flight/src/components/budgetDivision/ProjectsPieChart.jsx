@@ -90,9 +90,9 @@ const ProjectsPieChart = ({ ...props }) => {
   return (
     <Container className="component-container" {...props}>
       <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
-        <h5 className="component-title">
+        <h5 className="component-title-sm">
           {" "}
-          Research Project's share of Total Emissions{" "}
+          Research Project's share of Budgeted Emissions{" "}
         </h5>
       </Row>
       <Row>
@@ -105,7 +105,7 @@ const ProjectsPieChart = ({ ...props }) => {
             //   width={550}
           />
         ) : (
-          <div style={{ height: "200px" }}> No flights have been assigned to any Research Project yet</div>
+          <div style={{ height: "200px" }}> No flights have been assigned yet</div>
         )}
       </Row>
     </Container>

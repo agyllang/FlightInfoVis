@@ -36,7 +36,7 @@ const InformationTooltip = ({ ...props }) => {
           children
         }
       >
-        <Button size="small">{buttonText}</Button>
+        <Button variant={"outlined"} color={"primary"} size="medium">{buttonText}</Button>
       </HtmlTooltip>
     </div>
   );

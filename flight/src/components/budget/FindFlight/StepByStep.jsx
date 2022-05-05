@@ -283,11 +283,11 @@ const StepByStep = () => {
   return (
     <Container className="component-container">
       <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
-        <h5 className="component-title">Plan a trip to Budget Proposal </h5>
+        <h5 className="component-title">Add a flight to Budget Proposal </h5>
       </Row>
       <Stepper activeStep={activeStep} orientation="vertical">
-        <Step key={"Plan trip"}>
-          <StepLabel>{"Plan trip"}</StepLabel>
+        <Step key={"Plan flight"}>
+          <StepLabel>{"Plan flight"}</StepLabel>
           <StepContent TransitionProps={{ unmountOnExit: true }}>
             <Row style={{ justifyContent: "space-between" }}>
               <Col md={"auto"}>
@@ -394,7 +394,7 @@ const StepByStep = () => {
                 disabled={disable}
               >
                 {/* {index === steps.length - 1 ? "Finish" : "Continue"} */}
-                Estimate trip
+                Estimate flight
               </Button>
             </Row>
           </StepContent>
@@ -427,8 +427,8 @@ const StepByStep = () => {
             </Box>
           </StepContent>
         </Step>
-        <Step key={"Assign trip"}>
-          <StepLabel>{"Assign trip"}</StepLabel>
+        <Step key={"Assign flight"}>
+          <StepLabel>{"Assign flight"}</StepLabel>
           <StepContent>
             {flight && (
               <Row>
@@ -479,7 +479,7 @@ const StepByStep = () => {
         <Paper square elevation={0} sx={{ p: 3 }}>
           <Typography>Flight has been added to budget estimate</Typography>
           <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-            Plan new trip
+            Plan new flight
           </Button>
         </Paper>
       )}

@@ -71,12 +71,21 @@
   background-color: rgba(205, 207, 209, 0.5);
   color: #333333;
 }
-.navlink.active {
+.navlink-active:hover {
+  /* background-color: rgba(205, 207, 209, 0.5); */
+  color: #000000;
+}
+.navlink-active {
+  /* border: none; */
+
   border-bottom: 2px solid black;
   color: #000000;
-  /* background-color: #ec9b4a; */
-  /* width: 100%; */
+
+  font-size: 1.75vw;
+  text-decoration: none;
   font-weight: 400;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 .navlink {
   font-size: 1.75vw;

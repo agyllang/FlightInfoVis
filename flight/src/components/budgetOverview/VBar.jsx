@@ -3,10 +3,8 @@ import {
   VictoryBar,
   VictoryChart,
   Bar,
-  VictoryLabel,
   VictoryTooltip,
   VictoryAxis,
-  VictoryZoomContainer,
   VictoryVoronoiContainer,
 } from "victory";
 import chroma from "chroma-js";
@@ -16,9 +14,9 @@ import Sort from "./Sort";
 import { EmployeesContext } from "../contexts/EmployeesContext";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import { Button } from "@mui/material";
+// import { Button } from "@mui/material";
 
-import fakeFlights from "../../fakeData";
+// import fakeFlights from "../../fakeData";
 import ColorScale from "../progress/ColorScale";
 
 // const handleMouseOver = () => {
@@ -34,12 +32,12 @@ import ColorScale from "../progress/ColorScale";
 
 const VBar = ({ ...props }) => {
   const { flights } = props;
-const {getNameFromID} = useContext(EmployeesContext)
+  const { getNameFromID } = useContext(EmployeesContext);
 
   const [xAxis, setX] = useState("flightID");
   const [yAxis, setY] = useState("totalco2e");
   const [max, setMax] = useState(0);
-  const [min, setMin] = useState(0);
+  // const [min, setMin] = useState(0);
   const [sortValue, setSortValue] = useState("totalco2e");
   const [reverseSorting, setReverseSorting] = useState(false);
 
@@ -153,9 +151,13 @@ const {getNameFromID} = useContext(EmployeesContext)
             mouseFollowTooltips
             voronoiDimension="x"
             labels={({ datum }) =>
-              ` Emp.: ${getNameFromID(datum.ID)}\n Project: ${datum.project}\n CO2e: ${datum.totalco2e}\n CO2e/day: ${datum.co2ePerDay}\n Project: ${datum.project}\n Prio: ${datum.priority}\n Date: ${new Date(datum.echoTimeDate).getMonth() + 1}/${new Date(
-                datum.echoTimeDate
-              ).getFullYear()}`
+              ` Emp.: ${getNameFromID(datum.ID)}\n Project: ${
+                datum.project
+              }\n CO2e: ${datum.totalco2e}\n CO2e/day: ${
+                datum.co2ePerDay
+              }\n Project: ${datum.project}\n Prio: ${datum.priority}\n Date: ${
+                new Date(datum.echoTimeDate).getMonth() + 1
+              }/${new Date(datum.echoTimeDate).getFullYear()}`
             }
             labelComponent={
               <VictoryTooltip

@@ -106,7 +106,15 @@ function getCorrectTextColor(hex) {
     return "#ffffff";
   }
 }
-
+function getQuarter(echo) {
+  var date = new Date(echo);
+  var quarter = Math.floor(date.getMonth() / 3 + 1);
+  // if (quarter === q) {
+  //   // console.log()
+  //   // console.log("same month:", quarter);
+  // }
+  return parseInt(quarter);
+}
 //test colortable
 
-export { sortBy, returnMonthYear, colorArray, getRandom, getCorrectTextColor};
+export { sortBy, returnMonthYear, colorArray, getRandom, getCorrectTextColor,getQuarter};

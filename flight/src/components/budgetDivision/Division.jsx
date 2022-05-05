@@ -10,7 +10,7 @@ const Division = () => {
   return (
     <Container fluid>
       <Row className="page-title" style={{ justifyContent: "flex-start" }}>
-        <Col md={"auto"}> Division and Employees</Col>
+        <Col md={"auto"}> Employees</Col>
         <Col md={"auto"}>
           <AddEmployeePopup />
         </Col>
@@ -22,10 +22,10 @@ const Division = () => {
         <Col md={6}>
           <EmployeeList />
         </Col>
-        <Col md={5}>
+        {/* <Col md={5}>
           <Projects />
           <ProjectsPieChart style={{ marginTop: "1rem" }} />
-        </Col>
+        </Col> */}
       </Row>
     </Container>
   );

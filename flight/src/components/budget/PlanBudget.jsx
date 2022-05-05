@@ -7,6 +7,7 @@ import FlightList from "./FlightList";
 // import BudgetProgressBar from "../progress/BudgetProgressBar";
 import StepByStep from "./FindFlight/StepByStep";
 // import ColorScale from "../progress/ColorScale";
+import BudgetSentPopup from "./BudgetSentPopup";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { Button } from "@mui/material";
@@ -44,11 +45,10 @@ const PlanBudget = ({ ...props }) => {
   const [sortValue, setSortValue] = useState("totalco2e");
   const [reverseSorting, setReverseSorting] = useState(false);
   const [max, setMax] = useState(0);
- useEffect(()=>{
-  setProcent(bufferProcent)
- },[bufferProcent])
- 
- 
+  useEffect(() => {
+    setProcent(bufferProcent);
+  }, [bufferProcent]);
+
   useEffect(() => {
     if (flights.length > 0) {
       var maxCo2e = Math.max.apply(
@@ -61,7 +61,6 @@ const PlanBudget = ({ ...props }) => {
     }
   }, [flights]);
 
-
   const SendBudget = ({ ...props }) => {
     // const {budgetApproved} = props
     const [open, setOpen] = useState(false);
@@ -72,12 +71,9 @@ const PlanBudget = ({ ...props }) => {
         open && setBudgetApproved();
       }, 4 * 1000);
 
-
       return () => {
         clearTimeout(timer1);
       };
-
-
     }, [open]);
 
     const handleClose = () => {
@@ -90,24 +86,15 @@ const PlanBudget = ({ ...props }) => {
     return (
       <div>
         {/* <Button onClick={handleToggle}>Show backdrop</Button> */}
-        {!budgetApproved ? (
-          <Button
-            variant={"contained"}
-            onClick={handleToggle}
-            sx={{ mt: 1, mr: 1 }}
-            disabled={flights.length > 0 ? false : true}
-          >
-            Send budget proposal
-          </Button>
-        ) : (
-          <Alert sx={{ width: "100%" }} severity={"success"}>
-            {" "}
-            <AlertTitle sx={{ fontWeight: "bolder" }}>
-              Budget has been sent
-            </AlertTitle>
-            Follow up budget on "Budget Overview"
-          </Alert>
-        )}
+        <Button
+          variant={"contained"}
+          onClick={handleToggle}
+          sx={{ mt: 1, mr: 1 }}
+          disabled={flights.length > 0 ? false : true}
+        >
+          Send budget proposal
+        </Button>
+
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={open}
@@ -180,14 +167,14 @@ const PlanBudget = ({ ...props }) => {
                     Your Carbon Budget Proposal consists of ({flights.length})
                     planned flights
                     <br /> Accumulatively calculated to <b>{CO2eTotal}</b> CO2e
-                    (kg), with a buffer of <b>{bufferState}</b>% = <b>
-                    {Math.floor((CO2eTotal * bufferState) / 100)} </b> CO2e (kg)
+                    (kg), with a buffer of <b>{bufferState}</b>% ={" "}
+                    <b>{Math.floor((CO2eTotal * bufferState) / 100)} </b> CO2e
+                    (kg)
                     <br />
                     Total Carbon Budget Proposal = <b>{CO2eTotal}</b> +{" "}
                     <b>{Math.floor((CO2eTotal * bufferState) / 100)}</b> ={" "}
                     <b>
-                      {CO2eTotal +
-                        Math.floor((CO2eTotal * bufferState) / 100)}
+                      {CO2eTotal + Math.floor((CO2eTotal * bufferState) / 100)}
                     </b>{" "}
                     CO2e (kg)
                   </>
@@ -253,9 +240,7 @@ const PlanBudget = ({ ...props }) => {
             <Col>
               <DataCard
                 title="Budget Total"
-                value={
-                  CO2eTotal + Math.floor((CO2eTotal * bufferState) / 100)
-                }
+                value={CO2eTotal + Math.floor((CO2eTotal * bufferState) / 100)}
                 unit={"CO2e kg"}
               />
             </Col>

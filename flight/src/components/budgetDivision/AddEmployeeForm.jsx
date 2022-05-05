@@ -12,18 +12,18 @@ async function sendToFakeServer(values) {
   return values;
 }
 
-async function fakeCheckValidName(name, instance) {
-  if (!name) {
-    return "A name is required";
-  }
+// async function fakeCheckValidName(name, instance) {
+//   if (!name) {
+//     return "A name is required";
+//   }
 
-  return instance.debounce(async () => {
-    // console.log("checking name");
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    // All names are valid, so return a false error
-    return false;
-  }, 500);
-}
+//   return instance.debounce(async () => {
+//     // console.log("checking name");
+//     await new Promise((resolve) => setTimeout(resolve, 1000));
+//     // All names are valid, so return a false error
+//     return false;
+//   }, 500);
+// }
 
 const InputField = React.forwardRef((props, ref) => {
   // Let's use splitFormProps to get form-specific props
@@ -52,7 +52,7 @@ const InputField = React.forwardRef((props, ref) => {
 const AddEmployeeForm = ({ ...props }) => {
   
   const { handleClose } = props;
-  const { employeesID, addNewEmployee, employees, allResearchProjects } =
+  const {  addNewEmployee, employees,} =
     useContext(EmployeesContext);
   // console.log("props",props)
   const [addEmployee, setAddEmployee] = useState(false);

@@ -50,7 +50,7 @@ const PlannedToggle = ({ ...props }) => {
         onChange={handleChange}
         inputprops={{ "aria-label": "controlled" }}
         control={<Checkbox  />}
-        label="Planned"
+        label="Budgeted"
       />
 
       <FormControlLabel
@@ -58,7 +58,7 @@ const PlannedToggle = ({ ...props }) => {
         onChange={handleChange2}
         inputprops={{ "aria-label": "controlled" }}
         control={<Checkbox color="warning" />}
-        label="Unplanned"
+        label="Unbudgeted"
       />
       <FormControlLabel
         checked={checked3}

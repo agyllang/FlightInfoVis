@@ -311,20 +311,18 @@ const OverviewFlightTable = ({ ...props }) => {
     flightCount = arr.length;
     return arr;
   };
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  // const emptyRows =
+  //   page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
   return (
     <Container className="component-container">
       <Row style={{ borderBottom: "2px solid #c6c6c6", marginBottom: "1rem" }}>
         <h5 className="component-title">
           All flights{" "}
           {quarter !== 0 && (
-            <div style={{ color: "#c9c9c9" }}>
+            <span style={{ color: "#c9c9c9" }}>
               : displaying <Chip label={`Q${quarter}`} color="primary" />
-            </div>
+            </span>
           )}
-          {/* All flights {`${quarter!==0 ? ` - Displaying Q${quarter}` : ""}`} */}
         </h5>
       </Row>
       <Row style={{ justifyContent: "flex-end" }}>
@@ -357,8 +355,6 @@ const OverviewFlightTable = ({ ...props }) => {
               rowCount={rows.length}
             />
             <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.slice().sort(getComparator(order, orderBy)) */}
               {countRows(
                 stableSort(rows, getComparator(order, orderBy)).filter((f) => {
                   if (quarter === 0 && f.status !== "unplanned") {
@@ -528,7 +524,7 @@ const OverviewFlightTable = ({ ...props }) => {
                             label={
                               getQuarter(row.echoTimeDate, quarter) <= quarter
                                 ? "Completed"
-                                : "Planned"
+                                : "Budgeted"
                             }
                             color="primary"
                             size="small"
@@ -543,7 +539,7 @@ const OverviewFlightTable = ({ ...props }) => {
                             label={
                               getQuarter(row.echoTimeDate, quarter) <= quarter
                                 ? "Completed"
-                                : "Unplanned"
+                                : "Unbudgeted"
                             }
                             color="warning"
                             size="small"
