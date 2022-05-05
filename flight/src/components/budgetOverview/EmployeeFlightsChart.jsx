@@ -10,7 +10,7 @@ import {
 } from "victory";
 import Chip from "@mui/material/Chip";
 
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col, Container, Stack } from "react-bootstrap";
 import { sortBy, getQuarter } from "../utility/functions";
 
 import { EmployeesContext } from "../contexts/EmployeesContext";
@@ -158,7 +158,7 @@ const EmployeeFlightsChart = ({ ...props }) => {
               // mouseFollowTooltips
               // voronoiDimension="x"
               labels={({ datum }) =>
-                `  ${datum.name}\n CO2e: ${datum.totalco2e}\n Flights: ${datum.numberOfFlights}\n  ${datum.status} flights\n `
+                `  ${datum.name}\n CO2e: ${datum.totalco2e}\n Flights: ${datum.numberOfFlights}\n  `
               }
               labelComponent={
                 <VictoryTooltip
@@ -261,7 +261,18 @@ const EmployeeFlightsChart = ({ ...props }) => {
           </VictoryStack>
         </VictoryChart>
       )}
-
+      <Stack style={{ fontSize: "13px" }}>
+        <Col style={{ marginBottom: "10px" }}>
+          <span className="spanBox7"> """</span>{" "}
+          <span style={{ fontWeight: "bolder" }}>Budgeted emissions</span>
+          <span> - Emissions from completed budgeted flights </span>
+        </Col>
+        <Col style={{ marginBottom: "10px" }}>
+          <span className="spanBox6"> """</span>{" "}
+          <span style={{ fontWeight: "bolder" }}>Unbudgeted emissions</span>
+          <span> - Emissions from completed unbudgeted flights</span>
+        </Col>
+      </Stack>
       {/* </div> */}
     </Container>
   );

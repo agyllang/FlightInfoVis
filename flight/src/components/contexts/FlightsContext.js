@@ -36,14 +36,13 @@ const FlightsContextProvider = ({ ...props }) => {
     });
 
     newArray = [...alreadyAdded, ...newArray];
-    setActualFlights(newArray)
-  }
-// useEffect(()=>{
+    setActualFlights(newArray);
+  };
+  // useEffect(()=>{
 
-//   addUnplannedFlights(flights)
+  //   addUnplannedFlights(flights)
 
-// },[flights])
-
+  // },[flights])
 
   useEffect(() => {
     //this is used to generate flight data and assign it to the current employees
@@ -64,13 +63,14 @@ const FlightsContextProvider = ({ ...props }) => {
       newArray = [...alreadyAdded, ...newArray];
       // console.log("newArray", newArray);
       setFlights(newArray);
-      addUnplannedFlights(newArray)
+      addUnplannedFlights(newArray);
     }
   }, [generateFlights]);
 
   // const [flights, setFlights] = useState(fakeFlights);
   const [CO2eTotal, setCO2e] = useState(0);
   const [projectFlights, setProjectFlights] = useState([]);
+  const [projectsActualFlights, setProjectActualFlights] = useState([]);
   console.log("FlightsContextProvider flights", flights);
   console.log("FlightsContextProvider projectFlights", projectFlights);
   useEffect(() => {
@@ -117,6 +117,33 @@ const FlightsContextProvider = ({ ...props }) => {
     setProjectFlights(allRP);
   }, [flights, allResearchProjects]);
 
+  useEffect(() => {
+    //mapping flights to research projects
+    var allRP = [];
+    allResearchProjects.map((each) => {
+      const obj = {};
+      obj.project = each;
+      obj.projFlights = [];
+      obj.projectCO2e = 0;
+      allRP.push(obj);
+    });
+    // console.log("allRP", allRP);
+
+    actualFlights.length > 0 &&
+      actualFlights.map((f) => {
+        //console.log("1. employee:", emp);
+
+        //console.log("  2. employee projects:", empProj);
+        allRP.map((rp) => {
+          if (rp.project === f.project) {
+            rp.projFlights.push(f);
+            rp.projectCO2e += f.totalco2e;
+          }
+        });
+      });
+    setProjectActualFlights(allRP);
+  }, [actualFlights, allResearchProjects]);
+
   const addNewFlight = (flight) => {
     flight.flightCreated = Date.now();
     setFlights((prevState) => [...prevState, flight]);
@@ -125,6 +152,16 @@ const FlightsContextProvider = ({ ...props }) => {
     var returnProject;
     projectFlights.length > 0 &&
       projectFlights.forEach((project) => {
+        if (project.project === projectName) {
+          returnProject = { ...project };
+        }
+      });
+    return returnProject;
+  };
+  const getProjectActualFlights = (projectName) => {
+    var returnProject;
+    projectsActualFlights.length > 0 &&
+      projectsActualFlights.forEach((project) => {
         if (project.project === projectName) {
           returnProject = { ...project };
         }
@@ -166,7 +203,6 @@ const FlightsContextProvider = ({ ...props }) => {
     setBufferProcent(val);
   };
 
-
   const removeFlight = (id) => {
     var newArr = [];
     newArr = flights.filter((flight) => {
@@ -175,16 +211,15 @@ const FlightsContextProvider = ({ ...props }) => {
       }
     });
 
-    var newActualArr = []
+    var newActualArr = [];
     newActualArr = actualFlights.filter((flight) => {
       if (flight.flightID !== id) {
         return flight;
       }
     });
-    setActualFlights(newActualArr)
-    setFlights(newArr)
+    setActualFlights(newActualArr);
+    setFlights(newArr);
   };
-
 
   return (
     // <FlightsContext.Provider value={{flights}}>
@@ -197,7 +232,9 @@ const FlightsContextProvider = ({ ...props }) => {
         CO2eTotal,
         actualCO2eTotal,
         projectFlights,
+        projectsActualFlights,
         getProjectFlights,
+        getProjectActualFlights,
         getEmployeeFlights,
         getEmployeeActualFlights,
         getEmployeeTotalCO2e,

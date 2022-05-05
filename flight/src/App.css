@@ -577,3 +577,25 @@
   border-color: rgb(255, 255, 255);
   border-radius: 2px;
 }
+.spanBox6 {
+  background: #ed6c02;
+  color: #ed6c02;
+  height: 12px;
+  width: 12px;
+  /* left: 0px;
+  top: 0px; */
+  border-width: 0px;
+  border-color: rgb(255, 255, 255);
+  border-radius: 2px;
+}
+.spanBox7 {
+  background: #0056f5;
+  color: #0056f5;
+  height: 12px;
+  width: 12px;
+  /* left: 0px;
+  top: 0px; */
+  border-width: 0px;
+  border-color: rgb(255, 255, 255);
+  border-radius: 2px;
+}

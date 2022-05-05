@@ -54,13 +54,13 @@ function App() {
         >
           BUDGET OVERVIEW
         </NavLink>
-        {/* <Button
+        <Button
           onClick={() => {
             setFakeData(!fakeData);
           }}
         >
           Simulate data{" "}
-        </Button>{" "} */}
+        </Button>{" "}
 
         <Button
           onClick={() => {

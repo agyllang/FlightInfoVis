@@ -18,6 +18,8 @@ import Box from "@mui/material/Box";
 
 import Projects from "../budgetDivision/Projects";
 import ProjectsPieChart from "../budgetDivision/ProjectsPieChart";
+import ProjectsPieChartActual from "../budgetDivision/ProjectsPieChartActual";
+import ProjectsActual from "../budgetDivision/ProjectsActual";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -132,10 +134,12 @@ const BudgetOverview = ({ ...props }) => {
             <EmployeeFlightsChart quarter={quarter} />
           </Col>
           <Col md={5}>
-            <Projects />
+            {/* <Projects /> */}
+            <ProjectsActual quarter={quarter}/>
           </Col>
           <Col md={3}>
-            <ProjectsPieChart />
+            {/* <ProjectsPieChart /> */}
+            {quarter === 4 && <ProjectsPieChartActual />}
           </Col>
         </Row>
       </TabPanel>
